@@ -3,7 +3,7 @@ import { MapPin, PhoneCall, Clock, ArrowRight } from 'lucide-react';
 // 1. IMPORT THE SECOND IMAGE RIGHT HERE
 import db2Image from '../assets/db2.jpg';
 
-export default function CTA() {
+export default function Contact() {
   return (
     <section id="contact" className="py-24 bg-zinc-950 border-t border-zinc-900 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
