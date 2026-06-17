@@ -9,18 +9,18 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 bg-black/90 backdrop-blur-md border-b border-zinc-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         
-        {/* Blended Logo Block - Binawasan ang Laki at Lapad */}
+        {/* Logo Block - Maliit at Walang Hover Effects sa Imahe */}
         <a href="#" className="flex items-center gap-2">
-          {/* h-10 at max-w-[150px] para compact at hindi agaw-pansin */}
-          <div className="relative h-10 max-w-[150px] overflow-hidden bg-black flex items-center justify-center">
+          {/* Tinanggal ang 'group' at animation classes para maging static ang logo */}
+          <div className="relative h-7 max-w-[110px] overflow-hidden bg-black flex items-center justify-center">
             <img 
               src={gymLogo} 
               alt="Danbhels Fitness Gym Official Logo" 
-              className="h-full w-full object-contain mix-blend-lighten contrast-125 brightness-110"
+              className="h-full w-auto object-contain mix-blend-lighten contrast-125 brightness-110"
             />
           </div>
           
-          {/* Maliit na code label sa gilid */}
+          {/* Code label sa gilid */}
           <div className="hidden sm:flex flex-col tracking-tighter leading-none border-l border-zinc-800 pl-2">
             <span className="text-[8px] font-mono font-bold text-yellow-400 tracking-[0.2em] uppercase">
               // HQ
@@ -28,24 +28,24 @@ export default function Navbar() {
           </div>
         </a>
 
-        {/* Static Custom Navigation Links */}
+        {/* Static Custom Navigation Links - May Hover Effects na Ulit */}
         <nav className="hidden md:flex items-center gap-8 font-mono text-xs font-bold uppercase tracking-[0.2em]">
-          <a href="#features" className="text-zinc-400 relative py-2">
+          <a href="#features" className="text-zinc-400 hover:text-white transition-colors relative py-2">
             [ 01 // Perks ]
           </a>
-          <a href="#pricing" className="text-zinc-400 relative py-2">
+          <a href="#pricing" className="text-zinc-400 hover:text-white transition-colors relative py-2">
             [ 02 // Rates ]
           </a>
-          <a href="#contact" className="text-zinc-400 relative py-2">
+          <a href="#contact" className="text-zinc-400 hover:text-white transition-colors relative py-2">
             [ 03 // Location ]
           </a>
         </nav>
 
-        {/* Brutalist Sharp Accent Action Button */}
+        {/* Brutalist Sharp Accent Action Button - May Hover Effects na Ulit */}
         <div className="hidden md:flex items-center">
           <a 
             href="#contact" 
-            className="relative bg-zinc-900 border border-zinc-800 text-white font-mono text-[11px] font-bold uppercase tracking-widest px-5 py-2.5 flex items-center gap-2 rounded-none"
+            className="relative bg-zinc-900 border border-zinc-800 hover:border-yellow-400 text-white font-mono text-[11px] font-bold uppercase tracking-widest px-5 py-2.5 flex items-center gap-2 rounded-none transition-colors"
           >
             Join Gym
             <ArrowUpRight className="w-3.5 h-3.5 text-yellow-400" />

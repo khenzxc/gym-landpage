@@ -3,7 +3,8 @@ import { ArrowUpRight, Activity, ShieldCheck, Flame } from 'lucide-react';
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center bg-black overflow-hidden pt-12">
+    // NAGDAGDAG NG id="hero" DITO PARA GUMANA ANG HOME LINK SA FOOTER
+    <section id="hero" className="relative min-h-[90vh] flex items-center justify-center bg-black overflow-hidden pt-12">
       {/* Absolute Geometric Visuals */}
       <div className="absolute right-0 top-0 w-[500px] h-[500px] bg-yellow-400/10 rounded-full blur-[150px] pointer-events-none"></div>
       <div className="absolute left-[-10%] bottom-0 text-[14vw] font-black text-zinc-900/40 select-none tracking-tighter uppercase font-sans leading-none z-0">
