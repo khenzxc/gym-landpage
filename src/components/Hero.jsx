@@ -54,7 +54,7 @@ export default function Hero() {
             <div>
               <span className="text-zinc-400 uppercase text-xs tracking-widest block font-bold">Try it out just</span>
               <div className="flex items-baseline gap-2 mt-1">
-                <span className="text-5xl font-black text-white">₱150</span>
+                <span className="text-5xl font-black text-white">₱149</span>
                 <span className="text-zinc-500 uppercase text-xs font-bold">/ single session</span>
               </div>
             </div>
