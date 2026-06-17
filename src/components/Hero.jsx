@@ -4,21 +4,23 @@ import { motion } from 'framer-motion';
 
 export default function Hero() {
   return (
-    // NAGDAGDAG NG id="hero" DITO PARA GUMANA ANG HOME LINK SA FOOTER
-    <section id="hero" className="relative min-h-[90vh] flex items-center justify-center bg-black overflow-hidden pt-12">
+    // RESPONSIVE BOX: Naka-center sa mobile (items-center justify-center), pero nakasandal sa itaas sa desktop (lg:justify-start)
+    // May pt-6 sa mobile para may konting awang at lg:pt-14 sa desktop para sa hinahanap mong tamang clearance
+    <section id="hero" className="relative min-h-[90vh] flex flex-col items-center justify-center lg:justify-start bg-black overflow-hidden pt-6 lg:pt-14 pb-16">
       {/* Absolute Geometric Visuals */}
       <div className="absolute right-0 top-0 w-[500px] h-[500px] bg-yellow-400/10 rounded-full blur-[150px] pointer-events-none"></div>
       <div className="absolute left-[-10%] bottom-0 text-[14vw] font-black text-zinc-900/40 select-none tracking-tighter uppercase font-sans leading-none z-0">
         DANBHELS
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      {/* GRID CONTROL: items-center sa mobile para pulido at pantay ang center layout, lg:items-start sa desktop para umangat */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center lg:items-start">
         
-        {/* Left: Text & Badges (PAULIT-ULIT NA PAPASOK GALING KALIWA) */}
+        {/* Left: Text & Badges (CENTERED SA MOBILE, LEFT-ALIGNED SA DESKTOP) */}
         <motion.div 
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: false, amount: 0.25 }} // FIXED: once: false para gumana ulit kapag binalikan
+          viewport={{ once: true, amount: 0.25 }}
           transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
           className="lg:col-span-7 space-y-8 text-center lg:text-left"
         >
@@ -49,13 +51,13 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* Right: Premium Hero Display Box (PAULIT-ULIT NA PAPASOK GALING KANAN) */}
+        {/* Right: Premium Hero Display Box (IBINABA LANG KAPAG DESKTOP, BALANSE AT NAKACENTER SA CP) */}
         <motion.div 
           initial={{ opacity: 0, x: 40 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: false, amount: 0.25 }} // FIXED: once: false para sumasabay sa kaliwa tuwing babalikan
+          viewport={{ once: true, amount: 0.25 }}
           transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1], delay: 0.1 }}
-          className="lg:col-span-5 relative"
+          className="lg:col-span-5 relative w-full max-w-md mx-auto lg:max-w-none lg:mt-16" // <-- lg:mt-16 para sa desktop gap, pero walang hatak sa mobile
         >
           <div className="absolute inset-0 bg-yellow-400 translate-x-4 translate-y-4 z-0"></div>
           <div className="relative z-10 bg-zinc-950 border border-zinc-800 p-8 space-y-8">
