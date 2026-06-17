@@ -1,20 +1,28 @@
 import React from 'react';
 import { ArrowUpRight, Activity, ShieldCheck, Flame } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function Hero() {
   return (
-    // NAGDAGDAG NG id="hero" DITO PARA GUMANA ANG HOME LINK SA FOOTER
-    <section id="hero" className="relative min-h-[90vh] flex items-center justify-center bg-black overflow-hidden pt-12">
+    // Naka-dikit pa rin sa itaas ang buong section
+    <section id="hero" className="relative min-h-[90vh] flex flex-col justify-start bg-black overflow-hidden pt-10 lg:pt-12 pb-16">
       {/* Absolute Geometric Visuals */}
       <div className="absolute right-0 top-0 w-[500px] h-[500px] bg-yellow-400/10 rounded-full blur-[150px] pointer-events-none"></div>
       <div className="absolute left-[-10%] bottom-0 text-[14vw] font-black text-zinc-900/40 select-none tracking-tighter uppercase font-sans leading-none z-0">
         DANBHELS
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      {/* Grid wrapper */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-start lg:pt-0">
         
-        {/* Left: Text & Badges */}
-        <div className="lg:col-span-7 space-y-8 text-center lg:text-left">
+        {/* Left: Text & Badges (MANANATILING NAKATAAS) */}
+        <motion.div 
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: false, amount: 0.25 }}
+          transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
+          className="lg:col-span-7 space-y-8 text-center lg:text-left"
+        >
           <div className="inline-flex items-center gap-2 bg-zinc-900 border border-zinc-800 px-4 py-2 text-xs tracking-widest uppercase font-black text-yellow-400">
             <span className="w-2 h-2 bg-yellow-400 animate-pulse"></span>
             PULILAN, BULACAN'S PREMIUM IRON SANCTUARY
@@ -40,10 +48,16 @@ export default function Hero() {
               Inquire Now
             </a>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Right: Premium Hero Display Box (Non-AI Card Style) */}
-        <div className="lg:col-span-5 relative">
+        {/* Right: Premium Hero Display Box (FIXED: IBINABA GAMIT ANG lg:mt-20) */}
+        <motion.div 
+          initial={{ opacity: 0, x: 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: false, amount: 0.25 }}
+          transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1], delay: 0.1 }}
+          className="lg:col-span-5 relative w-full max-w-md mx-auto lg:max-w-none lg:mt-20" // <-- Idinagdag ang lg:mt-20 para ibaba lang ang kanan sa desktop screen
+        >
           <div className="absolute inset-0 bg-yellow-400 translate-x-4 translate-y-4 z-0"></div>
           <div className="relative z-10 bg-zinc-950 border border-zinc-800 p-8 space-y-8">
             <div className="flex justify-between items-center border-b border-zinc-900 pb-4">
@@ -68,7 +82,7 @@ export default function Hero() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </section>
