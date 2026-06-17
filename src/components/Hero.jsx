@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 
 export default function Hero() {
   return (
-    // FIXED MOBILE PADDING: Ginawang pt-6 sa mobile para mas siksik at nakataas ang content
-    <section id="hero" className="relative min-h-[90vh] flex flex-col justify-start bg-black overflow-hidden pt-6 lg:pt-12 pb-16">
+    // ADJUSTED: Dinagdagan ng kaunting-kaunting padding (pt-6 sa mobile, lg:pt-14 sa desktop) para sa perpektong clearance
+    <section id="hero" className="relative min-h-[90vh] flex flex-col justify-start bg-black overflow-hidden pt-6 lg:pt-14 pb-16">
       {/* Absolute Geometric Visuals */}
       <div className="absolute right-0 top-0 w-[500px] h-[500px] bg-yellow-400/10 rounded-full blur-[150px] pointer-events-none"></div>
       <div className="absolute left-[-10%] bottom-0 text-[14vw] font-black text-zinc-900/40 select-none tracking-tighter uppercase font-sans leading-none z-0">
@@ -15,7 +15,7 @@ export default function Hero() {
       {/* Grid wrapper */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-start lg:pt-0">
         
-        {/* Left: Text & Badges (NAKATAAS SA DESKTOP AT MOBILE) */}
+        {/* Left: Text & Badges (MATAAS AT BALANSE NA ANG POSISYON) */}
         <motion.div 
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -50,13 +50,13 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* Right: Premium Hero Display Box (NAKABABA SA DESKTOP PERO MAY TAMANG GAP SA MOBILE) */}
+        {/* Right: Premium Hero Display Box (MANANATILING RESPONSIVE AT NAKABABA SA DESKTOP) */}
         <motion.div 
           initial={{ opacity: 0, x: 40 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false, amount: 0.25 }}
           transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1], delay: 0.1 }}
-          className="lg:col-span-5 relative w-full max-w-md mx-auto lg:max-w-none lg:mt-20"
+          className="lg:col-span-5 relative w-full max-w-md mx-auto lg:max-w-none lg:mt-16"
         >
           <div className="absolute inset-0 bg-yellow-400 translate-x-4 translate-y-4 z-0"></div>
           <div className="relative z-10 bg-zinc-950 border border-zinc-800 p-8 space-y-8">
