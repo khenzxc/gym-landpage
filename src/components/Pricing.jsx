@@ -13,7 +13,7 @@ export default function Pricing() {
 
   // Variant para sa bawat row ng presyo (papasok nang pakanan)
   const rowVariants = {
-    hidden: { opacity: 0, x: -30 }, // Binawasan ng konti ang -50 para hindi masyadong malayo ang talon
+    hidden: { opacity: 0, x: -30 }, 
     visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } }
   };
 
@@ -54,7 +54,7 @@ export default function Pricing() {
               <motion.div 
                 variants={containerVariants}
                 initial="hidden"
-                whileInView="visible" // Hahawakan nito ang trigger para sa mga anak (children)
+                whileInView="visible" 
                 viewport={{ once: true, amount: 0.2 }}
                 className="space-y-3"
               >
@@ -65,7 +65,7 @@ export default function Pricing() {
                 ].map((row, idx) => (
                   <motion.div 
                     key={idx} 
-                    variants={rowVariants} // Tanging variants na lang ang kailangan dito para gumana ang stagger
+                    variants={rowVariants} 
                     className="flex justify-between items-center py-4 px-4 bg-black border-l-2 border-zinc-800 hover:border-yellow-400 transition-colors"
                   >
                     <span className="text-zinc-300 font-bold uppercase tracking-wide text-sm">{row.label}</span>
@@ -81,7 +81,7 @@ export default function Pricing() {
               <motion.div 
                 variants={containerVariants}
                 initial="hidden"
-                whileInView="visible" // Hahawakan nito ang trigger para sa mga anak (children)
+                whileInView="visible" 
                 viewport={{ once: true, amount: 0.2 }}
                 className="space-y-3"
               >
@@ -92,7 +92,7 @@ export default function Pricing() {
                 ].map((row, idx) => (
                   <motion.div 
                     key={idx} 
-                    variants={rowVariants} // Tinanggal ang extra properties para gumana ang stagger
+                    variants={rowVariants} 
                     className="flex justify-between items-center py-4 px-4 bg-black border-l-2 border-zinc-800 hover:border-yellow-400 transition-colors"
                   >
                     <span className="text-zinc-300 font-bold uppercase tracking-wide text-sm">{row.label}</span>
@@ -104,15 +104,38 @@ export default function Pricing() {
 
           </motion.div>
 
-          {/* Sidebar Area: Coaching Packs (Papasok naman mula sa KANAN) */}
+          {/* Sidebar Area: Memberships & Coaching (Papasok mula sa KANAN) */}
           <div className="lg:col-span-4 space-y-6">
+
+            {/* FIXED & ADDED: Membership Modern Box (Kopyang-kopya sa Coach Pack style) */}
+            <motion.div 
+              initial={{ opacity: 0, x: 100 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="bg-zinc-900 border border-zinc-800 p-6 relative overflow-hidden"
+            >
+              <div className="absolute -right-4 -bottom-4 text-zinc-800/40 text-7xl font-black select-none pointer-events-none uppercase">CLUB</div>
+              <h4 className="text-xs font-mono uppercase text-zinc-400 tracking-wider mb-4">// MEMBERSHIP FEES</h4>
+
+              <div className="space-y-6">
+                <div>
+                  <p className="text-xs font-black text-yellow-400 uppercase tracking-widest">// 1 MONTH TERM</p>
+                  <p className="text-sm text-zinc-400 flex justify-between mt-1">Enrollment Fee: <b className="text-white">₱299</b></p>
+                </div>
+                <div className="border-t border-zinc-800 pt-4">
+                  <p className="text-xs font-black text-yellow-400 uppercase tracking-widest">// 1 YEAR LOYALTY</p>
+                  <p className="text-sm text-zinc-400 flex justify-between mt-1">Best Value Pass: <b className="text-white">₱1,699</b></p>
+                </div>
+              </div>
+            </motion.div>
 
             {/* Coaching Modern Box */}
             <motion.div 
               initial={{ opacity: 0, x: 100 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.05 }} // Kaunting delay para sumunod sa taas nito
               className="bg-zinc-900 border border-zinc-800 p-6 relative overflow-hidden"
             >
               <div className="absolute -right-4 -bottom-4 text-zinc-800/40 text-7xl font-black select-none pointer-events-none">COACH</div>
@@ -137,7 +160,7 @@ export default function Pricing() {
               initial={{ opacity: 0, x: 100 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.12 }}
               className="bg-yellow-400 p-6 text-black relative"
             >
               <span className="text-[10px] font-mono tracking-widest block opacity-70">// DIGITAL PAYMENT</span>
