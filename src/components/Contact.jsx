@@ -11,7 +11,6 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Ilagay ang form submission logic dito
     console.log('Submitted:', formData);
   };
 
@@ -19,15 +18,14 @@ export default function Contact() {
     <section id="contact" className="py-24 bg-zinc-950 border-t border-zinc-900 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* GRID CONTROL: order-first at order-last para sa tamang pagbabalasa sa mobile vs desktop */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
           
-          {/* Right Side Info Board: NAUNA SA MOBILE (order-1), PANGALWA SA DESKTOP (lg:order-2) */}
+          {/* INFO BOARD: Manggagaling sa KANAN (x: 50) papasok sa kaliwa */}
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false, amount: 0.25 }}
-            transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
+            transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
             className="lg:col-span-6 space-y-8 relative z-10 order-1 lg:order-2"
           >
             <div>
@@ -38,7 +36,6 @@ export default function Contact() {
               </h2>
             </div>
 
-            {/* Structured Info Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="bg-black border border-zinc-900 p-5 rounded-none">
                 <span className="text-zinc-600 text-[10px] font-mono block tracking-widest">OPERATIONAL TIME</span>
@@ -61,7 +58,6 @@ export default function Contact() {
               </a>
             </div>
 
-            {/* Direct Connect Buttons */}
             <div className="space-y-4 pt-6 border-t border-zinc-900">
               <p className="text-xs font-bold uppercase tracking-widest text-zinc-500 font-mono">// COMMUNICATIONS_HUB</p>
               
@@ -98,12 +94,12 @@ export default function Contact() {
             </div>
           </motion.div>
 
-          {/* Left Side Contact Form: NASA BABA SA MOBILE (order-2), NASA KALIWA SA DESKTOP (lg:order-1) */}
+          {/* CONTACT FORM: Manggagaling sa KALIWA (x: -50) papasok sa kanan */}
           <motion.div 
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false, amount: 0.25 }}
-            transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
+            transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
             className="lg:col-span-6 w-full order-2 lg:order-1"
           >
             <div className="bg-black border border-zinc-900 p-8 relative">
