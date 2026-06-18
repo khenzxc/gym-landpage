@@ -33,7 +33,7 @@ export default function Footer() {
                         transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1], delay: 0.05 }}
                         className="md:col-span-3 space-y-4"
                     >
-                        <span className="text-xs font-mono tracking-widest text-zinc-600 block uppercase">// NAVIGATION</span>
+                        <span className="text-xs font-mono tracking-widest text-zinc-600 block uppercase">// QUICK LINKS</span>
                         <ul className="space-y-2 text-sm font-semibold uppercase tracking-wide">
                             <li>
                                 <a href="#hero" className="text-zinc-400 hover:text-yellow-400 transition-colors">Home</a>
