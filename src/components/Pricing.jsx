@@ -7,25 +7,25 @@ export default function Pricing() {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.1 }
+      transition: { staggerChildren: 0.08 } // Mas mabilis nang bahagya para swabe
     }
   };
 
   // Variant para sa bawat row ng presyo (papasok nang pakanan)
   const rowVariants = {
-    hidden: { opacity: 0, x: -50 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut" } }
+    hidden: { opacity: 0, x: -30 }, // Binawasan ng konti ang -50 para hindi masyadong malayo ang talon
+    visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } }
   };
 
   return (
     <section id="pricing" className="py-28 bg-black relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Section Heading - Paulit-ulit na lilitaw galing sa ibaba */}
+        {/* Section Heading - Isang beses lang lilitaw galing sa ibaba */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.3 }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6 }}
           className="text-center max-w-2xl mx-auto mb-20"
         >
@@ -43,7 +43,7 @@ export default function Pricing() {
           <motion.div 
             initial={{ opacity: 0, x: -100 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, amount: 0.15 }}
+            viewport={{ once: true, amount: 0.15 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="lg:col-span-8 bg-zinc-950 border border-zinc-900 p-6 md:p-8 space-y-10"
           >
@@ -54,8 +54,8 @@ export default function Pricing() {
               <motion.div 
                 variants={containerVariants}
                 initial="hidden"
-                whileInView="visible"
-                viewport={{ once: false }}
+                whileInView="visible" // Hahawakan nito ang trigger para sa mga anak (children)
+                viewport={{ once: true, amount: 0.2 }}
                 className="space-y-3"
               >
                 {[
@@ -65,7 +65,7 @@ export default function Pricing() {
                 ].map((row, idx) => (
                   <motion.div 
                     key={idx} 
-                    variants={rowVariants}
+                    variants={rowVariants} // Tanging variants na lang ang kailangan dito para gumana ang stagger
                     className="flex justify-between items-center py-4 px-4 bg-black border-l-2 border-zinc-800 hover:border-yellow-400 transition-colors"
                   >
                     <span className="text-zinc-300 font-bold uppercase tracking-wide text-sm">{row.label}</span>
@@ -81,8 +81,8 @@ export default function Pricing() {
               <motion.div 
                 variants={containerVariants}
                 initial="hidden"
-                whileInView="visible"
-                viewport={{ once: false }}
+                whileInView="visible" // Hahawakan nito ang trigger para sa mga anak (children)
+                viewport={{ once: true, amount: 0.2 }}
                 className="space-y-3"
               >
                 {[
@@ -92,7 +92,7 @@ export default function Pricing() {
                 ].map((row, idx) => (
                   <motion.div 
                     key={idx} 
-                    variants={rowVariants}
+                    variants={rowVariants} // Tinanggal ang extra properties para gumana ang stagger
                     className="flex justify-between items-center py-4 px-4 bg-black border-l-2 border-zinc-800 hover:border-yellow-400 transition-colors"
                   >
                     <span className="text-zinc-300 font-bold uppercase tracking-wide text-sm">{row.label}</span>
@@ -111,7 +111,7 @@ export default function Pricing() {
             <motion.div 
               initial={{ opacity: 0, x: 100 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="bg-zinc-900 border border-zinc-800 p-6 relative overflow-hidden"
             >
@@ -136,8 +136,8 @@ export default function Pricing() {
             <motion.div 
               initial={{ opacity: 0, x: 100 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }} // may konting delay para mas maganda tingnan ang pagpasok
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
               className="bg-yellow-400 p-6 text-black relative"
             >
               <span className="text-[10px] font-mono tracking-widest block opacity-70">// DIGITAL PAYMENT</span>

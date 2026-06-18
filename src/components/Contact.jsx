@@ -20,11 +20,12 @@ export default function Contact() {
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
           
-          {/* INFO BOARD: Manggagaling sa KANAN (x: 50) papasok sa kaliwa */}
+          {/* INFO BOARD: Naka-pwesto sa kanan sa desktop (order-2) */}
+          {/* FIXED: x: 50 para pumasok nang swabe mula sa dulong kanan patungong gitna */}
           <motion.div 
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, amount: 0.25 }}
+            viewport={{ once: true, amount: 0.25 }} // <-- FIXED: once: true
             transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
             className="lg:col-span-6 space-y-8 relative z-10 order-1 lg:order-2"
           >
@@ -94,11 +95,12 @@ export default function Contact() {
             </div>
           </motion.div>
 
-          {/* CONTACT FORM: Manggagaling sa KALIWA (x: -50) papasok sa kanan */}
+          {/* CONTACT FORM: Naka-pwesto sa kaliwa sa desktop (order-1) */}
+          {/* FIXED: x: -50 para pumasok nang swabe mula sa dulong kaliwa patungong gitna */}
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, amount: 0.25 }}
+            viewport={{ once: true, amount: 0.25 }} // <-- FIXED: once: true
             transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
             className="lg:col-span-6 w-full order-2 lg:order-1"
           >

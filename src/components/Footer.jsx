@@ -13,7 +13,8 @@ export default function Footer() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.1 }}
+            // FIXED: Ginawang true para isang beses lang mag-animate pagbaba ng user
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
             className="md:col-span-5 space-y-4"
           >
@@ -29,7 +30,8 @@ export default function Footer() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.1 }}
+            // FIXED: Ginawang true rin dito para sabay silang mag-lock
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1], delay: 0.05 }}
             className="md:col-span-3 space-y-4"
           >
@@ -57,7 +59,8 @@ export default function Footer() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.1 }}
+            // FIXED: Ginawang true para permanenteng naka-display kapag na-render na
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1], delay: 0.1 }}
             className="md:col-span-4 space-y-4"
           >
@@ -75,7 +78,8 @@ export default function Footer() {
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: false }}
+          // FIXED: Ginawang true para sa malinis na copyright loading at hindi na mag-blink tuwing umaalis ang scroll
+          viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-zinc-600 font-mono tracking-widest uppercase"
         >

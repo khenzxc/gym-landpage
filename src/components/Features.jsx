@@ -33,18 +33,18 @@ export default function Features() {
     visible: {
       opacity: 1,
       transition: { 
-        staggerChildren: 0.20, // Gaano kabilis ang sunod-sunod na pasok (mabilis at snappy)
-        delayChildren: 0.1     // Kaunting antala bago mag-start ang unang item
+        staggerChildren: 0.15, // Ginawang 0.15 para mas snappy pa lalo ang pasok
+        delayChildren: 0.05
       } 
     }
   };
 
   const cardVariantsLeft = {
-    hidden: { opacity: 0, x: -20 }, // Mas maikling x para mas swabe ang slide
+    hidden: { opacity: 0, x: -20 },
     visible: { 
       opacity: 1, 
       x: 0, 
-      transition: { duration: 0.4, ease: [0.25, 1, 0.5, 1] } // Mabilis at premium curve
+      transition: { duration: 0.4, ease: [0.25, 1, 0.5, 1] }
     }
   };
 
@@ -52,11 +52,11 @@ export default function Features() {
     <section id="features" className="py-28 bg-zinc-950 border-t border-zinc-900 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header Animation */}
+        {/* Header Animation - FIXED: once: true para swak sa natitirang bahagi ng section */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.3 }}
+          viewport={{ once: true, amount: 0.3 }} // <-- Pinalitan ng true para malinis
           transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
           className="flex flex-col lg:flex-row lg:items-end justify-between mb-24 gap-6 relative z-10"
         >
@@ -74,12 +74,12 @@ export default function Features() {
         {/* Asymmetric Split Layout Display */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           
-          {/* Left Side: Cards Container (FIXED: ISA-ISANG PAPASOK GAMIT ANG VARIANTS) */}
+          {/* Left Side: Cards Container */}
           <motion.div 
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: false, amount: 0.15 }} // Mas mababa nang kaunti para mag-trigger agad habang nag-i-scroll
+            viewport={{ once: true, amount: 0.15 }}
             className="lg:col-span-6 space-y-4 relative z-10"
           >
             {perks.map((perk, idx) => (
@@ -107,7 +107,7 @@ export default function Features() {
           <motion.div 
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
             className="lg:col-span-6 relative flex justify-center items-center"
           >
