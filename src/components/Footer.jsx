@@ -84,7 +84,7 @@ export default function Footer() {
           className="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-zinc-600 font-mono tracking-widest uppercase"
         >
           <p>© {new Date().getFullYear()} DANBHELS FITNESS GYM. ALL RIGHTS RESERVED.</p>
-          <p className="text-[10px] text-zinc-700">CODEFRAME // SHARP_NATIVE</p>
+          <p className="text-[10px] text-zinc-700">// DEVELOPED BY KHEN GABRIEL</p>
         </motion.div>
 
       </div>
