@@ -1,14 +1,19 @@
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
-import Features from "../components/Features"; // Tiyaking may s sa dulo (Features)
-import Pricing from "../components/Pricing";   // Naka-link na sa bagong Rates Matrix natin
-import Contact from "../components/Contact";   // Naka-link na sa bagong Location & Contact Section natin
-import Footer from "../components/Footer";     // Naka-link na sa bagong Footer Section natin
+import Features from "../components/Features"; 
+import Pricing from "../components/Pricing";   
+import Contact from "../components/Contact";   
+import Footer from "../components/Footer";     
 import Album from "../components/Album";
-function Home() {
+
+// FIXED: Idinagdag ang { setView } dito sa loob ng parenthesis ()
+function Home({ setView }) {
     return (
         <div className="min-h-screen bg-black text-white font-sans antialiased selection:bg-yellow-400 selection:text-black">
-            <Navbar />
+            
+            {/* FIXED: Ipinasa ang setView prop pababa sa Navbar component */}
+            <Navbar setView={setView} />
+            
             <Hero />
             <Features />
             <Pricing />
