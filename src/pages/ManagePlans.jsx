@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/dashboard/Sidebar';
-import { Plus, Trash2, Edit2, Save, X, DollarSign, Tag, Layers } from 'lucide-react';
-
+import { Plus, Trash2, Edit2, Save, X, DollarSign, Tag, Layers, Menu } from 'lucide-react';
 export default function ManagePlans({ setView }) {
   const [plans, setPlans] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [editPrice, setEditPrice] = useState('');
   const [isAdding, setIsAdding] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const [newPlan, setNewPlan] = useState({
     label: '',
@@ -124,168 +124,333 @@ export default function ManagePlans({ setView }) {
       alert('Failed to delete plan.');
     }
   };
-
   return (
     <div className="min-h-screen bg-black text-white font-sans antialiased selection:bg-yellow-400 selection:text-black flex">
-      <Sidebar setView={setView} />
 
-      <main className="flex-1 p-6 md:p-10 max-w-5xl mx-auto space-y-8 overflow-y-auto">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-zinc-900 pb-6">
-          <div>
-            <span className="text-xs font-mono tracking-widest text-zinc-500 block uppercase">// VALUE_MATRIX_CONFIGURATION</span>
-            <h2 className="text-3xl font-black uppercase tracking-tight">MANAGE_GYM_RATES</h2>
-          </div>
+      <Sidebar
+        setView={setView}
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+      />
 
-          <button
-            onClick={() => setIsAdding(!isAdding)}
-            className="bg-yellow-400 text-black font-mono text-xs font-black uppercase tracking-widest px-5 py-3 flex items-center gap-2 transition-all hover:bg-yellow-500 self-end sm:self-center"
-          >
-            {isAdding ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-            {isAdding ? 'Cancel_Deploy' : 'Add_New_Promo'}
-          </button>
-        </div>
+      <main className="flex-1 w-full overflow-y-auto overflow-x-hidden">
 
-        {isAdding && (
-          <div className="bg-zinc-950 border border-yellow-400/30 p-6 md:p-8 space-y-4">
-            <div className="font-mono">
-              <h4 className="text-sm font-bold text-yellow-400 uppercase tracking-wider">// INITIALIZE_NEW_PROMO_NODE</h4>
-              <p className="text-xs text-zinc-600">Inject a new pricing protocol into the system registry</p>
+        <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 py-6 md:py-8 space-y-8">
+
+          {/* PAGE HEADER */}
+          <div className="border-b border-zinc-900 pb-6">
+
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
+              {/* LEFT */}
+              <div className="flex items-start gap-3">
+
+                {/* MOBILE HAMBURGER */}
+                <button
+                  onClick={() => setSidebarOpen(true)}
+                  className="
+            md:hidden
+            border
+            border-zinc-800
+            bg-zinc-950
+            p-2.5
+            text-zinc-400
+            hover:text-white
+            transition-all
+            flex-shrink-0
+          "
+                >
+                  <Menu className="w-5 h-5" />
+                </button>
+
+                <div className="min-w-0">
+
+                  <span className="text-[10px] sm:text-xs font-mono tracking-widest text-zinc-500 block uppercase">
+            // VALUE_MATRIX_CONFIGURATION
+                  </span>
+
+                  <h2
+                    className="
+              text-2xl
+              sm:text-3xl
+              lg:text-4xl
+              font-black
+              uppercase
+              tracking-tight
+              break-words
+            "
+                  >
+                    MANAGE_GYM_RATES
+                  </h2>
+
+                </div>
+
+              </div>
+
+              {/* RIGHT */}
+              <button
+                onClick={() => setIsAdding(!isAdding)}
+                className="
+          bg-yellow-400
+          text-black
+          font-mono
+          text-[10px]
+          sm:text-xs
+          font-black
+          uppercase
+          tracking-widest
+          px-3
+          sm:px-5
+          py-3
+          flex
+          items-center
+          justify-center
+          gap-2
+          hover:bg-yellow-500
+          transition-all
+          self-start
+          sm:self-center
+        "
+              >
+                {isAdding ? (
+                  <X className="w-4 h-4" />
+                ) : (
+                  <Plus className="w-4 h-4" />
+                )}
+
+                <span>
+                  {isAdding ? 'Cancel Deploy' : 'Add New Plan'}
+                </span>
+              </button>
+
             </div>
 
-            <form onSubmit={handleAddPlan} className="grid grid-cols-1 md:grid-cols-4 gap-4 font-mono text-xs items-end">
-              <div className="space-y-2">
-                <label className="text-zinc-500 uppercase text-[10px]">Tier Classification</label>
-                <select
-                  value={newPlan.type}
-                  onChange={(e) => setNewPlan({ ...newPlan, type: e.target.value })}
-                  className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 outline-none"
-                >
-                  <option value="Membership">Membership Pass</option>
-                  <option value="Coaching">Coaching Package</option>
-                </select>
+          </div>
+
+          {isAdding && (
+            <div className="bg-zinc-950 border border-yellow-400/30 p-5 md:p-8 space-y-4">
+
+              <div className="font-mono">
+                <h4 className="text-sm font-bold text-yellow-400 uppercase tracking-wider">
+                // INITIALIZE_NEW_PROMO_NODE
+                </h4>
+
+                <p className="text-xs text-zinc-600">
+                  Inject a new pricing protocol into the system registry
+                </p>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-zinc-500 uppercase text-[10px]">Duration Type</label>
-                <select
-                  value={newPlan.durationType}
-                  onChange={(e) => setNewPlan({ ...newPlan, durationType: e.target.value })}
-                  className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 outline-none"
-                >
-                  <option value="Daily">Daily</option>
-                  <option value="Monthly">Monthly</option>
-                  <option value="Yearly">Yearly</option>
-                </select>
-              </div>
+              <form
+                onSubmit={handleAddPlan}
+                className="grid grid-cols-1 md:grid-cols-4 gap-4 font-mono text-xs items-end"
+              >
+                <div className="space-y-2">
+                  <label className="text-zinc-500 uppercase text-[10px]">
+                    Tier Classification
+                  </label>
 
-              <div className="space-y-2 md:col-span-2">
-                <label className="text-zinc-500 uppercase text-[10px]">Promo / Plan Label Name</label>
-                <div className="relative">
-                  <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-700" />
+                  <select
+                    value={newPlan.type}
+                    onChange={(e) =>
+                      setNewPlan({ ...newPlan, type: e.target.value })
+                    }
+                    className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 outline-none"
+                  >
+                    <option value="Membership">Membership Pass</option>
+                    <option value="Coaching">Coaching Package</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-zinc-500 uppercase text-[10px]">
+                    Duration Type
+                  </label>
+
+                  <select
+                    value={newPlan.durationType}
+                    onChange={(e) =>
+                      setNewPlan({
+                        ...newPlan,
+                        durationType: e.target.value,
+                      })
+                    }
+                    className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 outline-none"
+                  >
+                    <option value="Daily">Daily</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Yearly">Yearly</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2 md:col-span-2">
+                  <label className="text-zinc-500 uppercase text-[10px]">
+                    Promo / Plan Label Name
+                  </label>
+
+                  <div className="relative">
+                    <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-700" />
+
+                    <input
+                      type="text"
+                      required
+                      value={newPlan.label}
+                      onChange={(e) =>
+                        setNewPlan({
+                          ...newPlan,
+                          label: e.target.value,
+                        })
+                      }
+                      className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 pl-9 outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-zinc-500 uppercase text-[10px]">
+                    Price Rate (PHP)
+                  </label>
+
                   <input
-                    type="text"
+                    type="number"
                     required
-                    value={newPlan.label}
-                    onChange={(e) => setNewPlan({ ...newPlan, label: e.target.value })}
-                    className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 pl-9 outline-none"
+                    value={newPlan.price}
+                    onChange={(e) =>
+                      setNewPlan({
+                        ...newPlan,
+                        price: e.target.value,
+                      })
+                    }
+                    className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 outline-none"
                   />
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <label className="text-zinc-500 uppercase text-[10px]">Price Rate (PHP)</label>
-                <input
-                  type="number"
-                  required
-                  value={newPlan.price}
-                  onChange={(e) => setNewPlan({ ...newPlan, price: e.target.value })}
-                  className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 outline-none"
-                />
-              </div>
+                <div className="md:col-span-4 flex justify-end">
+                  <button
+                    type="submit"
+                    className="w-full sm:w-auto bg-zinc-900 border border-zinc-800 hover:border-yellow-400 text-zinc-400 hover:text-white px-6 py-3 uppercase text-xs font-bold"
+                  >
+                    Deploy_Plan_Node
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
 
-              <div className="md:col-span-4 flex justify-end pt-2">
-                <button
-                  type="submit"
-                  className="bg-zinc-900 border border-zinc-800 hover:border-yellow-400 text-zinc-400 hover:text-white px-6 py-3 uppercase text-xs font-bold"
+          <div className="bg-zinc-950 border border-zinc-900 p-5 md:p-8 space-y-6">
+
+            <div>
+              <h4 className="text-sm font-bold font-mono text-zinc-400 uppercase tracking-wider">
+              // ACTIVE_RATES_MATRIX
+              </h4>
+
+              <p className="text-xs text-zinc-600 font-mono">
+                Real-time control access layer to alter tier configurations
+              </p>
+            </div>
+
+            <div className="divide-y divide-zinc-900 border border-zinc-900">
+
+              {plans.map((plan) => (
+                <div
+                  key={plan.plan_id}
+                  className="p-4 bg-black/20 hover:bg-zinc-900/10 transition-colors"
                 >
-                  Deploy_Plan_Node
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
+                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 
-        <div className="bg-zinc-950 border border-zinc-900 p-6 md:p-8 space-y-6">
-          <div>
-            <h4 className="text-sm font-bold font-mono text-zinc-400 uppercase tracking-wider">// ACTIVE_RATES_MATRIX</h4>
-            <p className="text-xs text-zinc-600 font-mono">Real-time control access layer to alter tier configurations</p>
-          </div>
-
-          <div className="divide-y divide-zinc-900 border border-zinc-900 font-mono text-xs">
-            {plans.map((plan) => (
-              <div key={plan.plan_id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 gap-4 bg-black/20 hover:bg-zinc-900/10 transition-colors">
-                <div className="flex items-start gap-4">
-                  <div className={`p-2 border mt-0.5 ${plan.category === 'membership' ? 'border-yellow-400/20 text-yellow-400' : 'border-cyan-500/20 text-cyan-400'}`}>
-                    <Layers className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="text-[9px] text-zinc-600 block uppercase">[{plan.category?.toUpperCase()}_NODE]</span>
-                    <span className="text-sm font-bold text-white font-sans">{plan.plan_name}</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4 justify-between sm:justify-end">
-                  {editingId === plan.plan_id ? (
-                    <div className="flex items-center gap-2">
-                      <span className="text-zinc-600">₱</span>
-                      <input
-                        type="number"
-                        value={editPrice}
-                        onChange={(e) => setEditPrice(e.target.value)}
-                        className="w-24 bg-black border border-yellow-400 text-white p-2 outline-none font-sans text-sm text-right"
-                      />
-                      <button
-                        onClick={() => handleSavePrice(plan.plan_id)}
-                        className="p-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500 hover:text-black transition-all"
+                    <div className="flex items-start gap-4">
+                      <div
+                        className={`p-2 border ${plan.category === 'membership'
+                          ? 'border-yellow-400/20 text-yellow-400'
+                          : 'border-cyan-500/20 text-cyan-400'
+                          }`}
                       >
-                        <Save className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => setEditingId(null)}
-                        className="p-2 bg-zinc-900 text-zinc-400 border border-zinc-800 hover:text-white"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-6">
-                      <div className="text-right">
-                        <span className="text-[9px] text-zinc-600 block uppercase">SYNC_RATE</span>
-                        <span className="text-lg font-black text-white font-sans">₱{Number(plan.price).toLocaleString()}</span>
+                        <Layers className="w-4 h-4" />
                       </div>
 
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => { setEditingId(plan.plan_id); setEditPrice(plan.price); }}
-                          className="p-2.5 border border-zinc-900 bg-zinc-950 text-zinc-500 hover:text-white hover:border-zinc-700 transition-colors"
-                        >
-                          <Edit2 className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          onClick={() => handleDeletePlan(plan.plan_id)}
-                          className="p-2.5 border border-zinc-900 bg-zinc-950 text-zinc-600 hover:text-red-400 hover:border-red-950/40 transition-colors"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
+                      <div>
+                        <span className="text-[9px] text-zinc-600 block uppercase">
+                          [{plan.category?.toUpperCase()}_NODE]
+                        </span>
+
+                        <span className="text-sm font-bold text-white">
+                          {plan.plan_name}
+                        </span>
                       </div>
                     </div>
-                  )}
+
+                    {editingId === plan.plan_id ? (
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-zinc-600">₱</span>
+
+                        <input
+                          type="number"
+                          value={editPrice}
+                          onChange={(e) => setEditPrice(e.target.value)}
+                          className="w-28 bg-black border border-yellow-400 text-white p-2 outline-none"
+                        />
+
+                        <button
+                          onClick={() => handleSavePrice(plan.plan_id)}
+                          className="p-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                        >
+                          <Save className="w-4 h-4" />
+                        </button>
+
+                        <button
+                          onClick={() => setEditingId(null)}
+                          className="p-2 bg-zinc-900 border border-zinc-800"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+
+                        <div>
+                          <span className="text-[9px] text-zinc-600 block uppercase">
+                            SYNC_RATE
+                          </span>
+
+                          <span className="text-xl font-black text-white">
+                            ₱{Number(plan.price).toLocaleString()}
+                          </span>
+                        </div>
+
+                        <div className="flex gap-2">
+
+                          <button
+                            onClick={() => {
+                              setEditingId(plan.plan_id);
+                              setEditPrice(plan.price);
+                            }}
+                            className="p-2.5 border border-zinc-900 bg-zinc-950 text-zinc-500 hover:text-white"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </button>
+
+                          <button
+                            onClick={() => handleDeletePlan(plan.plan_id)}
+                            className="p-2.5 border border-zinc-900 bg-zinc-950 text-zinc-600 hover:text-red-400"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+
+                        </div>
+                      </div>
+                    )}
+
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+
+            </div>
+
           </div>
+
         </div>
+
       </main>
+
     </div>
   );
 }
