@@ -1,5 +1,5 @@
 import React from 'react';
-import SortDropdown from './SortDropdown'; // IMPORT ANG SORT
+//import SortDropdown from './SortDropdown'; // IMPORT ANG SORT
 import { Search, CheckCircle, XCircle } from 'lucide-react';
 
 export default function MemberTable({ members, searchTerm, setSearchTerm, sortBy, setSortBy }) {
@@ -40,7 +40,7 @@ export default function MemberTable({ members, searchTerm, setSearchTerm, sortBy
           </div>
 
           {/* PALITAN ANG LUMANG FILTER BUTTON NG ATING SORT DROPDOWN COMPONENT */}
-          <SortDropdown currentSort={sortBy} onSortChange={setSortBy} />
+          {/* <SortDropdown currentSort={sortBy} onSortChange={setSortBy} /> */}
         </div>
       </div>
 
