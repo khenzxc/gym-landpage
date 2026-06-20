@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/dashboard/Sidebar';
 import StatsGrid from '../components/dashboard/StatsGrid';
-import MemberTable from "../components/members/MemberTable.jsx"; // TAMA  (May .jsx para sigurado)
+import MemberTable from "../components/dashboard/MemberTable"; 
 import AddMemberModal from '../components/dashboard/AddMemberModal';
 //import NotificationsDropdown from '../components/dashboard/NotificationsDropdown';
 import { Bell, Plus } from 'lucide-react';
