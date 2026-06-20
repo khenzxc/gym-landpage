@@ -63,6 +63,8 @@ export default function AdminDashboard({ setView }) {
 
       await response.json();
 
+      setRefreshTrigger(prev => prev + 1);
+
       fetchMembers();
 
       alert('SYSTEM_LOG: New athlete profile deployed to core matrix.');
