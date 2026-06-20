@@ -336,115 +336,121 @@ export default function ManagePlans({ setView }) {
             </div>
           )}
 
-          <div className="bg-zinc-950 border border-zinc-900 p-5 md:p-8 space-y-6">
+          <div className="border border-zinc-900 overflow-hidden">
+            <div className="overflow-x-auto overflow-y-auto max-h-[480px] custom-scrollbar">
 
-            <div>
-              <h4 className="text-sm font-bold font-mono text-zinc-400 uppercase tracking-wider">
-              // ACTIVE_RATES_MATRIX
-              </h4>
+              <table className="w-full text-left border-collapse font-sans text-xs min-w-[700px]">
 
-              <p className="text-xs text-zinc-600 font-mono">
-                Real-time control access layer to alter tier configurations
-              </p>
-            </div>
+                <thead>
+                  <tr className="bg-zinc-900/50 border-b border-zinc-900 text-zinc-500 font-mono tracking-wider uppercase text-[10px]">
+                    <th className="p-4">PLAN_ID</th>
+                    <th className="p-4">PLAN_NAME</th>
+                    <th className="p-4">CATEGORY</th>
+                    <th className="p-4">PRICE</th>
+                    <th className="p-4 text-right">ACTIONS</th>
+                  </tr>
+                </thead>
 
-            <div className="divide-y divide-zinc-900 border border-zinc-900">
-
-              {plans.map((plan) => (
-                <div
-                  key={plan.plan_id}
-                  className="p-4 bg-black/20 hover:bg-zinc-900/10 transition-colors"
-                >
-                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-
-                    <div className="flex items-start gap-4">
-                      <div
-                        className={`p-2 border ${plan.category === 'membership'
-                          ? 'border-yellow-400/20 text-yellow-400'
-                          : 'border-cyan-500/20 text-cyan-400'
-                          }`}
+                <tbody className="divide-y divide-zinc-900 bg-black/40">
+                  {plans.length > 0 ? (
+                    plans.map((plan) => (
+                      <tr
+                        key={plan.plan_id}
+                        className="hover:bg-zinc-900/30 transition-colors"
                       >
-                        <Layers className="w-4 h-4" />
-                      </div>
+                        <td className="p-4 font-mono font-bold text-yellow-400">
+                          {plan.plan_id}
+                        </td>
 
-                      <div>
-                        <span className="text-[9px] text-zinc-600 block uppercase">
-                          [{plan.category?.toUpperCase()}_NODE]
-                        </span>
-
-                        <span className="text-sm font-bold text-white">
+                        <td className="p-4 font-semibold text-white text-sm">
                           {plan.plan_name}
-                        </span>
-                      </div>
-                    </div>
+                        </td>
 
-                    {editingId === plan.plan_id ? (
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-zinc-600">₱</span>
-
-                        <input
-                          type="number"
-                          value={editPrice}
-                          onChange={(e) => setEditPrice(e.target.value)}
-                          className="w-28 bg-black border border-yellow-400 text-white p-2 outline-none"
-                        />
-
-                        <button
-                          onClick={() => handleSavePrice(plan.plan_id)}
-                          className="p-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                        >
-                          <Save className="w-4 h-4" />
-                        </button>
-
-                        <button
-                          onClick={() => setEditingId(null)}
-                          className="p-2 bg-zinc-900 border border-zinc-800"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-
-                        <div>
-                          <span className="text-[9px] text-zinc-600 block uppercase">
-                            SYNC_RATE
-                          </span>
-
-                          <span className="text-xl font-black text-white">
-                            ₱{Number(plan.price).toLocaleString()}
-                          </span>
-                        </div>
-
-                        <div className="flex gap-2">
-
-                          <button
-                            onClick={() => {
-                              setEditingId(plan.plan_id);
-                              setEditPrice(plan.price);
-                            }}
-                            className="p-2.5 border border-zinc-900 bg-zinc-950 text-zinc-500 hover:text-white"
+                        <td className="p-4">
+                          <span
+                            className={`font-mono text-[10px] uppercase font-bold ${plan.category === 'membership'
+                                ? 'text-yellow-400'
+                                : 'text-cyan-400'
+                              }`}
                           >
-                            <Edit2 className="w-4 h-4" />
-                          </button>
+                            {plan.category}
+                          </span>
+                        </td>
 
-                          <button
-                            onClick={() => handleDeletePlan(plan.plan_id)}
-                            className="p-2.5 border border-zinc-900 bg-zinc-950 text-zinc-600 hover:text-red-400"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
+                        <td className="p-4">
+                          {editingId === plan.plan_id ? (
+                            <div className="flex items-center gap-2">
+                              <span>₱</span>
 
-                        </div>
-                      </div>
-                    )}
+                              <input
+                                type="number"
+                                value={editPrice}
+                                onChange={(e) => setEditPrice(e.target.value)}
+                                className="w-24 bg-black border border-yellow-400 text-white p-2 outline-none"
+                              />
 
-                  </div>
-                </div>
-              ))}
+                              <button
+                                onClick={() => handleSavePrice(plan.plan_id)}
+                                className="p-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                              >
+                                <Save className="w-4 h-4" />
+                              </button>
+
+                              <button
+                                onClick={() => setEditingId(null)}
+                                className="p-2 bg-zinc-900 border border-zinc-800"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                          ) : (
+                            <span className="font-black text-lg text-white">
+                              ₱{Number(plan.price).toLocaleString()}
+                            </span>
+                          )}
+                        </td>
+
+                        <td className="p-4 text-right">
+                          {editingId !== plan.plan_id && (
+                            <div className="inline-flex gap-2">
+
+                              <button
+                                onClick={() => {
+                                  setEditingId(plan.plan_id);
+                                  setEditPrice(plan.price);
+                                }}
+                                className="p-2.5 border border-zinc-900 bg-zinc-950 text-zinc-500 hover:text-white"
+                              >
+                                <Edit2 className="w-4 h-4" />
+                              </button>
+
+                              <button
+                                onClick={() => handleDeletePlan(plan.plan_id)}
+                                className="p-2.5 border border-zinc-900 bg-zinc-950 text-zinc-600 hover:text-red-400"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan="5"
+                        className="p-8 text-center text-zinc-600 font-mono text-xs"
+                      >
+                        [!] NO_PLAN_RECORD_FOUND
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+
+              </table>
 
             </div>
-
           </div>
 
         </div>
