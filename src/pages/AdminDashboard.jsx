@@ -65,8 +65,6 @@ export default function AdminDashboard({ setView }) {
 
       setRefreshTrigger(prev => prev + 1);
 
-      fetchMembers();
-
       alert('SYSTEM_LOG: New athlete profile deployed to core matrix.');
     } catch (error) {
       console.error(error);
