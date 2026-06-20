@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/dashboard/Sidebar';
-import StatsGrid from '../components/dashboard/StatsGrid'; 
+import StatsGrid from '../components/dashboard/StatsGrid';
 import MemberTable from '../components/dashboard/MemberTable';
 import AddMemberModal from '../components/dashboard/AddMemberModal';
-import NotificationsDropdown from '../components/dashboard/NotificationsDropdown';
+//import NotificationsDropdown from '../components/dashboard/NotificationsDropdown';
 import { Bell, Plus } from 'lucide-react';
 
 export default function AdminDashboard({ setView }) {
@@ -86,11 +86,11 @@ export default function AdminDashboard({ setView }) {
               <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse" />
             </button>
 
-            <NotificationsDropdown
-              isOpen={isNotifOpen}
-              onClose={() => setIsNotifOpen(false)}
-              refreshTrigger={refreshTrigger}
-            />
+            {/* <NotificationsDropdown
+    isOpen={isNotifOpen}
+    onClose={() => setIsNotifOpen(false)}
+    refreshTrigger={refreshTrigger}
+/> */}
 
             <button
               onClick={() => setIsModalOpen(true)}

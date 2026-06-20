@@ -1,5 +1,5 @@
 import React from 'react';
-import SortDropdown from "../dashboard/SortDropdown";
+import SortDropdown from './SortDropdown'; // IMPORT ANG SORT
 import { Search, CheckCircle, XCircle } from 'lucide-react';
 
 export default function MemberTable({ members, searchTerm, setSearchTerm, sortBy, setSortBy }) {
