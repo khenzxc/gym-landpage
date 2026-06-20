@@ -145,13 +145,14 @@ export default function Login({ setView }) {
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </button>
 
-              {/* Quick Registration Redirect Link */}
-              <div className="text-center font-mono text-[11px] text-zinc-600">
+              {/* Quick Registration Redirect Link
+               <div className="text-center font-mono text-[11px] text-zinc-600">
                 NO ACCOUNT YET?{' '}
                 <a href="#register" className="text-white hover:text-yellow-400 font-bold transition-colors">
                   CREATE_NEW_PROFILE
                 </a>
-              </div>
+              </div> */}
+             
             </div>
 
           </form>
