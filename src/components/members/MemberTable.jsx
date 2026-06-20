@@ -1,5 +1,5 @@
 import React from 'react';
-import SortDropdown from './SortDropdown.jsx';
+import SortDropdown from "./SortDropdown";
 import { Search, CheckCircle, XCircle, RefreshCw } from 'lucide-react';
 
 export default function MemberTable({ 
