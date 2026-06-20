@@ -10,13 +10,15 @@ export default function AddCoachForm({ newCoach, setNewCoach, onSubmit }) {
       </div>
 
       <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs items-end">
+        
+        {/* Full Identity Name */}
         <div className="space-y-2">
           <label className="text-zinc-500 uppercase text-[10px]">Full Identity Name</label>
           <div className="relative">
             <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-700" />
             <input 
               type="text" required
-              value={newCoach.name}
+              value={newCoach.name || ""}
               onChange={(e) => setNewCoach({ ...newCoach, name: e.target.value })}
               placeholder="Enter complete name..."
               className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 pl-9 outline-none"
@@ -24,10 +26,11 @@ export default function AddCoachForm({ newCoach, setNewCoach, onSubmit }) {
           </div>
         </div>
 
+        {/* Core Specialty Focus */}
         <div className="space-y-2">
           <label className="text-zinc-500 uppercase text-[10px]">Core Specialty Focus</label>
           <select 
-            value={newCoach.specialty}
+            value={newCoach.specialty || "Powerlifting / Strength"}
             onChange={(e) => setNewCoach({ ...newCoach, specialty: e.target.value })}
             className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 outline-none"
           >
@@ -38,10 +41,11 @@ export default function AddCoachForm({ newCoach, setNewCoach, onSubmit }) {
           </select>
         </div>
 
+        {/* Assigned Roster Shift */}
         <div className="space-y-2">
           <label className="text-zinc-500 uppercase text-[10px]">Assigned Roster Shift</label>
           <select 
-            value={newCoach.shift}
+            value={newCoach.shift || "Morning (6AM - 2PM)"}
             onChange={(e) => setNewCoach({ ...newCoach, shift: e.target.value })}
             className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 outline-none"
           >
@@ -51,6 +55,7 @@ export default function AddCoachForm({ newCoach, setNewCoach, onSubmit }) {
           </select>
         </div>
 
+        {/* Submission Node Action Trigger */}
         <div className="md:col-span-3 flex justify-end pt-2">
           <button 
             type="submit"

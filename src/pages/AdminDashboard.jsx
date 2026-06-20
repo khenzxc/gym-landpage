@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/dashboard/Sidebar';
 import StatsGrid from '../components/dashboard/StatsGrid'; 
-import MemberTable from '../components/members/MemberTable';
+import MemberTable from '../components/dashboard/MemberTable';
 import AddMemberModal from '../components/dashboard/AddMemberModal';
 import NotificationsDropdown from '../components/dashboard/NotificationsDropdown';
 import { Bell, Plus } from 'lucide-react';
@@ -16,12 +16,14 @@ export default function AdminDashboard({ setView }) {
   const [loading, setLoading] = useState(true);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-  const API_URL = 'http://localhost:5000/api/members';
+  // FIXED: Inalis ang double slash at ibinalik sa core base API route path
+  const BASE_API_URL = import.meta.env.VITE_API_URL || 'https://danbhels-gym-backend.onrender.com/api';
 
   const fetchMembers = async () => {
     try {
       setLoading(true);
-      const response = await fetch(API_URL);
+      // FIXED: Idinugtong nang tama ang endpoint node
+      const response = await fetch(`${BASE_API_URL}/members`);
       if (!response.ok) throw new Error('API Core Connection Denied');
       const data = await response.json();
       setMembers(data);
@@ -36,38 +38,33 @@ export default function AdminDashboard({ setView }) {
     fetchMembers();
   }, [refreshTrigger]);
 
-const handleAddMember = async (newMember) => {
-  try {
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newMember)
-    });
+  const handleAddMember = async (newMember) => {
+    try {
+      // FIXED: Tamang POST URL registry target nang walang double slash
+      const response = await fetch(`${BASE_API_URL}/members`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newMember)
+      });
 
-    if (!response.ok) {
-      throw new Error('Failed to create member');
+      if (!response.ok) {
+        throw new Error('Failed to create member');
+      }
+
+      await response.json();
+      fetchMembers();
+
+      alert('SYSTEM_LOG: New athlete profile deployed to core matrix.');
+    } catch (error) {
+      console.error(error);
+      alert('CRITICAL_ERROR: Registration pipeline failed.');
+    } finally {
+      setIsModalOpen(false);
     }
+  };
 
-    await response.json();
-
-    fetchMembers();
-
-    alert(
-      'SYSTEM_LOG: New athlete profile deployed to core matrix.'
-    );
-
-  } catch (error) {
-    console.error(error);
-
-    alert(
-      'CRITICAL_ERROR: Registration pipeline failed.'
-    );
-  } finally {
-    setIsModalOpen(false);
-  }
-};
   return (
     <div className="min-h-screen bg-black text-white font-sans antialiased flex">
       <Sidebar setView={setView} />
@@ -81,7 +78,6 @@ const handleAddMember = async (newMember) => {
           </div>
 
           <div className="flex items-center gap-3 self-end sm:self-center relative">
-            {/* CLEAN TRIGGER BUTTON */}
             <button
               onClick={() => setIsNotifOpen(!isNotifOpen)}
               className="relative border border-zinc-900 p-3 bg-zinc-950 hover:border-zinc-700 text-zinc-400 hover:text-white transition-all"
@@ -90,7 +86,6 @@ const handleAddMember = async (newMember) => {
               <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse" />
             </button>
 
-            {/* TUNAY AT NAG-IISANG DROPDOWN NODE */}
             <NotificationsDropdown
               isOpen={isNotifOpen}
               onClose={() => setIsNotifOpen(false)}

@@ -13,12 +13,18 @@ export default function Reports({ setView }) {
   });
   const [loading, setLoading] = useState(true);
 
+  // FIXED: Dynamic environment routing logic pipeline
+  const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  const API_URL = `${BASE_URL}/reports/sales`;
+
   // 2. Fetch data mula sa bagong sales endpoint
   useEffect(() => {
     const fetchSalesData = async () => {
       try {
         setLoading(true);
-        const res = await fetch('http://localhost:5000/api/reports/sales');
+        
+        // FIXED: Ginamit na ang dynamic variable imbes na hardcoded localhost link
+        const res = await fetch(API_URL);
         if (!res.ok) throw new Error('Failed to fetch sales data');
         const data = await res.json();
         setMetrics(data);
@@ -31,7 +37,7 @@ export default function Reports({ setView }) {
       }
     };
     fetchSalesData();
-  }, []);
+  }, [API_URL]); // Inilagay ang API_URL sa dependency layer para sa React best practices
 
   return (
     <div className="min-h-screen bg-black text-white font-sans antialiased flex">

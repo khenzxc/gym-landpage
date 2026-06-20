@@ -13,13 +13,16 @@ export default function RenewMemberModal({
   const [paymentStatus, setPaymentStatus] = useState('Paid');
   const [submitting, setSubmitting] = useState(false);
 
+  // DYNAMIC CONFIG: Pipeline routing infrastructure 
+  const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
   // FETCH PLANS FROM DB
   useEffect(() => {
-    fetch('http://localhost:5000/api/plans')
+    fetch(`${BASE_URL}/plans`)
       .then(res => res.json())
       .then(data => setPlans(data))
       .catch(err => console.error('PLAN_FETCH_FAILED:', err));
-  }, []);
+  }, [BASE_URL]);
 
   // RESET ON OPEN
   useEffect(() => {
@@ -40,20 +43,15 @@ export default function RenewMemberModal({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!selectedPlan) return;
 
     try {
       setSubmitting(true);
-
-      // FIXED: Ipasa ito bilang isang solong object na may tamang key names 
-      // na inaasahan ng iyong parent handler at ng Express API body destructuring.
       await onConfirmRenew({
         id: member?.id,
         plan_id: selectedPlan,
         paymentStatus: paymentStatus
       });
-
     } catch (error) {
       console.error("MODAL_SUBMIT_ERROR:", error);
     } finally {
@@ -75,7 +73,7 @@ export default function RenewMemberModal({
             className="absolute inset-0 bg-black/80 backdrop-blur-sm"
           />
 
-          {/* MODAL */}
+          {/* MODAL CONTAINER */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -84,8 +82,9 @@ export default function RenewMemberModal({
             className="bg-zinc-950 border border-zinc-900 w-full max-w-md p-6 md:p-8 relative z-10 space-y-5 shadow-2xl"
           >
 
-            {/* CLOSE */}
+            {/* CLOSE BUTTON */}
             <button
+              type="button"
               onClick={onClose}
               disabled={submitting}
               className="absolute top-4 right-4 text-zinc-500 hover:text-white"
@@ -98,7 +97,6 @@ export default function RenewMemberModal({
               <span className="text-[10px] font-mono tracking-widest text-zinc-600 block mb-1">
                 // RENEWAL_PIPELINE
               </span>
-
               <h3 className="text-xl font-black uppercase text-white">
                 Renew:{" "}
                 <span className="text-yellow-400 font-sans">
@@ -107,7 +105,7 @@ export default function RenewMemberModal({
               </h3>
             </div>
 
-            {/* FORM */}
+            {/* FORM PIPELINE */}
             <form onSubmit={handleSubmit} className="space-y-4 font-mono text-xs">
 
               {/* PLAN SELECT */}
@@ -115,15 +113,13 @@ export default function RenewMemberModal({
                 <label className="text-zinc-500 uppercase text-[10px]">
                   Membership Plan
                 </label>
-
                 <select
                   value={selectedPlan}
                   onChange={(e) => setSelectedPlan(e.target.value)}
                   disabled={submitting}
-                  className="w-full bg-black border border-zinc-900 text-white p-3.5 cursor-pointer"
+                  className="w-full bg-black border border-zinc-900 text-white p-3.5 cursor-pointer outline-none focus:border-yellow-400"
                 >
                   <option value="">[ SELECT PLAN ]</option>
-
                   {plans.map(plan => (
                     <option key={plan.plan_id} value={plan.plan_id}>
                       {plan.plan_name}
@@ -133,40 +129,38 @@ export default function RenewMemberModal({
               </div>
 
               {/* PRICE DISPLAY */}
-              <div className="p-3.5 bg-zinc-900/40 border border-zinc-900/80 flex justify-between">
+              <div className="p-3.5 bg-zinc-900/40 border border-zinc-900/80 flex justify-between items-center">
                 <span className="text-zinc-500 text-[10px] uppercase">
                   // TOTAL_DUE:
                 </span>
-                <span className="text-yellow-400 font-black text-sm">
+                <span className="text-yellow-400 font-black text-sm font-sans">
                   {currentPrice}
                 </span>
               </div>
 
-              {/* PAYMENT */}
+              {/* PAYMENT STATUS */}
               <div className="space-y-2">
                 <label className="text-zinc-500 uppercase text-[10px]">
                   Payment Status
                 </label>
-
                 <select
                   value={paymentStatus}
                   onChange={(e) => setPaymentStatus(e.target.value)}
                   disabled={submitting}
-                  className="w-full bg-black border border-zinc-900 text-white p-3.5 cursor-pointer"
+                  className="w-full bg-black border border-zinc-900 text-white p-3.5 cursor-pointer outline-none focus:border-yellow-400"
                 >
                   <option value="Paid">Paid</option>
                   <option value="Pending">Pending</option>
                 </select>
               </div>
 
-              {/* BUTTONS */}
+              {/* ACTION BUTTONS */}
               <div className="pt-4 flex gap-3">
-
                 <button
                   type="button"
                   onClick={onClose}
                   disabled={submitting}
-                  className="flex-1 border border-zinc-900 text-zinc-400 py-3 uppercase"
+                  className="flex-1 border border-zinc-900 text-zinc-400 py-3 uppercase hover:bg-zinc-900 transition-colors"
                 >
                   Cancel
                 </button>
@@ -174,13 +168,13 @@ export default function RenewMemberModal({
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="flex-1 bg-yellow-400 text-black font-black uppercase py-3 flex justify-center gap-2"
+                  className="flex-1 bg-yellow-400 text-black font-black uppercase py-3 flex justify-center items-center gap-2 hover:bg-yellow-500 transition-colors"
                 >
                   <RefreshCw className={submitting ? "animate-spin w-4 h-4" : "w-4 h-4"} />
                   {submitting ? "Syncing" : "Renew"}
                 </button>
-
               </div>
+
             </form>
           </motion.div>
         </div>

@@ -13,7 +13,9 @@ export default function ManageCoaches({ setView }) {
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({ specialty: '', shift: '', status: 'Active' });
 
-  const API_URL = 'http://localhost:5000/api/coaches';
+  // FIXED: Ginawang dynamic ang base URL core configuration
+  const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  const API_URL = `${BASE_URL}/coaches`;
 
   // FETCH ALL COACHES
   const fetchCoaches = async () => {

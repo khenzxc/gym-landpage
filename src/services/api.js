@@ -1,8 +1,9 @@
 import axios from 'axios';
 
 const api = axios.create({
-  // Dito mo ilalagay ang URL ng Render backend mo
-  baseURL: 'https://danbhels-gym-backend.onrender.com'
+  // Kung may VITE_API_URL sa env, gamitin yun. 
+  // Kung wala (halimbawa, nakalimutan mo sa .env), default sa localhost:5000
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000'
 });
 
 export default api;

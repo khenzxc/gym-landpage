@@ -12,8 +12,8 @@ export default function ManageMembers({ setView }) {
   const [isRenewOpen, setIsRenewOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // BASE URL FIX: Ginawang core API layer para sa modular routing endpoints
-  const API_URL = 'http://localhost:5000/api';
+  // FIXED: Dynamic routing variable na babasahin ang Vercel/Local environment setup
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
   // ==========================================
   // FUNCTION 1: FETCH MEMBERS FROM MYSQL
@@ -22,8 +22,8 @@ export default function ManageMembers({ setView }) {
     try {
       setLoading(true);
 
-      // IPALIT ITONG DIRECT STRING URL NA ITO:
-      const response = await fetch('http://localhost:5000/api/members');
+      // FIXED: Ginamit na natin ang dynamic variable imbes na hardcoded localhost string
+      const response = await fetch(`${API_URL}/members`);
 
       if (!response.ok) throw new Error('API Sync Interrupted');
       const data = await response.json();
@@ -46,14 +46,11 @@ export default function ManageMembers({ setView }) {
     setSelectedMember(member);
     setIsRenewOpen(true);
   };
+  
   // ==========================================
   // FUNCTION 2: FORWARD RENEWAL EVENT TO BACKEND
   // ==========================================
-  // ==========================================
-  // FUNCTION 2: FORWARD RENEWAL EVENT TO BACKEND (FIXED PARAMETERS)
-  // ==========================================
   const handleConfirmRenewal = async (renewalData) => {
-    // Gagamit tayo ng destructuring para makuha ang variables mula sa isang object
     const { id, plan_id, paymentStatus } = renewalData;
 
     try {
@@ -64,7 +61,7 @@ export default function ManageMembers({ setView }) {
         },
         body: JSON.stringify({
           member_id: id,
-          plan_id: plan_id, // Siguradong-sigurado na mapupunta ito sa backend req.body.plan_id
+          plan_id: plan_id, 
           payment_status: paymentStatus
         }),
       });
@@ -83,6 +80,7 @@ export default function ManageMembers({ setView }) {
       setIsRenewOpen(false);
     }
   };
+
   return (
     <div className="min-h-screen bg-black text-white font-sans antialiased flex">
       <Sidebar setView={setView} />

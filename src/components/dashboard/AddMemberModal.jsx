@@ -17,14 +17,18 @@ export default function AddMemberModal({
     payment: 'Paid'
   });
 
+  // DYNAMIC CONFIG: Environment pipeline path configuration
+  const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
   useEffect(() => {
-    fetch('http://localhost:5000/api/plans')
+    // FIXED: Dynamic switch configuration para sa network request path
+    fetch(`${BASE_URL}/plans`)
       .then(res => res.json())
       .then(data => setPlans(data))
       .catch(err =>
         console.error('PLAN_FETCH_FAILED:', err)
       );
-  }, []);
+  }, [BASE_URL]);
 
   const membershipPlans = plans.filter(
     plan => plan.category?.toLowerCase() === 'membership'

@@ -3,11 +3,11 @@ import SortDropdown from "../dashboard/SortDropdown";
 import { Search, CheckCircle, XCircle } from 'lucide-react';
 
 export default function MemberTable({ members, searchTerm, setSearchTerm, sortBy, setSortBy }) {
-
+  
   // 1. FILTER AT SORT PROCESSOR
   const processedMembers = members
-    .filter(member =>
-      member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    .filter(member => 
+      member.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
       member.id.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .filter(member => (sortBy === 'active-only' ? member.status === 'Active' : true))
@@ -30,8 +30,8 @@ export default function MemberTable({ members, searchTerm, setSearchTerm, sortBy
         <div className="flex items-center gap-3">
           <div className="relative flex-1 md:w-64">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600" />
-            <input
-              type="text"
+            <input 
+              type="text" 
               placeholder="Search ID or Name..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -65,8 +65,9 @@ export default function MemberTable({ members, searchTerm, setSearchTerm, sortBy
                   <td className="p-4 font-semibold text-white">{member.name}</td>
                   <td className="p-4 font-mono text-zinc-400">{member.plan}</td>
                   <td className="p-4">
-                    <span className={`inline-flex items-center gap-1.5 font-mono text-[10px] uppercase font-bold px-2 py-1 ${member.status === 'Active' ? 'text-emerald-400 bg-emerald-500/5' : 'text-red-400 bg-red-500/5'
-                      }`}>
+                    <span className={`inline-flex items-center gap-1.5 font-mono text-[10px] uppercase font-bold px-2 py-1 ${
+                      member.status === 'Active' ? 'text-emerald-400 bg-emerald-500/5' : 'text-red-400 bg-red-500/5'
+                    }`}>
                       {member.status === 'Active' ? <CheckCircle className="w-3 h-3" /> : <XCircle className="w-3 h-3" />}
                       {member.status}
                     </span>

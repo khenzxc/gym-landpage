@@ -11,10 +11,17 @@ export default function StatsGrid({ refreshTrigger }) {
   });
   const [loading, setLoading] = useState(true);
 
+  // FIXED: Dynamic environment variable para sa API routing endpoint
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
   useEffect(() => {
     const fetchMetrics = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/reports/metrics');
+        setLoading(true);
+        
+        // FIXED: Ginamit na ang dynamic variable imbes na hardcoded localhost string
+        const response = await fetch(`${API_URL}/reports/metrics`);
+        
         if (!response.ok) throw new Error('Analytical endpoint sync failure');
         const data = await response.json();
         
@@ -38,7 +45,7 @@ export default function StatsGrid({ refreshTrigger }) {
     };
 
     fetchMetrics();
-  }, [refreshTrigger]); // Tatakbo tuwing magbabago ang refreshTrigger
+  }, [refreshTrigger, API_URL]); // Idinagdag ang API_URL sa dependency array para sa React standards
 
   const stats = [
     { 
