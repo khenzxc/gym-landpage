@@ -57,7 +57,7 @@ export default function MemberTable({
 
       {/* Main Framework Semantic Grid Table */}
       <div className="border border-zinc-900 overflow-hidden">
-        <div className="overflow-x-auto overflow-y-auto max-h-[480px] custom-scrollbar">
+        <div className="overflow-x-auto overflow-y-auto max-h-[370px] custom-scrollbar">
           <table className="w-full text-left border-collapse font-sans text-xs min-w-[700px]">
             <thead>
               <tr className="bg-zinc-900/50 border-b border-zinc-900 text-zinc-500 font-mono tracking-wider uppercase text-[10px]">
