@@ -106,7 +106,8 @@ export default function ManageMembers({ setView }) {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex overflow-hidden">
+    // Inalis ang overflow-hidden para sumunod ang scrolling flow sa body
+    <div className="min-h-screen bg-black text-white flex">
 
       {/* SIDEBAR */}
       <Sidebar
@@ -115,8 +116,8 @@ export default function ManageMembers({ setView }) {
         setSidebarOpen={setSidebarOpen}
       />
 
-      {/* MAIN CONTENT */}
-      <main className="flex-1 w-full overflow-y-auto overflow-x-hidden">
+      {/* MAIN CONTENT (Idinagdag ang md:pl-72 at ginawang min-h-screen) */}
+      <main className="flex-1 w-full md:pl-72 min-h-screen">
 
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 py-6 md:py-8 space-y-8">
 

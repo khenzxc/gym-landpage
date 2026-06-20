@@ -33,10 +33,10 @@ export default function Sidebar({
         />
       )}
 
-      {/* SIDEBAR */}
+      {/* SIDEBAR (Ginawang permanenteng FIXED sa desktop) */}
       <aside
         className={`
-          fixed md:sticky top-0 left-0 z-50
+          fixed top-0 left-0 z-50
           h-screen w-72
           border-r border-zinc-900
           bg-zinc-950
@@ -75,7 +75,6 @@ export default function Sidebar({
 
           {/* NAVIGATION */}
           <nav className="space-y-2 font-mono text-xs tracking-wider">
-
             <button
               onClick={() => handleNavigate('dashboard')}
               className="w-full flex items-center gap-3 text-zinc-500 hover:text-white hover:bg-zinc-900/50 px-4 py-3 uppercase transition-all text-left rounded"
@@ -123,7 +122,6 @@ export default function Sidebar({
               <BarChart3 className="w-4 h-4" />
               SYSTEM_REPORTS
             </button>
-
           </nav>
         </div>
 

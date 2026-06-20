@@ -31,9 +31,8 @@ export default function AdminProfile({ setView }) {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex overflow-hidden">
+    <div className="min-h-screen bg-black text-white font-sans antialiased flex">
 
-      {/* SIDEBAR COMPONENT */}
       <Sidebar
         setView={setView}
         sidebarOpen={sidebarOpen}
@@ -41,55 +40,29 @@ export default function AdminProfile({ setView }) {
       />
 
       {/* MAIN CONTENT AREA */}
-      <main className="flex-1 w-full overflow-y-auto overflow-x-hidden">
+      <main className="flex-1 w-full md:pl-72 min-h-screen">
 
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 py-6 md:py-8 space-y-8">
+          
           {/* HEADER SECTION */}
           <div className="border-b border-zinc-900 pb-6">
-
             <div className="flex items-start gap-3">
-
               <button
                 onClick={() => setSidebarOpen(true)}
-                className="
-        md:hidden
-        border
-        border-zinc-800
-        bg-zinc-950
-        p-2.5
-        text-zinc-400
-        hover:text-white
-        transition-all
-        flex-shrink-0
-      "
+                className="md:hidden border border-zinc-800 bg-zinc-950 p-2.5 text-zinc-400 hover:text-white transition-all flex-shrink-0"
               >
                 <Menu className="w-5 h-5" />
               </button>
 
               <div className="min-w-0">
-
                 <span className="text-[10px] sm:text-xs font-mono tracking-widest text-zinc-500 block uppercase">
-        // SECURE_CORE_PROFILE
+                  // SECURE_CORE_PROFILE
                 </span>
-
-                <h2
-                  className="
-          text-2xl
-          sm:text-3xl
-          lg:text-4xl
-          font-black
-          uppercase
-          tracking-tight
-          break-words
-        "
-                >
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight break-words">
                   ADMIN_PROFILES_IDENTITY
                 </h2>
-
               </div>
-
             </div>
-
           </div>
 
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8">
@@ -97,10 +70,8 @@ export default function AdminProfile({ setView }) {
             {/* LEFT COLUMN: IDENTITY CARD */}
             <div className="xl:col-span-1 space-y-6">
               <div className="bg-zinc-950 border border-zinc-900 p-5 md:p-6 text-center space-y-4 relative overflow-hidden">
-                {/* Decorative Accent */}
                 <div className="absolute top-0 inset-x-0 h-[2px] bg-yellow-400" />
 
-                {/* Profile Avatar Frame */}
                 <div className="w-24 h-24 bg-black border-2 border-zinc-800 mx-auto flex items-center justify-center relative group">
                   <Shield className="w-10 h-10 text-yellow-400" />
                   <div className="absolute inset-0 border border-transparent group-hover:border-yellow-400/50 transition-colors" />
@@ -135,206 +106,120 @@ export default function AdminProfile({ setView }) {
             <div className="xl:col-span-2 space-y-8">
 
               {/* FORM 1: IDENTITY DATA */}
-              <div className="xl:col-span-2 space-y-8">
-
-                {/* RIGHT COLUMN */}
-                <div className="xl:col-span-2 space-y-8">
-
-                  {/* FORM 1 */}
-                  <div className="bg-zinc-950 border border-zinc-900 p-5 md:p-8 space-y-6">
-                    <div>
-                      <h4 className="text-sm font-bold font-mono text-zinc-400 uppercase tracking-wider">
-        // IDENTITY_REGISTRY_FIELDS
-                      </h4>
-
-                      <p className="text-xs text-zinc-600 font-mono">
-                        Modify fundamental administration metadata protocols
-                      </p>
-                    </div>
-
-                    <form
-                      onSubmit={handleUpdateProfile}
-                      className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs"
-                    >
-
-                      {/* Full Name */}
-                      <div className="space-y-2">
-                        <label className="text-zinc-500 uppercase block text-[10px]">
-                          Master Full Name
-                        </label>
-
-                        <div className="relative">
-                          <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-700" />
-
-                          <input
-                            type="text"
-                            value={adminData.fullName}
-                            onChange={(e) =>
-                              setAdminData({
-                                ...adminData,
-                                fullName: e.target.value,
-                              })
-                            }
-                            className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 pl-9 outline-none"
-                          />
-                        </div>
-                      </div>
-
-                      {/* Email */}
-                      <div className="space-y-2">
-                        <label className="text-zinc-500 uppercase block text-[10px]">
-                          Secure Routing Email
-                        </label>
-
-                        <div className="relative">
-                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-700" />
-
-                          <input
-                            type="email"
-                            value={adminData.email}
-                            onChange={(e) =>
-                              setAdminData({
-                                ...adminData,
-                                email: e.target.value,
-                              })
-                            }
-                            className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 pl-9 outline-none"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="sm:col-span-2 pt-2 flex justify-end">
-                        <button
-                          type="submit"
-                          className="
-            w-full sm:w-auto
-            bg-zinc-900
-            border border-zinc-800
-            hover:border-yellow-400
-            text-zinc-400 hover:text-white
-            font-mono text-xs
-            px-5 py-3
-            flex items-center justify-center gap-2
-            transition-all
-          "
-                        >
-                          <Save className="w-4 h-4" />
-                          Save_Metadata
-                        </button>
-                      </div>
-
-                    </form>
-                  </div>
-
-                  {/* FORM 2 */}
-                  <div className="bg-zinc-950 border border-zinc-900 p-5 md:p-8 space-y-6">
-
-                    <div>
-                      <h4 className="text-sm font-bold font-mono text-zinc-400 uppercase tracking-wider">
-        // SECURITY_PASSCODE_ROTATION
-                      </h4>
-
-                      <p className="text-xs text-zinc-600 font-mono">
-                        Rotate cryptographic tokens to prevent unauthorized system penetration
-                      </p>
-                    </div>
-
-                    <form
-                      onSubmit={handleUpdatePassword}
-                      className="space-y-4 font-mono text-xs"
-                    >
-
-                      {/* Current Password */}
-                      <div className="space-y-2">
-                        <label className="text-zinc-500 uppercase block text-[10px]">
-                          Current Gateway Pin
-                        </label>
-
-                        <div className="relative">
-                          <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-700" />
-
-                          <input
-                            type="password"
-                            required
-                            value={passwordData.current}
-                            onChange={(e) =>
-                              setPasswordData({
-                                ...passwordData,
-                                current: e.target.value,
-                              })
-                            }
-                            className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 pl-9 outline-none"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-                        <div className="space-y-2">
-                          <label className="text-zinc-500 uppercase block text-[10px]">
-                            New Access Sequence
-                          </label>
-
-                          <input
-                            type="password"
-                            required
-                            value={passwordData.new}
-                            onChange={(e) =>
-                              setPasswordData({
-                                ...passwordData,
-                                new: e.target.value,
-                              })
-                            }
-                            className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 outline-none"
-                          />
-                        </div>
-
-                        <div className="space-y-2">
-                          <label className="text-zinc-500 uppercase block text-[10px]">
-                            Confirm New Sequence
-                          </label>
-
-                          <input
-                            type="password"
-                            required
-                            value={passwordData.confirm}
-                            onChange={(e) =>
-                              setPasswordData({
-                                ...passwordData,
-                                confirm: e.target.value,
-                              })
-                            }
-                            className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 outline-none"
-                          />
-                        </div>
-
-                      </div>
-
-                      <div className="pt-2 flex justify-end">
-                        <button
-                          type="submit"
-                          className="
-            w-full sm:w-auto
-            bg-yellow-400
-            text-black
-            font-black uppercase tracking-widest
-            px-5 py-3
-            flex items-center justify-center gap-2
-            transition-all hover:bg-yellow-500
-          "
-                        >
-                          <RefreshCw className="w-4 h-4" />
-                          Rotate_Access_Codes
-                        </button>
-                      </div>
-                    </form>
-                  </div>
+              <div className="bg-zinc-950 border border-zinc-900 p-5 md:p-8 space-y-6">
+                <div>
+                  <h4 className="text-sm font-bold font-mono text-zinc-400 uppercase tracking-wider">
+                    // IDENTITY_REGISTRY_FIELDS
+                  </h4>
+                  <p className="text-xs text-zinc-600 font-mono">
+                    Modify fundamental administration metadata protocols
+                  </p>
                 </div>
+
+                <form onSubmit={handleUpdateProfile} className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs">
+                  <div className="space-y-2">
+                    <label className="text-zinc-500 uppercase block text-[10px]">Master Full Name</label>
+                    <div className="relative">
+                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-700" />
+                      <input
+                        type="text"
+                        value={adminData.fullName}
+                        onChange={(e) => setAdminData({ ...adminData, fullName: e.target.value })}
+                        className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 pl-9 outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-zinc-500 uppercase block text-[10px]">Secure Routing Email</label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-700" />
+                      <input
+                        type="email"
+                        value={adminData.email}
+                        onChange={(e) => setAdminData({ ...adminData, email: e.target.value })}
+                        className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 pl-9 outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="sm:col-span-2 pt-2 flex justify-end">
+                    <button
+                      type="submit"
+                      className="w-full sm:w-auto bg-zinc-900 border border-zinc-800 hover:border-yellow-400 text-zinc-400 hover:text-white font-mono text-xs px-5 py-3 flex items-center justify-center gap-2 transition-all"
+                    >
+                      <Save className="w-4 h-4" />
+                      Save_Metadata
+                    </button>
+                  </div>
+                </form>
               </div>
+
+              {/* FORM 2: SECURITY */}
+              <div className="bg-zinc-950 border border-zinc-900 p-5 md:p-8 space-y-6">
+                <div>
+                  <h4 className="text-sm font-bold font-mono text-zinc-400 uppercase tracking-wider">
+                    // SECURITY_PASSCODE_ROTATION
+                  </h4>
+                  <p className="text-xs text-zinc-600 font-mono">
+                    Rotate cryptographic tokens to prevent unauthorized system penetration
+                  </p>
+                </div>
+
+                <form onSubmit={handleUpdatePassword} className="space-y-4 font-mono text-xs">
+                  <div className="space-y-2">
+                    <label className="text-zinc-500 uppercase block text-[10px]">Current Gateway Pin</label>
+                    <div className="relative">
+                      <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-700" />
+                      <input
+                        type="password"
+                        required
+                        value={passwordData.current}
+                        onChange={(e) => setPasswordData({ ...passwordData, current: e.target.value })}
+                        className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 pl-9 outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-zinc-500 uppercase block text-[10px]">New Access Sequence</label>
+                      <input
+                        type="password"
+                        required
+                        value={passwordData.new}
+                        onChange={(e) => setPasswordData({ ...passwordData, new: e.target.value })}
+                        className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 outline-none"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-zinc-500 uppercase block text-[10px]">Confirm New Sequence</label>
+                      <input
+                        type="password"
+                        required
+                        value={passwordData.confirm}
+                        onChange={(e) => setPasswordData({ ...passwordData, confirm: e.target.value })}
+                        className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="pt-2 flex justify-end">
+                    <button
+                      type="submit"
+                      className="w-full sm:w-auto bg-yellow-400 text-black font-black uppercase tracking-widest px-5 py-3 flex items-center justify-center gap-2 transition-all hover:bg-yellow-500"
+                    >
+                      <RefreshCw className="w-4 h-4" />
+                      Rotate_Access_Codes
+                    </button>
+                  </div>
+                </form>
+              </div>
+
             </div>
           </div>
         </div>
-      </main >
-    </div >
+      </main>
+    </div>
   );
 }

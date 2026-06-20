@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/dashboard/Sidebar';
 import { Plus, Trash2, Edit2, Save, X, DollarSign, Tag, Layers, Menu } from 'lucide-react';
+
 export default function ManagePlans({ setView }) {
   const [plans, setPlans] = useState([]);
   const [editingId, setEditingId] = useState(null);
@@ -124,6 +125,7 @@ export default function ManagePlans({ setView }) {
       alert('Failed to delete plan.');
     }
   };
+
   return (
     <div className="min-h-screen bg-black text-white font-sans antialiased selection:bg-yellow-400 selection:text-black flex">
 
@@ -133,7 +135,8 @@ export default function ManagePlans({ setView }) {
         setSidebarOpen={setSidebarOpen}
       />
 
-      <main className="flex-1 w-full overflow-y-auto overflow-x-hidden">
+      {/* MAIN CONTENT (Inayos ang scrolling footprint at idinagdag ang responsive left padding) */}
+      <main className="flex-1 w-full md:pl-72 min-h-screen">
 
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 py-6 md:py-8 space-y-8">
 
@@ -149,16 +152,16 @@ export default function ManagePlans({ setView }) {
                 <button
                   onClick={() => setSidebarOpen(true)}
                   className="
-            md:hidden
-            border
-            border-zinc-800
-            bg-zinc-950
-            p-2.5
-            text-zinc-400
-            hover:text-white
-            transition-all
-            flex-shrink-0
-          "
+                    md:hidden
+                    border
+                    border-zinc-800
+                    bg-zinc-950
+                    p-2.5
+                    text-zinc-400
+                    hover:text-white
+                    transition-all
+                    flex-shrink-0
+                  "
                 >
                   <Menu className="w-5 h-5" />
                 </button>
@@ -166,19 +169,19 @@ export default function ManagePlans({ setView }) {
                 <div className="min-w-0">
 
                   <span className="text-[10px] sm:text-xs font-mono tracking-widest text-zinc-500 block uppercase">
-            // VALUE_MATRIX_CONFIGURATION
+                    // VALUE_MATRIX_CONFIGURATION
                   </span>
 
                   <h2
                     className="
-              text-2xl
-              sm:text-3xl
-              lg:text-4xl
-              font-black
-              uppercase
-              tracking-tight
-              break-words
-            "
+                      text-2xl
+                      sm:text-3xl
+                      lg:text-4xl
+                      font-black
+                      uppercase
+                      tracking-tight
+                      break-words
+                    "
                   >
                     MANAGE_GYM_RATES
                   </h2>
@@ -191,26 +194,26 @@ export default function ManagePlans({ setView }) {
               <button
                 onClick={() => setIsAdding(!isAdding)}
                 className="
-          bg-yellow-400
-          text-black
-          font-mono
-          text-[10px]
-          sm:text-xs
-          font-black
-          uppercase
-          tracking-widest
-          px-3
-          sm:px-5
-          py-3
-          flex
-          items-center
-          justify-center
-          gap-2
-          hover:bg-yellow-500
-          transition-all
-          self-start
-          sm:self-center
-        "
+                  bg-yellow-400
+                  text-black
+                  font-mono
+                  text-[10px]
+                  sm:text-xs
+                  font-black
+                  uppercase
+                  tracking-widest
+                  px-3
+                  sm:px-5
+                  py-3
+                  flex
+                  items-center
+                  justify-center
+                  gap-2
+                  hover:bg-yellow-500
+                  transition-all
+                  self-start
+                  sm:self-center
+                "
               >
                 {isAdding ? (
                   <X className="w-4 h-4" />
@@ -232,7 +235,7 @@ export default function ManagePlans({ setView }) {
 
               <div className="font-mono">
                 <h4 className="text-sm font-bold text-yellow-400 uppercase tracking-wider">
-                // INITIALIZE_NEW_PROMO_NODE
+                  // INITIALIZE_NEW_PROMO_NODE
                 </h4>
 
                 <p className="text-xs text-zinc-600">
@@ -368,10 +371,11 @@ export default function ManagePlans({ setView }) {
 
                         <td className="p-4">
                           <span
-                            className={`font-mono text-[10px] uppercase font-bold ${plan.category === 'membership'
+                            className={`font-mono text-[10px] uppercase font-bold ${
+                              plan.category === 'membership'
                                 ? 'text-yellow-400'
                                 : 'text-cyan-400'
-                              }`}
+                            }`}
                           >
                             {plan.category}
                           </span>
