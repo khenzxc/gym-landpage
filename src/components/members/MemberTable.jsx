@@ -97,9 +97,8 @@ export default function MemberTable({
 
                       {/* Payment State */}
                       <td className="p-4">
-                        <span className={`font-mono text-[10px] uppercase font-bold ${member.payment === 'Paid' ? 'text-emerald-500' : 'text-amber-500'
-                          }`}>
-                        // {member.payment}
+                        <span className={`font-mono text-[10px] uppercase font-bold ${member.payment === 'Paid' ? 'text-emerald-500' : 'text-amber-500'}`}>
+                          {member.payment || 'Pending'}
                         </span>
                       </td>
 

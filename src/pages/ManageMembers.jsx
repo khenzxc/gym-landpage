@@ -27,7 +27,6 @@ export default function ManageMembers({ setView }) {
   const fetchMembers = async () => {
     try {
       setLoading(true);
-
       const response = await fetch(`${API_URL}/members`);
 
       if (!response.ok) {
@@ -39,10 +38,7 @@ export default function ManageMembers({ setView }) {
 
     } catch (error) {
       console.error('DATABASE_FETCH_ERROR:', error);
-
-      alert(
-        'CRITICAL_ERROR: Cannot pool live data from DANBHELS node core.'
-      );
+      alert('CRITICAL_ERROR: Cannot pool live data from DANBHELS node core.');
     } finally {
       setLoading(false);
     }
@@ -61,7 +57,7 @@ export default function ManageMembers({ setView }) {
   };
 
   // ==========================================
-  // CONFIRM RENEWAL
+  // CONFIRM RENEWAL (LIVE STATE MUTATION ENGINE)
   // ==========================================
   const handleConfirmRenewal = async (renewalData) => {
     const { id, plan_id, paymentStatus } = renewalData;
@@ -77,7 +73,7 @@ export default function ManageMembers({ setView }) {
           body: JSON.stringify({
             member_id: id,
             plan_id,
-            payment_status: paymentStatus,
+            payment_status: paymentStatus || 'Paid',
           }),
         }
       );
@@ -88,27 +84,35 @@ export default function ManageMembers({ setView }) {
 
       const result = await response.json();
 
-      alert(
-        `SUCCESS: Member extended until ${result.newExpiryDate}`
+      // --- [LIVE STATE MUTATION PIPELINE] ---
+      // Imbes na maghintay sa panibagong fetch request, direkta nating babaguhin ang array sa local state.
+      setMembers((prevMembers) =>
+        prevMembers.map((member) => {
+          if (member.id === id) {
+            return {
+              ...member,
+              expiryDate: result.newExpiryDate, // Data mula sa server response
+              status: 'Active',                // Dahil kaka-renew lang, laging Active ito
+              payment: paymentStatus || 'Paid',// Ina-update ang visual state ng payment pill
+              plan: result.plan || member.plan // Kung nagpalit ng plano, sasabay din ang display
+            };
+          }
+          return member;
+        })
       );
 
-      fetchMembers();
+      alert(`SUCCESS: Member extended until ${result.newExpiryDate}`);
 
     } catch (error) {
-      console.error(error);
-
-      alert(
-        'Renewal failed. Check if plan_id is valid.'
-      );
+      console.error('RENEWAL_MUTATION_CRASH:', error);
+      alert('Renewal failed. Check if plan_id is valid.');
     } finally {
       setIsRenewOpen(false);
     }
   };
 
   return (
-    // Inalis ang overflow-hidden para sumunod ang scrolling flow sa body
     <div className="min-h-screen bg-black text-white flex">
-
       {/* SIDEBAR */}
       <Sidebar
         setView={setView}
@@ -116,66 +120,36 @@ export default function ManageMembers({ setView }) {
         setSidebarOpen={setSidebarOpen}
       />
 
-      {/* MAIN CONTENT (Idinagdag ang md:pl-72 at ginawang min-h-screen) */}
+      {/* MAIN CONTENT */}
       <main className="flex-1 w-full md:pl-72 min-h-screen">
-
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 py-6 md:py-8 space-y-8">
-
+          
           {/* PAGE HEADER */}
           <div className="border-b border-zinc-900 pb-6">
-
             <div className="flex items-start gap-3">
-
               {/* MOBILE HAMBURGER */}
               <button
                 onClick={() => setSidebarOpen(true)}
-                className="
-                  md:hidden
-                  border
-                  border-zinc-800
-                  bg-zinc-950
-                  p-2.5
-                  text-zinc-400
-                  hover:text-white
-                  transition-all
-                  flex-shrink-0
-                "
+                className="md:hidden border border-zinc-800 bg-zinc-950 p-2.5 text-zinc-400 hover:text-white transition-all flex-shrink-0"
               >
                 <Menu className="w-5 h-5" />
               </button>
 
               <div className="min-w-0">
-
                 <span className="text-[10px] sm:text-xs font-mono tracking-widest text-zinc-500 block uppercase">
                   // REGISTRY_ACQUISITION_LAYER
                 </span>
-
-                <h2
-                  className="
-                    text-2xl
-                    sm:text-3xl
-                    lg:text-4xl
-                    font-black
-                    uppercase
-                    tracking-tight
-                    break-words
-                  "
-                >
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight break-words">
                   MANAGE_GYM_MEMBERS
                 </h2>
-
               </div>
-
             </div>
-
           </div>
 
-          {/* CONTENT */}
+          {/* CONTENT SYSTEM */}
           {loading ? (
             <div className="p-12 md:p-16 border border-zinc-900 bg-zinc-950 text-center text-zinc-600 font-mono text-xs animate-pulse">
-
               // TUNNELING_SECURE_CONNECTION_TO_DANBHELS_DATA_MATRIX...
-
             </div>
           ) : (
             <MemberTable
@@ -189,7 +163,6 @@ export default function ManageMembers({ setView }) {
           )}
 
         </div>
-
       </main>
 
       {/* RENEW MODAL */}
@@ -199,7 +172,6 @@ export default function ManageMembers({ setView }) {
         member={selectedMember}
         onConfirmRenew={handleConfirmRenewal}
       />
-
     </div>
   );
 }
