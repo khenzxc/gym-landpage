@@ -178,7 +178,7 @@ export default function ManageCoaches({ setView }) {
                 </span>
 
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight">
-                  MANAGE_COACH_ROSTER
+                  MANAGE COACH ROSTER
                 </h2>
               </div>
 

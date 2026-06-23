@@ -183,7 +183,7 @@ export default function ManagePlans({ setView }) {
                       break-words
                     "
                   >
-                    MANAGE_GYM_RATES
+                    MANAGE GYM RATES
                   </h2>
 
                 </div>

@@ -60,7 +60,14 @@ export default function ManageMembers({ setView }) {
   // CONFIRM RENEWAL (LIVE STATE MUTATION ENGINE)
   // ==========================================
   const handleConfirmRenewal = async (renewalData) => {
-    const { id, plan_id, paymentStatus } = renewalData;
+    const memberId = renewalData.id || renewalData.member_id;
+    const planId = renewalData.plan_id;
+    const currentPaymentStatus = renewalData.paymentStatus || renewalData.payment_status || 'Paid';
+
+    if (!memberId || !planId) {
+      alert('ERROR: Missing Member ID or Plan Selection.');
+      return;
+    }
 
     try {
       const response = await fetch(
@@ -71,43 +78,45 @@ export default function ManageMembers({ setView }) {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            member_id: id,
-            plan_id,
-            payment_status: paymentStatus || 'Paid',
+            member_id: memberId,
+            plan_id: planId,
+            payment_status: currentPaymentStatus,
           }),
         }
       );
 
       if (!response.ok) {
-        throw new Error('Renew failed');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Renew failed');
       }
 
       const result = await response.json();
 
       // --- [LIVE STATE MUTATION PIPELINE] ---
-      // Imbes na maghintay sa panibagong fetch request, direkta nating babaguhin ang array sa local state.
       setMembers((prevMembers) =>
         prevMembers.map((member) => {
-          if (member.id === id) {
+          if (member.id === memberId) {
             return {
               ...member,
-              expiryDate: result.newExpiryDate, // Data mula sa server response
-              status: 'Active',                // Dahil kaka-renew lang, laging Active ito
-              payment: paymentStatus || 'Paid',// Ina-update ang visual state ng payment pill
-              plan: result.plan || member.plan // Kung nagpalit ng plano, sasabay din ang display
+              expiryDate: result.newExpiryDate,
+              status: 'Active',
+              payment: currentPaymentStatus,
+              plan: result.plan || member.plan
             };
           }
           return member;
         })
       );
 
-      alert(`SUCCESS: Member extended until ${result.newExpiryDate}`);
+      // FIX: Tinanggal na natin ang native browser alert(...) dito!
+      // Ang bagong success UI card ay makikita na sa loob mismo ng modal mo.
 
     } catch (error) {
       console.error('RENEWAL_MUTATION_CRASH:', error);
-      alert('Renewal failed. Check if plan_id is valid.');
+      alert(`Renewal failed: ${error.message}`);
     } finally {
-      setIsRenewOpen(false);
+      // TANDAAN: Huwag mong gagawing false agad ito rito kung gusto mong makita ang success screen ng modal.
+      // Ang pagsasara ng modal ay pinapatakbo na ng setTimeout (2.5s) sa loob mismo ng handleSubmit ng RenewMemberModal.
     }
   };
 
@@ -123,7 +132,7 @@ export default function ManageMembers({ setView }) {
       {/* MAIN CONTENT */}
       <main className="flex-1 w-full md:pl-72 min-h-screen">
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 py-6 md:py-8 space-y-8">
-          
+
           {/* PAGE HEADER */}
           <div className="border-b border-zinc-900 pb-6">
             <div className="flex items-start gap-3">
@@ -140,7 +149,7 @@ export default function ManageMembers({ setView }) {
                   // REGISTRY_ACQUISITION_LAYER
                 </span>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight break-words">
-                  MANAGE_GYM_MEMBERS
+                  MANAGE GYM MEMBERS
                 </h2>
               </div>
             </div>

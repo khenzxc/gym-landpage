@@ -73,7 +73,7 @@ export default function Reports({ setView }) {
                     // SYSTEM_SALES_ANALYTICS
                   </span>
                   <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight break-words">
-                    SALES_PERFORMANCE_REPORT
+                    SALES PERFORMANCE REPORT
                   </h2>
                 </div>
               </div>

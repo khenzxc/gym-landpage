@@ -16,7 +16,6 @@ export default function AdminDashboard({ setView }) {
   const [loading, setLoading] = useState(true);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-  // MOBILE SIDEBAR
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const BASE_API_URL =
@@ -54,41 +53,36 @@ export default function AdminDashboard({ setView }) {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create member');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create member');
       }
 
       await response.json();
+      
+      // Awtomatikong pinapataas ang stats card metrics live at real-time
       setRefreshTrigger(prev => prev + 1);
-      alert('SYSTEM_LOG: New athlete profile deployed to core matrix.');
+
     } catch (error) {
-      console.error(error);
-      alert('CRITICAL_ERROR: Registration pipeline failed.');
-    } finally {
-      setIsModalOpen(false);
+      console.error('REGISTRATION_PIPELINE_CRASH:', error);
+      alert(`CRITICAL_ERROR: ${error.message}`);
+      throw error; // I-throw pabalik para malaman ng modal na huwag magpapakita ng success screen kapag palpak ang backend node
     }
   };
 
   return (
-    // Inalis ang overflow-hidden dito para makapag-scroll nang maayos ang buong page
     <div className="min-h-screen bg-black text-white flex">
-      
-      {/* SIDEBAR */}
       <Sidebar
         setView={setView}
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
       />
 
-      {/* MAIN CONTENT (Idinagdag ang md:pl-72 para urong ang content sa desktop) */}
       <main className="flex-1 w-full md:pl-72 min-h-screen">
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 py-6 md:py-8 space-y-6">
 
           {/* HEADER */}
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-zinc-900 pb-6">
-
-            {/* LEFT SIDE */}
             <div className="flex items-center gap-3">
-              {/* MOBILE HAMBURGER */}
               <button
                 onClick={() => setSidebarOpen(true)}
                 className="md:hidden border border-zinc-800 bg-zinc-950 p-2 text-zinc-400 hover:text-white transition-all"
@@ -101,12 +95,11 @@ export default function AdminDashboard({ setView }) {
                   // SECURE_SESSION_ACTIVE
                 </span>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight">
-                  HQ ADMIN DASHBOARD
+                  ADMIN DASHBOARD
                 </h2>
               </div>
             </div>
 
-            {/* RIGHT SIDE */}
             <div className="flex items-center gap-2 sm:gap-3 self-start sm:self-center relative">
               <button
                 onClick={() => setIsNotifOpen(!isNotifOpen)}
@@ -121,9 +114,7 @@ export default function AdminDashboard({ setView }) {
                 className="bg-yellow-400 text-black font-mono text-[10px] sm:text-xs font-black uppercase tracking-widest px-3 sm:px-5 py-3 flex items-center gap-2 hover:bg-yellow-500 transition-all"
               >
                 <Plus className="w-4 h-4" />
-                <span className="hidden sm:inline">
-                  Add Member
-                </span>
+                <span className="hidden sm:inline">Add Member</span>
               </button>
             </div>
           </div>
@@ -153,7 +144,6 @@ export default function AdminDashboard({ setView }) {
         </div>
       </main>
 
-      {/* ADD MEMBER MODAL */}
       <AddMemberModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

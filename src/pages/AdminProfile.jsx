@@ -59,7 +59,7 @@ export default function AdminProfile({ setView }) {
                   // SECURE_CORE_PROFILE
                 </span>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight break-words">
-                  ADMIN_PROFILES_IDENTITY
+                  ADMIN PROFILES IDENTITY
                 </h2>
               </div>
             </div>
