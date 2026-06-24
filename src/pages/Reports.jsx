@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/dashboard/Sidebar';
 import ReportStats from '../components/reports/ReportStats';
 import InvoiceLog from '../components/reports/InvoiceLog';
+import SalesWaveChart from '../components/reports/SalesWaveChart'; 
 import { Menu } from 'lucide-react';
 
 export default function Reports({ setView }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   
-  // 1. Initial state na naka-match sa JSON structure ng backend
   const [metrics, setMetrics] = useState({
     gross_revenue: 0,
     live_active_nodes: 0,
@@ -16,31 +16,39 @@ export default function Reports({ setView }) {
   });
   const [loading, setLoading] = useState(true);
 
-  // FIXED: Dynamic environment routing logic pipeline
   const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
   const API_URL = `${BASE_URL}/reports/sales`;
 
-  // 2. Fetch data mula sa bagong sales endpoint
   useEffect(() => {
+    let isMounted = true;
     const fetchSalesData = async () => {
       try {
         setLoading(true);
-
-        // FIXED: Ginamit na ang dynamic variable imbes na hardcoded localhost link
         const res = await fetch(API_URL);
         if (!res.ok) throw new Error('Failed to fetch sales data');
         const data = await res.json();
-        setMetrics(data);
+        
+        if (isMounted) {
+          setMetrics({
+            gross_revenue: data.gross_revenue || 0,
+            live_active_nodes: data.live_active_nodes || 0,
+            expired_system_locks: data.expired_system_locks || 0,
+            ledger: data.ledger || []
+          });
+        }
       } catch (err) {
         console.error("REPORT_FETCH_ERROR:", err);
-        // Default values kung may error para maiwasan ang white screen
-        setMetrics({ gross_revenue: 0, live_active_nodes: 0, expired_system_locks: 0, ledger: [] });
+        if (isMounted) {
+          setMetrics({ gross_revenue: 0, live_active_nodes: 0, expired_system_locks: 0, ledger: [] });
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
+    
     fetchSalesData();
-  }, [API_URL]); // Inilagay ang API_URL sa dependency layer para sa React best practices
+    return () => { isMounted = false; };
+  }, [API_URL]);
 
   return (
     <div className="min-h-screen bg-black text-white font-sans antialiased flex">
@@ -50,17 +58,13 @@ export default function Reports({ setView }) {
         setSidebarOpen={setSidebarOpen}
       />
 
-      {/* MAIN CONTENT AREA: Added md:pl-72 para pantay sa Sidebar */}
       <main className="flex-1 w-full md:pl-72 min-h-screen">
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 py-6 md:py-8 space-y-8">
           
           {/* HEADER SECTION */}
           <div className="border-b border-zinc-900 pb-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-
-              {/* LEFT */}
               <div className="flex items-start gap-3">
-                {/* MOBILE HAMBURGER */}
                 <button
                   onClick={() => setSidebarOpen(true)}
                   className="md:hidden border border-zinc-800 bg-zinc-950 p-2.5 text-zinc-400 hover:text-white transition-all flex-shrink-0"
@@ -78,14 +82,12 @@ export default function Reports({ setView }) {
                 </div>
               </div>
 
-              {/* RIGHT */}
               <button
                 onClick={() => window.print()}
                 className="bg-zinc-900 border border-zinc-800 hover:border-yellow-400 text-zinc-400 hover:text-white font-mono text-[10px] sm:text-xs px-4 sm:px-5 py-3 transition-all self-start sm:self-center"
               >
                 EXECUTE_PRINT_PROTOCOL //
               </button>
-
             </div>
           </div>
 
@@ -96,15 +98,20 @@ export default function Reports({ setView }) {
             </div>
           ) : (
             <>
-              {/* Ipasa ang actual values mula sa backend */}
+              {/* Stats Grid */}
               <ReportStats
                 revenue={metrics.gross_revenue}
                 active={metrics.live_active_nodes}
                 expired={metrics.expired_system_locks}
               />
 
-              {/* Ipasa ang ledger data */}
-              <InvoiceLog members={metrics.ledger || []} />
+              {/* Sales Wave Chart Container */}
+              <div className="w-full">
+                <SalesWaveChart ledger={metrics.ledger} />
+              </div>
+
+              {/* Invoice/Ledger Log Table */}
+              <InvoiceLog members={metrics.ledger} />
             </>
           )}
         </div>
