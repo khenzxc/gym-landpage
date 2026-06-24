@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Home from './pages/Home';
 import Login from './pages/Log-in';
 import AdminDashboard from './pages/AdminDashboard';
@@ -9,7 +9,15 @@ import ManageMembers from './pages/ManageMembers';
 import Reports from './pages/Reports';
 
 function App() {
-  const [view, setView] = useState('home');
+  // 1. Kukunin natin ang dating view mula sa localStorage kung mayroon, kung wala, 'home' ang default.
+  const [view, setView] = useState(() => {
+    return localStorage.getItem('current_view') || 'home';
+  });
+
+  // 2. Babantayan natin tuwing nagbabago ang view para i-update ang localStorage.
+  useEffect(() => {
+    localStorage.setItem('current_view', view);
+  }, [view]);
 
   if (view === 'login')
     return <Login setView={setView} />;

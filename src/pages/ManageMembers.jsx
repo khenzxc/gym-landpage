@@ -108,15 +108,9 @@ export default function ManageMembers({ setView }) {
         })
       );
 
-      // FIX: Tinanggal na natin ang native browser alert(...) dito!
-      // Ang bagong success UI card ay makikita na sa loob mismo ng modal mo.
-
     } catch (error) {
       console.error('RENEWAL_MUTATION_CRASH:', error);
       alert(`Renewal failed: ${error.message}`);
-    } finally {
-      // TANDAAN: Huwag mong gagawing false agad ito rito kung gusto mong makita ang success screen ng modal.
-      // Ang pagsasara ng modal ay pinapatakbo na ng setTimeout (2.5s) sa loob mismo ng handleSubmit ng RenewMemberModal.
     }
   };
 
@@ -131,10 +125,11 @@ export default function ManageMembers({ setView }) {
 
       {/* MAIN CONTENT */}
       <main className="flex-1 w-full md:pl-72 min-h-screen">
-        <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 py-6 md:py-8 space-y-8">
+        {/* Inalis ang top padding (py-6/py-8 ginawang pb-6 md:pb-8) para walang gap sa taas ng sticky header */}
+        <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 pb-6 md:pb-8 space-y-8">
 
-          {/* PAGE HEADER */}
-          <div className="border-b border-zinc-900 pb-6">
+          {/* FIXED/STICKY PAGE HEADER */}
+          <div className="sticky top-0 z-40 bg-black/90 backdrop-blur-md pt-6 pb-6 border-b border-zinc-900">
             <div className="flex items-start gap-3">
               {/* MOBILE HAMBURGER */}
               <button
@@ -156,20 +151,22 @@ export default function ManageMembers({ setView }) {
           </div>
 
           {/* CONTENT SYSTEM */}
-          {loading ? (
-            <div className="p-12 md:p-16 border border-zinc-900 bg-zinc-950 text-center text-zinc-600 font-mono text-xs animate-pulse">
-              // TUNNELING_SECURE_CONNECTION_TO_DANBHELS_DATA_MATRIX...
-            </div>
-          ) : (
-            <MemberTable
-              members={members}
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              sortBy={sortBy}
-              setSortBy={setSortBy}
-              onRenew={handleRenewClick}
-            />
-          )}
+          <div className="w-full pt-2">
+            {loading ? (
+              <div className="p-12 md:p-16 border border-zinc-900 bg-zinc-950 text-center text-zinc-600 font-mono text-xs animate-pulse">
+                // TUNNELING_SECURE_CONNECTION_TO_DANBHELS_DATA_MATRIX...
+              </div>
+            ) : (
+              <MemberTable
+                members={members}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                onRenew={handleRenewClick}
+              />
+            )}
+          </div>
 
         </div>
       </main>

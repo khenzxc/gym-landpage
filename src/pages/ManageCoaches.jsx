@@ -136,7 +136,6 @@ export default function ManageCoaches({ setView }) {
   };
 
   return (
-    // Inalis ang overflow-hidden para sumunod ang scroll sa screen body
     <div className="min-h-screen bg-black text-white flex">
 
       <Sidebar
@@ -145,13 +144,14 @@ export default function ManageCoaches({ setView }) {
         setSidebarOpen={setSidebarOpen}
       />
 
-      {/* MAIN CONTENT (Idinagdag ang md:pl-72 at ginawang min-h-screen) */}
+      {/* MAIN CONTENT */}
       <main className="flex-1 w-full md:pl-72 min-h-screen">
 
-        <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 py-6 md:py-8 space-y-8">
+        {/* Inalis ang top padding (py-6/py-8 ginawang pb-6 md:pb-8) para lapat ang sticky header sa taas */}
+        <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 pb-6 md:pb-8 space-y-8">
 
-          {/* HEADER */}
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 border-b border-zinc-900 pb-6">
+          {/* FIXED/STICKY HEADER sa Mobile at Desktop */}
+          <div className="sticky top-0 z-40 bg-black/90 backdrop-blur-md pt-6 pb-6 border-b border-zinc-900 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 
             <div className="flex items-start gap-3">
 

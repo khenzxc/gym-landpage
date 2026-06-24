@@ -135,14 +135,14 @@ export default function ManagePlans({ setView }) {
         setSidebarOpen={setSidebarOpen}
       />
 
-      {/* MAIN CONTENT (Inayos ang scrolling footprint at idinagdag ang responsive left padding) */}
+      {/* MAIN CONTENT */}
       <main className="flex-1 w-full md:pl-72 min-h-screen">
 
-        <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 py-6 md:py-8 space-y-8">
+        {/* Inalis ang top padding (py-6/py-8 ginawang pb-6 md:pb-8) para lapat ang sticky header sa taas */}
+        <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 pb-6 md:pb-8 space-y-8">
 
-          {/* PAGE HEADER */}
-          <div className="border-b border-zinc-900 pb-6">
-
+          {/* FIXED/STICKY PAGE HEADER sa Mobile at Desktop */}
+          <div className="sticky top-0 z-40 bg-black/90 backdrop-blur-md pt-6 pb-6 border-b border-zinc-900">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
               {/* LEFT */}
@@ -167,25 +167,13 @@ export default function ManagePlans({ setView }) {
                 </button>
 
                 <div className="min-w-0">
-
                   <span className="text-[10px] sm:text-xs font-mono tracking-widest text-zinc-500 block uppercase">
                     // VALUE_MATRIX_CONFIGURATION
                   </span>
 
-                  <h2
-                    className="
-                      text-2xl
-                      sm:text-3xl
-                      lg:text-4xl
-                      font-black
-                      uppercase
-                      tracking-tight
-                      break-words
-                    "
-                  >
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight break-words">
                     MANAGE GYM RATES
                   </h2>
-
                 </div>
 
               </div>
@@ -227,9 +215,9 @@ export default function ManagePlans({ setView }) {
               </button>
 
             </div>
-
           </div>
 
+          {/* ADD FORM */}
           {isAdding && (
             <div className="bg-zinc-950 border border-yellow-400/30 p-5 md:p-8 space-y-4">
 
@@ -339,6 +327,7 @@ export default function ManagePlans({ setView }) {
             </div>
           )}
 
+          {/* TABLE SYSTEM */}
           <div className="border border-zinc-900 overflow-hidden">
             <div className="overflow-x-auto overflow-y-auto max-h-[480px] custom-scrollbar">
 

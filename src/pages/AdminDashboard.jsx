@@ -78,10 +78,11 @@ export default function AdminDashboard({ setView }) {
       />
 
       <main className="flex-1 w-full md:pl-72 min-h-screen">
-        <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 py-6 md:py-8 space-y-6">
+        {/* Binago ang padding dito (inalis ang py-6/py-8) para hindi magka-gap ang sticky header sa pinakataas */}
+        <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 pb-6 md:pb-8 space-y-6">
 
-          {/* HEADER */}
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-zinc-900 pb-6">
+          {/* FIXED/STICKY HEADER sa Mobile at Desktop */}
+          <div className="sticky top-0 z-40 bg-black/90 backdrop-blur-md pt-6 pb-6 border-b border-zinc-900 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setSidebarOpen(true)}
@@ -120,7 +121,7 @@ export default function AdminDashboard({ setView }) {
           </div>
 
           {/* STATS */}
-          <div className="w-full">
+          <div className="w-full pt-2">
             <StatsGrid refreshTrigger={refreshTrigger} />
           </div>
 
