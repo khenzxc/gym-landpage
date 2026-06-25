@@ -11,7 +11,6 @@ export default function StatsGrid({ refreshTrigger }) {
   });
   const [loading, setLoading] = useState(true);
 
-  // FIXED: Dynamic environment variable para sa API routing endpoint
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
   useEffect(() => {
@@ -19,9 +18,7 @@ export default function StatsGrid({ refreshTrigger }) {
       try {
         setLoading(true);
         
-        // FIXED: Ginamit na ang dynamic variable imbes na hardcoded localhost string
         const response = await fetch(`${API_URL}/reports/metrics`);
-        
         if (!response.ok) throw new Error('Analytical endpoint sync failure');
         const data = await response.json();
         
@@ -33,7 +30,7 @@ export default function StatsGrid({ refreshTrigger }) {
 
         setMetrics({
           total_members: total,
-          gross_revenue: data.gross_revenue || 0,
+          gross_revenue: data.gross_revenue || 0, // Ito ay monthly na galing sa iyong updated SQL query!
           live_active_nodes: active,
           retention_rate: rate
         });
@@ -45,7 +42,7 @@ export default function StatsGrid({ refreshTrigger }) {
     };
 
     fetchMetrics();
-  }, [refreshTrigger, API_URL]); // Idinagdag ang API_URL sa dependency array para sa React standards
+  }, [refreshTrigger, API_URL]);
 
   const stats = [
     { 
@@ -58,7 +55,8 @@ export default function StatsGrid({ refreshTrigger }) {
     { 
       title: "MONTHLY_REVENUE", 
       value: loading ? "..." : `₱${Number(metrics.gross_revenue).toLocaleString(undefined, { minimumFractionDigits: 0 })}`, 
-      change: "Kasalukuyang kabuuang kita", 
+      // FIXED: Mas tumpak na deskripsyon para sa monthly layout
+      change: "Kita ngayong buwan", 
       icon: DollarSign, 
       color: "text-emerald-400" 
     },

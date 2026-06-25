@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Sidebar from '../components/dashboard/Sidebar';
 import StatsGrid from '../components/dashboard/StatsGrid';
 import MemberTable from '../components/dashboard/MemberTable';
@@ -22,7 +22,8 @@ export default function AdminDashboard({ setView }) {
     import.meta.env.VITE_API_URL ||
     'https://danbhels-gym-backend.onrender.com/api';
 
-  const fetchMembers = async () => {
+  // Na-optimize na data hook gamit ang useCallback upang maiwasan ang loop rendering
+  const fetchMembers = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch(`${BASE_API_URL}/members`);
@@ -36,12 +37,13 @@ export default function AdminDashboard({ setView }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [BASE_API_URL]);
 
   useEffect(() => {
     fetchMembers();
-  }, [refreshTrigger]);
+  }, [refreshTrigger, fetchMembers]);
 
+  // Handler para sa pagdaragdag ng bagong miyembro
   const handleAddMember = async (newMember) => {
     try {
       const response = await fetch(`${BASE_API_URL}/members`, {
@@ -59,14 +61,19 @@ export default function AdminDashboard({ setView }) {
 
       await response.json();
       
-      // Awtomatikong pinapataas ang stats card metrics live at real-time
+      // Puwersahing mag-update ang state pipeline pagkatapos ng database insertion
       setRefreshTrigger(prev => prev + 1);
 
     } catch (error) {
       console.error('REGISTRATION_PIPELINE_CRASH:', error);
       alert(`CRITICAL_ERROR: ${error.message}`);
-      throw error; // I-throw pabalik para malaman ng modal na huwag magpapakita ng success screen kapag palpak ang backend node
+      throw error; 
     }
+  };
+
+  // FIXED BRIDGE: Ito ang makikinig kapag nag-trigger ng "Renew" submission ang MemberTable
+  const handleRenewSuccess = () => {
+    setRefreshTrigger(prev => prev + 1);
   };
 
   return (
@@ -78,7 +85,6 @@ export default function AdminDashboard({ setView }) {
       />
 
       <main className="flex-1 w-full md:pl-72 min-h-screen">
-        {/* Binago ang padding dito (inalis ang py-6/py-8) para hindi magka-gap ang sticky header sa pinakataas */}
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 pb-6 md:pb-8 space-y-6">
 
           {/* FIXED/STICKY HEADER sa Mobile at Desktop */}
@@ -122,7 +128,7 @@ export default function AdminDashboard({ setView }) {
 
           {/* STATS */}
           <div className="w-full pt-2">
-            <StatsGrid refreshTrigger={refreshTrigger} />
+            <StatsGrid refreshTrigger={refreshTrigger} members={members} />
           </div>
 
           {/* MEMBER TABLE */}
@@ -138,6 +144,7 @@ export default function AdminDashboard({ setView }) {
                 setSearchTerm={setSearchTerm}
                 sortBy={sortBy}
                 setSortBy={setSortBy}
+                onRenewSuccess={handleRenewSuccess} // FIXED: Ipinasa ang interceptor event function pababa
               />
             )}
           </div>
