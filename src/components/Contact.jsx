@@ -46,7 +46,7 @@ export default function Contact() {
               </div>
 
               <a 
-                href="https://maps.google.com/?q=Danbhels+Fitness+Gym+Pedro+Reyes+Pulilan+Bulacan"
+                href="https://maps.google.com/?q=Liftmode+Fitness+Gym+Pedro+Reyes+Pulilan+Bulacan"
                 target="_blank"
                 rel="noreferrer"
                 className="bg-black border border-zinc-900 hover:border-yellow-400 p-5 rounded-none block cursor-pointer transition-colors group"
@@ -77,7 +77,7 @@ export default function Contact() {
                         alt="Facebook" 
                       />
                     </div>
-                    <span className="text-white font-black text-sm uppercase tracking-wider group-hover:text-yellow-400 transition-colors">Danbhels Gym</span>
+                    <span className="text-white font-black text-sm uppercase tracking-wider group-hover:text-yellow-400 transition-colors">Liftmode Gym</span>
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-white group-hover:translate-x-1 transition-all" />
                 </a>

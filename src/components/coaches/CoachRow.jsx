@@ -9,7 +9,8 @@ export default function CoachRow({
   onEditStart, 
   onEditCancel, 
   onSave, 
-  onDelete 
+  onDelete,
+  canEdit = false
 }) {
   return (
     <div className="flex flex-col md:flex-row md:items-center md:justify-between p-4 gap-4 bg-black/20 hover:bg-zinc-900/10 transition-colors">
@@ -86,7 +87,7 @@ export default function CoachRow({
               </span>
             </div>
 
-            <div className="flex items-center gap-2 ml-auto">
+            {canEdit && <div className="flex items-center gap-2 ml-auto">
               <button 
                 onClick={() => onEditStart(coach)}
                 className="p-2.5 border border-zinc-900 bg-zinc-950 text-zinc-500 hover:text-white hover:border-zinc-700 transition-colors"
@@ -99,7 +100,7 @@ export default function CoachRow({
               >
                 <Trash2 className="w-3.5 h-3.5" />
               </button>
-            </div>
+            </div>}
           </div>
         )}
       </div>

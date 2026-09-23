@@ -3,8 +3,13 @@ import Sidebar from '../components/dashboard/Sidebar';
 import AddCoachForm from '../components/coaches/AddCoachForm';
 import CoachRow from '../components/coaches/CoachRow';
 import { Plus, X, Menu } from 'lucide-react';
+import { apiFetch } from '../services/api';
 
 export default function ManageCoaches({ setView }) {
+  const currentUser = (() => {
+    try { return JSON.parse(localStorage.getItem('auth_user') || 'null'); } catch { return null; }
+  })();
+  const canEditCoaches = currentUser?.role === 'admin';
   const [coaches, setCoaches] = useState([]);
   const [isAdding, setIsAdding] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -25,18 +30,12 @@ export default function ManageCoaches({ setView }) {
     status: 'Active'
   });
 
-  const BASE_URL =
-    import.meta.env.VITE_API_URL ||
-    'http://localhost:5000/api';
-
-  const API_URL = `${BASE_URL}/coaches`;
-
   // FETCH ALL COACHES
   const fetchCoaches = async () => {
     try {
       setLoading(true);
 
-      const res = await fetch(API_URL);
+      const res = await apiFetch('/coaches');
       const data = await res.json();
 
       setCoaches(data);
@@ -62,7 +61,7 @@ export default function ManageCoaches({ setView }) {
     if (!newCoach.name) return;
 
     try {
-      const res = await fetch(API_URL, {
+      const res = await apiFetch('/coaches', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -71,6 +70,7 @@ export default function ManageCoaches({ setView }) {
       });
 
       const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Coach creation failed');
 
       alert(data.message);
 
@@ -91,7 +91,7 @@ export default function ManageCoaches({ setView }) {
   // SAVE EDIT
   const handleSaveEdit = async (id) => {
     try {
-      const res = await fetch(`${API_URL}/${id}`, {
+      const res = await apiFetch(`/coaches/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -100,6 +100,7 @@ export default function ManageCoaches({ setView }) {
       });
 
       const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Coach update failed');
 
       alert(data.message);
 
@@ -121,11 +122,12 @@ export default function ManageCoaches({ setView }) {
       return;
 
     try {
-      const res = await fetch(`${API_URL}/${id}`, {
+      const res = await apiFetch(`/coaches/${id}`, {
         method: 'DELETE'
       });
 
       const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Coach deletion failed');
 
       alert(data.message);
 
@@ -136,7 +138,7 @@ export default function ManageCoaches({ setView }) {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex">
+    <div className="admin-page min-h-screen bg-black text-white flex">
 
       <Sidebar
         setView={setView}
@@ -151,22 +153,14 @@ export default function ManageCoaches({ setView }) {
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 pb-6 md:pb-8 space-y-8">
 
           {/* FIXED/STICKY HEADER sa Mobile at Desktop */}
-          <div className="sticky top-0 z-40 bg-black/90 backdrop-blur-md pt-6 pb-6 border-b border-zinc-900 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div className="admin-page-header sticky top-0 z-40 bg-black/90 backdrop-blur-md pt-6 pb-6 border-b border-zinc-900 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 
             <div className="flex items-start gap-3">
 
               <button
                 onClick={() => setSidebarOpen(true)}
                 className="
-                  md:hidden
-                  border
-                  border-zinc-800
-                  bg-zinc-950
-                  p-2.5
-                  text-zinc-400
-                  hover:text-white
-                  transition-all
-                  flex-shrink-0
+                  admin-menu-button md:hidden flex-shrink-0
                 "
               >
                 <Menu className="w-5 h-5" />
@@ -174,7 +168,7 @@ export default function ManageCoaches({ setView }) {
 
               <div>
                 <span className="text-[10px] sm:text-xs font-mono tracking-widest text-zinc-500 block uppercase">
-                  // HUMAN_RESOURCES_PROTOCOL
+                  Coaches
                 </span>
 
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight">
@@ -184,7 +178,7 @@ export default function ManageCoaches({ setView }) {
 
             </div>
 
-            <button
+            {canEditCoaches && <button
               onClick={() => setIsAdding(!isAdding)}
               className="
                 bg-yellow-400
@@ -215,7 +209,7 @@ export default function ManageCoaches({ setView }) {
               {isAdding
                 ? 'Cancel_Provision'
                 : 'Onboard_Coach'}
-            </button>
+            </button>}
 
           </div>
 
@@ -273,6 +267,7 @@ export default function ManageCoaches({ setView }) {
                         }
                         onSave={handleSaveEdit}
                         onDelete={handleDeleteCoach}
+                        canEdit={canEditCoaches}
                       />
                     ))}
 

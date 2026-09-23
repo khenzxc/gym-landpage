@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, User, Check, CheckCircle2 } from 'lucide-react';
+import { API_URL } from '../../services/api';
 
 export default function AddMemberModal({
   isOpen,
@@ -19,29 +20,12 @@ export default function AddMemberModal({
     payment: 'Paid'
   });
 
-  const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-
   useEffect(() => {
-    fetch(`${BASE_URL}/plans`)
+    fetch(`${API_URL}/plans`)
       .then(res => res.json())
       .then(data => setPlans(data))
       .catch(err => console.error('PLAN_FETCH_FAILED:', err));
-  }, [BASE_URL]);
-
-  // I-reset ang internal view variables tuwing magbabago ang modal toggle
-  useEffect(() => {
-    if (isOpen) {
-      setFormData({
-        name: '',
-        membershipPlan: 'None',
-        coachingPlan: 'None',
-        status: 'Active',
-        payment: 'Paid'
-      });
-      setSubmitting(false);
-      setSuccessData(null);
-    }
-  }, [isOpen]);
+  }, []);
 
   const membershipPlans = plans.filter(
     plan => plan.category?.toLowerCase() === 'membership'
@@ -81,6 +65,13 @@ export default function AddMemberModal({
     });
   };
 
+  const handleClose = () => {
+    setFormData({ name: '', membershipPlan: 'None', coachingPlan: 'None', status: 'Active', payment: 'Paid' });
+    setSubmitting(false);
+    setSuccessData(null);
+    onClose();
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -112,7 +103,7 @@ export default function AddMemberModal({
 
       // Bigyan ng 2.5 seconds para mabasang mabuti ang log bago kusa mag-close
       setTimeout(() => {
-        onClose();
+        handleClose();
       }, 2500);
 
     } catch (error) {
@@ -131,7 +122,7 @@ export default function AddMemberModal({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={submitting || successData ? null : onClose}
+            onClick={submitting || successData ? null : handleClose}
             className="absolute inset-0 bg-black/80 backdrop-blur-sm"
           />
 
@@ -150,7 +141,7 @@ export default function AddMemberModal({
             {/* Close Button */}
             {!successData && (
               <button
-                onClick={onClose}
+                onClick={handleClose}
                 disabled={submitting}
                 className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors"
               >
@@ -261,7 +252,7 @@ export default function AddMemberModal({
                     {/* Submit Engine */}
                     <div className="pt-2 flex gap-3">
                       <button
-                        type="button" onClick={onClose}
+                        type="button" onClick={handleClose}
                         disabled={submitting}
                         className="flex-1 border border-zinc-900 hover:border-zinc-700 text-zinc-400 hover:text-white transition-all uppercase py-3 text-center"
                       >

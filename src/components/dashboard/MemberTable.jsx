@@ -23,7 +23,7 @@ export default function MemberTable({ members, searchTerm, setSearchTerm, sortBy
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <h4 className="text-lg font-bold uppercase tracking-tight">Active Roster</h4>
-          <p className="text-xs text-zinc-500 font-mono">Manage database sync data protocols</p>
+              <p className="text-xs text-zinc-500 font-mono">Search and manage member accounts</p>
         </div>
 
         {/* Controls: Search & Sort Filter */}

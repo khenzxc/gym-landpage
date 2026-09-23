@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, X, UserCheck } from 'lucide-react';
-import gymLogo from '../assets/logo.jpg';
+const gymLogo = '/logo.png';
 
 export default function Navbar({ setView }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,17 +14,17 @@ export default function Navbar({ setView }) {
           onClick={() => setView('home')}
           className="flex items-center gap-2 text-left outline-none cursor-pointer"
         >
-          <div className="relative h-7 max-w-[110px] overflow-hidden bg-black flex items-center justify-center">
+          <div className="brand-logo relative h-10 w-[180px] overflow-hidden flex items-center justify-center">
             <img
               src={gymLogo}
-              alt="Danbhels Fitness Gym Official Logo"
-              className="h-full w-auto object-contain mix-blend-lighten contrast-125 brightness-110"
+              alt="Liftmode Fitness Gym"
+              className="h-full w-full object-contain"
             />
           </div>
 
           <div className="hidden sm:flex flex-col tracking-tighter leading-none border-l border-zinc-800 pl-2">
             <span className="text-[8px] font-mono font-bold text-yellow-400 tracking-[0.2em] uppercase">
-              // HQ
+              Liftmode Fitness Gym
             </span>
           </div>
         </button>

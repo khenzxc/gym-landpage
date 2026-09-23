@@ -49,32 +49,27 @@ export default function Features() {
   };
 
   return (
-    <section id="features" className="py-28 bg-zinc-950 border-t border-zinc-900 relative overflow-hidden">
+    <section id="features" className="py-28 bg-black border-t border-zinc-900 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Header Animation - FIXED: once: true para swak sa natitirang bahagi ng section */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }} // <-- Pinalitan ng true para malinis
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
           className="flex flex-col lg:flex-row lg:items-end justify-between mb-24 gap-6 relative z-10"
         >
           <div className="space-y-2">
-            <span className="text-xs font-mono tracking-widest text-zinc-600 block">// ENVIRONMENT & CORE VALUES</span>
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white">
-              BUILT FOR THE <span className="text-yellow-400">DEDICATED</span>
+            <span className="text-[10px] tracking-[0.18em] text-zinc-500 block uppercase">Why Liftmode</span>
+            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-[-0.06em] text-white">
+              Built for the <span className="text-zinc-300">disciplined</span>
             </h2>
           </div>
           <p className="max-w-md text-zinc-500 text-sm leading-relaxed font-medium">
-            This isn't a casual fitness club. Every zone inside Danbhels Gym is engineered to deliver a raw, safe, and highly effective environment for absolute physical progression.
+            This isn't a casual fitness club. Every zone inside Liftmode Gym is designed for focused training, clean energy, and consistent progress.
           </p>
         </motion.div>
 
-        {/* Asymmetric Split Layout Display */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-          
-          {/* Left Side: Cards Container */}
           <motion.div 
             variants={containerVariants}
             initial="hidden"
@@ -86,13 +81,13 @@ export default function Features() {
               <motion.div 
                 key={idx} 
                 variants={cardVariantsLeft}
-                className="group bg-black border border-zinc-900 p-6 flex items-start gap-6 hover:border-yellow-400/30 hover:bg-zinc-900/10 transition-all duration-300 rounded-none"
+                className="group bg-zinc-950 border border-zinc-800 p-6 flex items-start gap-6 hover:border-zinc-600 transition-all duration-300 rounded-none"
               >
-                <div className="bg-yellow-400 p-3 shrink-0 transform group-hover:rotate-6 transition-transform duration-300">
+                <div className="bg-white text-black p-3 shrink-0 transform group-hover:scale-[1.02] transition-transform duration-300">
                   {perk.icon}
                 </div>
                 <div>
-                  <h3 className="text-lg font-black text-white uppercase tracking-wide group-hover:text-yellow-400 transition-colors">
+                  <h3 className="text-lg font-black text-white uppercase tracking-wide group-hover:text-zinc-200 transition-colors">
                     {perk.title}
                   </h3>
                   <p className="text-zinc-500 text-sm mt-1.5 leading-relaxed font-normal">
@@ -103,7 +98,6 @@ export default function Features() {
             ))}
           </motion.div>
 
-          {/* Right Side: Image Layout */}
           <motion.div 
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -111,36 +105,35 @@ export default function Features() {
             transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
             className="lg:col-span-6 relative flex justify-center items-center"
           >
-            <div className="absolute -inset-4 border border-dashed border-zinc-800/60 pointer-events-none z-0"></div>
-            <div className="absolute top-[-60px] right-[-20px] text-[13rem] font-black text-zinc-900/40 select-none leading-none z-0 tracking-tighter">
+            <div className="absolute -inset-4 border border-dashed border-zinc-800/40 pointer-events-none z-0"></div>
+            <div className="absolute top-[-60px] right-[-20px] text-[13rem] font-black text-zinc-900/50 select-none leading-none z-0 tracking-tighter">
               01
             </div>
             
-            <div className="relative z-10 w-full bg-zinc-900 p-2 border border-zinc-800 shadow-[24px_24px_0px_0px_rgba(9,9,11,1)] group">
-              <div className="absolute -inset-px border border-yellow-400/20 pointer-events-none z-30 group-hover:border-yellow-400/60 transition-colors duration-500"></div>
+            <div className="relative z-10 w-full bg-zinc-950 p-2 border border-zinc-800 group rounded-sm">
+              <div className="absolute -inset-px border border-zinc-700 pointer-events-none z-30 transition-colors duration-500"></div>
               
               <div className="overflow-hidden relative">
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60 z-20"></div>
-                <div className="absolute inset-0 bg-yellow-400/5 mix-blend-color group-hover:opacity-0 transition-opacity duration-500 z-10"></div>
+                <div className="absolute inset-0 bg-white/5 mix-blend-screen transition-opacity duration-500 z-10"></div>
                 
                 <img 
                   src={dbFeaturesImage} 
-                  alt="Danbhels Gym Training Floor" 
-                  className="w-full h-[450px] object-cover object-center filter grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
+                  alt="Liftmode Gym Training Floor" 
+                  className="w-full h-[450px] object-cover object-center grayscale contrast-125 transition-all duration-700 ease-out"
                 />
 
-                <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md border border-zinc-800 px-3 py-1 text-[10px] font-mono tracking-widest text-yellow-400 z-30 uppercase">
-                  SYS_REF // MAIN_FLOOR
+                <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-sm border border-zinc-700 px-3 py-1 text-[10px] tracking-[0.18em] text-zinc-200 z-30 uppercase">
+                  Main floor
                 </div>
               </div>
               
-              <div className="mt-3 pt-2 pb-1 border-t border-zinc-800 flex justify-between text-[11px] text-zinc-500 font-mono uppercase tracking-widest px-1 bg-black/40 backdrop-blur-sm">
-                <span>[ POS_LOC // PULILAN ]</span>
-                <span className="text-zinc-400">DANBHELS MAIN SANCTUARY</span>
+              <div className="mt-3 pt-2 pb-1 border-t border-zinc-800 flex justify-between text-[11px] text-zinc-500 uppercase tracking-[0.14em] px-1 bg-black/40 backdrop-blur-sm">
+                <span>Pulilan</span>
+                <span className="text-zinc-300">Liftmode sanctuary</span>
               </div>
             </div>
           </motion.div>
-
         </div>
       </div>
     </section>

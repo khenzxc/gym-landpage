@@ -1,13 +1,14 @@
-import React from 'react';
 import { DollarSign, Activity, Skull, TrendingUp } from 'lucide-react'; // Pinalitan ang icons para mas swak sa lagay ng account
 
 export default function ReportStats({
   revenue = 0,
   active = 0,
-  expired = 0
+  expired = 0,
+  dailyRevenue = 0,
+  dailyTransactions = 0
 }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 font-mono">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 font-mono">
 
       {/* TOTAL REVENUE */}
       <div className="bg-zinc-950 border border-zinc-900 p-5 space-y-3">
@@ -17,7 +18,7 @@ export default function ReportStats({
         </div>
 
         <div>
-          <span className="text-2xl font-black text-white font-sans">
+          <span className="text-2xl font-normal text-white font-sans">
             ₱{Number(revenue).toLocaleString(undefined, { minimumFractionDigits: 2 })}
           </span>
 
@@ -25,6 +26,18 @@ export default function ReportStats({
             <TrendingUp className="w-3 h-3" />
             Revenue Generated
           </span>
+        </div>
+      </div>
+
+      {/* DAILY TRANSACTIONS */}
+      <div className="bg-zinc-950 border border-yellow-400/30 p-5 space-y-3">
+        <div className="flex items-center justify-between text-zinc-500 text-[10px] uppercase tracking-wider">
+          <span>// DAILY_TRANSACTIONS</span>
+          <DollarSign className="w-4 h-4 text-yellow-400" />
+        </div>
+        <div>
+          <span className="text-2xl font-normal text-yellow-400 font-sans">{dailyTransactions}</span>
+          <span className="text-[10px] text-zinc-500 block mt-1">₱{Number(dailyRevenue).toLocaleString(undefined, { minimumFractionDigits: 2 })} filtered revenue</span>
         </div>
       </div>
 
@@ -36,7 +49,7 @@ export default function ReportStats({
         </div>
 
         <div>
-          <span className="text-2xl font-black text-white font-sans">
+          <span className="text-2xl font-normal text-white font-sans">
             {active}
           </span>
 
@@ -54,7 +67,7 @@ export default function ReportStats({
         </div>
 
         <div>
-          <span className="text-2xl font-black text-red-500 font-sans">
+          <span className="text-2xl font-normal text-red-500 font-sans">
             {expired}
           </span>
 

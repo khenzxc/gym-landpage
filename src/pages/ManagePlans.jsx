@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/dashboard/Sidebar';
-import { Plus, Trash2, Edit2, Save, X, DollarSign, Tag, Layers, Menu } from 'lucide-react';
+import { Plus, Trash2, Edit2, Save, X, Tag, Menu } from 'lucide-react';
+import { apiFetch } from '../services/api';
 
 export default function ManagePlans({ setView }) {
   const [plans, setPlans] = useState([]);
@@ -17,13 +18,10 @@ export default function ManagePlans({ setView }) {
   });
 
   // FIXED: Dynamic routing pipeline hook structure
-  const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-  const API_URL = `${BASE_URL}/plans`;
-
   // FETCH ALL PLANS
   const fetchPlans = async () => {
     try {
-      const res = await fetch(API_URL);
+      const res = await apiFetch('/plans');
       const data = await res.json();
       setPlans(data);
     } catch (err) {
@@ -38,13 +36,14 @@ export default function ManagePlans({ setView }) {
   // UPDATE PLAN PRICE
   const handleSavePrice = async (planId) => {
     try {
-      const response = await fetch(`${API_URL}/${planId}`, {
+      const response = await apiFetch(`/plans/${planId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ price: editPrice })
       });
 
       if (!response.ok) throw new Error("Failed to update");
+
 
       setPlans(plans.map(plan =>
         plan.plan_id === planId ? { ...plan, price: editPrice } : plan
@@ -69,7 +68,7 @@ export default function ManagePlans({ setView }) {
     };
 
     try {
-      const response = await fetch(API_URL, {
+      const response = await apiFetch('/plans', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -107,7 +106,7 @@ export default function ManagePlans({ setView }) {
     if (!window.confirm('Delete this plan?')) return;
 
     try {
-      const response = await fetch(`${API_URL}/${planId}`, { method: 'DELETE' });
+      const response = await apiFetch(`/plans/${planId}`, { method: 'DELETE' });
       const data = await response.json();
 
       if (!response.ok) {
@@ -127,7 +126,7 @@ export default function ManagePlans({ setView }) {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans antialiased selection:bg-yellow-400 selection:text-black flex">
+    <div className="admin-page plans-page min-h-screen bg-black text-white font-sans antialiased selection:bg-yellow-400 selection:text-black flex">
 
       <Sidebar
         setView={setView}
@@ -142,7 +141,7 @@ export default function ManagePlans({ setView }) {
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 pb-6 md:pb-8 space-y-8">
 
           {/* FIXED/STICKY PAGE HEADER sa Mobile at Desktop */}
-          <div className="sticky top-0 z-40 bg-black/90 backdrop-blur-md pt-6 pb-6 border-b border-zinc-900">
+          <div className="admin-page-header plans-header sticky top-0 z-40 bg-black/90 backdrop-blur-md pt-6 pb-6 border-b border-zinc-900">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
               {/* LEFT */}
@@ -151,28 +150,18 @@ export default function ManagePlans({ setView }) {
                 {/* MOBILE HAMBURGER */}
                 <button
                   onClick={() => setSidebarOpen(true)}
-                  className="
-                    md:hidden
-                    border
-                    border-zinc-800
-                    bg-zinc-950
-                    p-2.5
-                    text-zinc-400
-                    hover:text-white
-                    transition-all
-                    flex-shrink-0
-                  "
+                  className="admin-menu-button md:hidden flex-shrink-0"
                 >
                   <Menu className="w-5 h-5" />
                 </button>
 
                 <div className="min-w-0">
                   <span className="text-[10px] sm:text-xs font-mono tracking-widest text-zinc-500 block uppercase">
-                    // VALUE_MATRIX_CONFIGURATION
+                    Plans and pricing
                   </span>
 
-                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight break-words">
-                    MANAGE GYM RATES
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight break-words">
+                    Plans
                   </h2>
                 </div>
 
@@ -182,7 +171,7 @@ export default function ManagePlans({ setView }) {
               <button
                 onClick={() => setIsAdding(!isAdding)}
                 className="
-                  bg-yellow-400
+                  bg-white
                   text-black
                   font-mono
                   text-[10px]
@@ -197,7 +186,7 @@ export default function ManagePlans({ setView }) {
                   items-center
                   justify-center
                   gap-2
-                  hover:bg-yellow-500
+                  hover:bg-zinc-200
                   transition-all
                   self-start
                   sm:self-center
@@ -219,15 +208,15 @@ export default function ManagePlans({ setView }) {
 
           {/* ADD FORM */}
           {isAdding && (
-            <div className="bg-zinc-950 border border-yellow-400/30 p-5 md:p-8 space-y-4">
+            <div className="bg-zinc-950 border border-zinc-800 p-5 md:p-8 space-y-4">
 
               <div className="font-mono">
-                <h4 className="text-sm font-bold text-yellow-400 uppercase tracking-wider">
-                  // INITIALIZE_NEW_PROMO_NODE
+                <h4 className="text-sm font-semibold text-white">
+                    Add a plan
                 </h4>
 
                 <p className="text-xs text-zinc-600">
-                  Inject a new pricing protocol into the system registry
+                  Set the name, category, duration, and price for a membership plan.
                 </p>
               </div>
 
@@ -245,7 +234,7 @@ export default function ManagePlans({ setView }) {
                     onChange={(e) =>
                       setNewPlan({ ...newPlan, type: e.target.value })
                     }
-                    className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 outline-none"
+                    className="w-full bg-black border border-zinc-900 focus:border-zinc-400 text-white p-3 outline-none"
                   >
                     <option value="Membership">Membership Pass</option>
                     <option value="Coaching">Coaching Package</option>
@@ -265,7 +254,7 @@ export default function ManagePlans({ setView }) {
                         durationType: e.target.value,
                       })
                     }
-                    className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 outline-none"
+                    className="w-full bg-black border border-zinc-900 focus:border-zinc-400 text-white p-3 outline-none"
                   >
                     <option value="Daily">Daily</option>
                     <option value="Monthly">Monthly</option>
@@ -291,14 +280,14 @@ export default function ManagePlans({ setView }) {
                           label: e.target.value,
                         })
                       }
-                      className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 pl-9 outline-none"
+                      className="w-full bg-black border border-zinc-900 focus:border-zinc-400 text-white p-3 pl-9 outline-none"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-zinc-500 uppercase text-[10px]">
-                    Price Rate (PHP)
+                    Price (₱)
                   </label>
 
                   <input
@@ -311,16 +300,16 @@ export default function ManagePlans({ setView }) {
                         price: e.target.value,
                       })
                     }
-                    className="w-full bg-black border border-zinc-900 focus:border-yellow-400 text-white p-3 outline-none"
+                    className="w-full bg-black border border-zinc-900 focus:border-zinc-400 text-white p-3 outline-none"
                   />
                 </div>
 
                 <div className="md:col-span-4 flex justify-end">
                   <button
                     type="submit"
-                    className="w-full sm:w-auto bg-zinc-900 border border-zinc-800 hover:border-yellow-400 text-zinc-400 hover:text-white px-6 py-3 uppercase text-xs font-bold"
+                    className="w-full sm:w-auto bg-white border border-white text-black hover:bg-zinc-200 px-6 py-3 text-xs font-semibold"
                   >
-                    Deploy_Plan_Node
+                    Save plan
                   </button>
                 </div>
               </form>
@@ -328,17 +317,17 @@ export default function ManagePlans({ setView }) {
           )}
 
           {/* TABLE SYSTEM */}
-          <div className="border border-zinc-900 overflow-hidden">
+          <div className="plans-table border border-zinc-900 overflow-hidden">
             <div className="overflow-x-auto overflow-y-auto max-h-[480px] custom-scrollbar">
 
               <table className="w-full text-left border-collapse font-sans text-xs min-w-[700px]">
 
                 <thead>
                   <tr className="bg-zinc-900/50 border-b border-zinc-900 text-zinc-500 font-mono tracking-wider uppercase text-[10px]">
-                    <th className="p-4">PLAN_ID</th>
-                    <th className="p-4">PLAN_NAME</th>
-                    <th className="p-4">CATEGORY</th>
-                    <th className="p-4">PRICE</th>
+                    <th className="p-4">ID</th>
+                    <th className="p-4">Plan</th>
+                    <th className="p-4">Category</th>
+                    <th className="p-4">Price</th>
                     <th className="p-4 text-right">ACTIONS</th>
                   </tr>
                 </thead>
@@ -350,7 +339,7 @@ export default function ManagePlans({ setView }) {
                         key={plan.plan_id}
                         className="hover:bg-zinc-900/30 transition-colors"
                       >
-                        <td className="p-4 font-mono font-bold text-yellow-400">
+                        <td className="p-4 font-mono font-bold text-zinc-400">
                           {plan.plan_id}
                         </td>
 

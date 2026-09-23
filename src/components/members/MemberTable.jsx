@@ -1,6 +1,6 @@
 import React from 'react';
 import SortDropdown from "./SortDropDownNew";
-import { Search, CheckCircle, XCircle, RefreshCw } from 'lucide-react';
+import { Search, CheckCircle, XCircle, RefreshCw, Eye, AlertTriangle, Trash2 } from 'lucide-react';
 
 export default function MemberTable({
   members,
@@ -8,8 +8,22 @@ export default function MemberTable({
   setSearchTerm,
   sortBy,
   setSortBy,
-  onRenew
+  onRenew,
+  onProfile,
+  onEdit,
+  onDelete,
+  canEdit = false
 }) {
+
+  const getDaysUntilExpiry = (expiryDate) => {
+    if (!expiryDate) return null;
+    const expiry = new Date(expiryDate);
+    if (Number.isNaN(expiry.getTime())) return null;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    expiry.setHours(0, 0, 0, 0);
+    return Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+  };
 
   // 1. DATA FILTERING AND SORTING PIPELINE LOGIC
   const processedMembers = members
@@ -35,7 +49,7 @@ export default function MemberTable({
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <h4 className="text-lg font-bold uppercase tracking-tight text-white font-sans">Active Roster</h4>
-          <p className="text-xs text-zinc-500 font-mono">Manage database sync data protocols</p>
+          <p className="text-xs text-zinc-500 font-mono">Search and manage member accounts</p>
         </div>
 
         {/* Action Controls: Query Search Node & Dropdown State Switch */}
@@ -75,6 +89,8 @@ export default function MemberTable({
               {processedMembers.length > 0 ? (
                 processedMembers.map((member) => {
                   const isExpired = member.status === 'Expired';
+                  const daysUntilExpiry = getDaysUntilExpiry(member.expiryDate);
+                  const expiresSoon = !isExpired && daysUntilExpiry !== null && daysUntilExpiry >= 0 && daysUntilExpiry <= 7;
                   return (
                     <tr key={member.id} className="hover:bg-zinc-900/30 transition-colors group">
                       {/* ID Node */}
@@ -103,10 +119,33 @@ export default function MemberTable({
                       </td>
 
                       {/* Expiry Timestamp Log */}
-                      <td className="p-4 font-mono text-zinc-500">{member.expiryDate}</td>
+                      <td className="p-4 font-mono text-zinc-500">
+                        <div>{member.expiryDate || 'Not recorded'}</div>
+                        {expiresSoon && (
+                          <span className="mt-1 inline-flex items-center gap-1 text-[10px] font-bold uppercase text-orange-400">
+                            <AlertTriangle className="h-3 w-3" />
+                            {daysUntilExpiry === 0 ? 'Expires today' : `${daysUntilExpiry} days left`}
+                          </span>
+                        )}
+                      </td>
 
                       {/* Access Deployment Renewal Triggers */}
                       <td className="p-4 text-right font-mono">
+                        <button
+                          onClick={() => onProfile(member)}
+                          className="mr-2 inline-flex items-center gap-1.5 border border-zinc-900 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-zinc-400 transition-all hover:border-zinc-700 hover:text-white"
+                        >
+                          <Eye className="h-3 w-3" />
+                          Profile
+                        </button>
+                        {canEdit && (
+                          <button
+                            onClick={() => onEdit?.(member)}
+                            className="mr-2 inline-flex items-center gap-1.5 border border-zinc-900 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-zinc-400 transition-all hover:border-yellow-500 hover:text-yellow-300"
+                          >
+                            Edit
+                          </button>
+                        )}
                         <button
                           onClick={() => onRenew(member)}
                           className={`px-3 py-1.5 text-[10px] font-black uppercase tracking-widest inline-flex items-center gap-1.5 border transition-all ${isExpired
@@ -117,6 +156,15 @@ export default function MemberTable({
                           <RefreshCw className={`w-3 h-3 ${isExpired ? 'stroke-[3]' : ''}`} />
                           {isExpired ? 'Force_Renew' : 'Extend'}
                         </button>
+                        {canEdit && (
+                          <button
+                            onClick={() => onDelete?.(member)}
+                            className="ml-2 inline-flex items-center gap-1.5 border border-red-950 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-red-400 transition-all hover:border-red-500 hover:bg-red-950/30 hover:text-red-300"
+                          >
+                            <Trash2 className="h-3 w-3" />
+                            Delete
+                          </button>
+                        )}
                       </td>
                     </tr>
                   );
@@ -124,7 +172,7 @@ export default function MemberTable({
               ) : (
                 <tr>
                   <td colSpan="7" className="p-8 text-center text-zinc-600 font-mono text-xs">
-                    [!] NO_RECORD_FOUND_IN_REGISTRY
+                    No members found.
                   </td>
                 </tr>
               )}

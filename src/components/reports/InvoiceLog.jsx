@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function InvoiceLog({ members = [] }) {
+export default function InvoiceLog({ members = [], onVoidTransaction }) {
   if (!members || members.length === 0) {
     return (
       <div className="bg-zinc-950 border border-zinc-900 p-8 text-center text-zinc-600 font-mono text-xs">
@@ -61,7 +61,7 @@ export default function InvoiceLog({ members = [] }) {
                 : 'N/A';
 
               return (
-                <tr key={member?.id || Math.random()} className="hover:bg-zinc-900/30 transition-colors group">
+                <tr key={`${member?.transactionType || 'transaction'}-${member?.id || 'unknown'}`} className="hover:bg-zinc-900/30 transition-colors group">
                   {/* SLIP / ID COLUMN */}
                   <td className="p-4 text-zinc-500 font-bold tracking-tighter">
                     #{String(member?.id || '000').padStart(4, '0')}
@@ -93,6 +93,11 @@ export default function InvoiceLog({ members = [] }) {
                       }`}>
                       [{payment.toUpperCase()}]
                     </span>
+                    {member?.voidedAt ? <span className="mt-1 block text-[9px] font-bold tracking-wider text-red-400">VOIDED</span> : <>
+                    <button onClick={() => onVoidTransaction?.(member)} className="mt-2 border border-red-950 px-2 py-1 font-mono text-[9px] uppercase tracking-wider text-red-400 hover:border-red-500 hover:text-red-300">
+                      Void
+                    </button>
+                    </>}
                   </td>
                 </tr>
               );

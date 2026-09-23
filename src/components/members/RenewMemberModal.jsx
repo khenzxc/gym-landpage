@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, RefreshCw, CheckCircle2 } from 'lucide-react';
+import { API_URL } from '../../services/api';
 
 export default function RenewMemberModal({
   isOpen,
@@ -16,14 +17,12 @@ export default function RenewMemberModal({
   // BAGONG STATE PARA SA UI SUCCESS NOTIFICATION
   const [successData, setSuccessData] = useState(null); 
 
-  const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-
   useEffect(() => {
-    fetch(`${BASE_URL}/plans`)
+    fetch(`${API_URL}/plans`)
       .then(res => res.json())
       .then(data => setPlans(data))
       .catch(err => console.error('PLAN_FETCH_FAILED:', err));
-  }, [BASE_URL]);
+  }, []);
 
   // RESET STATES KAPAG BINUKSAN ULIT ANG MODAL
   useEffect(() => {

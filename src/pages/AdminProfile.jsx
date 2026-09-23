@@ -1,42 +1,51 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/dashboard/Sidebar';
 import { Shield, Mail, Key, User, Calendar, Activity, Save, RefreshCw, Menu } from 'lucide-react';
+import { apiFetch } from '../services/api';
 
-export default function AdminProfile({ setView }) {
+export default function AdminProfile({ setView, onLogout, user }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [adminData, setAdminData] = useState({
-    username: 'IRON_CORE_MASTER',
-    fullName: 'Alexandre Mercer',
-    email: 'admin@theironrealm.com',
-    role: 'Head System Administrator',
-    clearance: 'Level 5 (Full Access)',
-    joined: '2026-01-01'
+    username: user?.email || '',
+    fullName: user?.fullName || '',
+    email: user?.email || '',
+    role: user?.role || 'staff',
+    clearance: user?.role === 'admin' ? 'Level 5 (Full Access)' : 'Level 2 (Staff Access)',
+    joined: user?.joined || 'Not recorded'
   });
 
   const [passwordData, setPasswordData] = useState({ current: '', new: '', confirm: '' });
 
-  const handleUpdateProfile = (e) => {
+  const handleUpdateProfile = async (e) => {
     e.preventDefault();
-    alert('SYSTEM_LOG: Profile information updated successfully.');
+    const response = await apiFetch('/auth/profile', { method: 'PUT', body: JSON.stringify({ fullName: adminData.fullName, email: adminData.email }) });
+    const data = await response.json();
+    if (!response.ok) { alert(data.error || 'Profile update failed.'); return; }
+    localStorage.setItem('auth_user', JSON.stringify(data.user));
+    alert('Profile information updated successfully.');
   };
 
-  const handleUpdatePassword = (e) => {
+  const handleUpdatePassword = async (e) => {
     e.preventDefault();
     if (passwordData.new !== passwordData.confirm) {
       alert('ERROR_CODE: Passwords do not match.');
       return;
     }
-    alert('SYSTEM_LOG: Security access codes rotated successfully.');
+    const response = await apiFetch('/auth/password', { method: 'PUT', body: JSON.stringify({ currentPassword: passwordData.current, newPassword: passwordData.new }) });
+    const data = await response.json();
+    if (!response.ok) { alert(data.error || 'Password update failed.'); return; }
+    alert('Security access codes rotated successfully.');
     setPasswordData({ current: '', new: '', confirm: '' });
   };
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans antialiased flex">
+    <div className="admin-page min-h-screen bg-black text-white font-sans antialiased flex">
 
       <Sidebar
         setView={setView}
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
+        onLogout={onLogout}
       />
 
       {/* MAIN CONTENT AREA */}
@@ -46,21 +55,21 @@ export default function AdminProfile({ setView }) {
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 pb-6 md:pb-8 space-y-8">
           
           {/* FIXED/STICKY HEADER SECTION */}
-          <div className="sticky top-0 z-40 bg-black/90 backdrop-blur-md pt-6 pb-6 border-b border-zinc-900">
+          <div className="admin-page-header sticky top-0 z-40 bg-black/90 backdrop-blur-md pt-6 pb-6 border-b border-zinc-900">
             <div className="flex items-start gap-3">
               <button
                 onClick={() => setSidebarOpen(true)}
-                className="md:hidden border border-zinc-800 bg-zinc-950 p-2.5 text-zinc-400 hover:text-white transition-all flex-shrink-0"
+                className="admin-menu-button md:hidden flex-shrink-0"
               >
                 <Menu className="w-5 h-5" />
               </button>
 
               <div className="min-w-0">
                 <span className="text-[10px] sm:text-xs font-mono tracking-widest text-zinc-500 block uppercase">
-                  // SECURE_CORE_PROFILE
+                  Account settings
                 </span>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight break-words">
-                  ADMIN PROFILES IDENTITY
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight break-words">
+                  Admin profile
                 </h2>
               </div>
             </div>
@@ -89,15 +98,15 @@ export default function AdminProfile({ setView }) {
                     <span className="text-yellow-400 font-bold">{adminData.clearance}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-zinc-600">SYS_SYNC:</span>
-                    <span>ONLINE</span>
+                    <span className="text-zinc-600">Status:</span>
+                    <span>Online</span>
                   </div>
                 </div>
               </div>
 
               {/* QUICK SYSTEM STATUS */}
               <div className="bg-zinc-950 border border-zinc-900 p-4 font-mono text-[10px] text-zinc-500 space-y-2">
-                <span className="text-zinc-400 block font-bold uppercase tracking-wider">// SYSTEM_METRICS_LOG</span>
+                <span className="text-zinc-400 block font-bold uppercase tracking-wider">Account status</span>
                 <div className="flex items-center gap-2"><Activity className="w-3.5 h-3.5 text-emerald-400" /> Database Link: Stable</div>
                 <div className="flex items-center gap-2"><Calendar className="w-3.5 h-3.5 text-zinc-500" /> Session Node: Active since {adminData.joined}</div>
               </div>
@@ -110,10 +119,10 @@ export default function AdminProfile({ setView }) {
               <div className="bg-zinc-950 border border-zinc-900 p-5 md:p-8 space-y-6">
                 <div>
                   <h4 className="text-sm font-bold font-mono text-zinc-400 uppercase tracking-wider">
-                    // IDENTITY_REGISTRY_FIELDS
+                    Profile details
                   </h4>
                   <p className="text-xs text-zinc-600 font-mono">
-                    Modify fundamental administration metadata protocols
+                    Update your name and email address.
                   </p>
                 </div>
 
@@ -160,10 +169,10 @@ export default function AdminProfile({ setView }) {
               <div className="bg-zinc-950 border border-zinc-900 p-5 md:p-8 space-y-6">
                 <div>
                   <h4 className="text-sm font-bold font-mono text-zinc-400 uppercase tracking-wider">
-                    // SECURITY_PASSCODE_ROTATION
+                    Change password
                   </h4>
                   <p className="text-xs text-zinc-600 font-mono">
-                    Rotate cryptographic tokens to prevent unauthorized system penetration
+                    Use a strong password you do not use elsewhere.
                   </p>
                 </div>
 

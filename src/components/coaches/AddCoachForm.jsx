@@ -5,7 +5,7 @@ export default function AddCoachForm({ newCoach, setNewCoach, onSubmit }) {
   return (
     <div className="bg-zinc-950 border border-yellow-400/30 p-6 space-y-4">
       <div className="font-mono">
-        <h4 className="text-sm font-bold text-yellow-400 uppercase tracking-wider">// NEW_COACH_PROVISIONING</h4>
+        <h4 className="text-sm font-bold text-yellow-400 uppercase tracking-wider">Add a coach</h4>
         <p className="text-xs text-zinc-600">Onboard a specialized structural trainer into system node</p>
       </div>
 
@@ -61,7 +61,7 @@ export default function AddCoachForm({ newCoach, setNewCoach, onSubmit }) {
             type="submit"
             className="bg-zinc-900 border border-zinc-800 hover:border-yellow-400 text-zinc-400 hover:text-white px-6 py-3 uppercase text-xs font-bold"
           >
-            Sync_New_Coach_Node
+            Add coach
           </button>
         </div>
       </form>

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { BrowserRouter, Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Log-in';
 import AdminDashboard from './pages/AdminDashboard';
@@ -7,40 +8,54 @@ import ManagePlans from './pages/ManagePlans';
 import ManageCoaches from './pages/ManageCoaches';
 import ManageMembers from './pages/ManageMembers';
 import Reports from './pages/Reports';
+import ManageInventory from './pages/ManageInventory';
+import StaffManagement from './pages/StaffManagement';
+import MemberProfilePage from './pages/MemberProfilePage';
+import { clearSession } from './services/api';
 
 function App() {
-  // 1. Kukunin natin ang dating view mula sa localStorage kung mayroon, kung wala, 'home' ang default.
-  const [view, setView] = useState(() => {
-    return localStorage.getItem('current_view') || 'home';
+  return <BrowserRouter><AppRoutes /></BrowserRouter>;
+}
+
+function AppRoutes() {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('auth_user') || 'null'); } catch { return null; }
   });
+  const handleLogout = () => { clearSession(); setUser(null); navigate('/login'); };
+  const setView = (view) => view === 'login' ? handleLogout() : navigate(view === 'home' ? '/' : `/${view}`);
+  const protectedProps = { setView, onLogout: handleLogout, user };
 
-  // 2. Babantayan natin tuwing nagbabago ang view para i-update ang localStorage.
-  useEffect(() => {
-    localStorage.setItem('current_view', view);
-  }, [view]);
+  return (
+    <Routes>
+      <Route path="/login" element={<Login onLogin={(session) => { setUser(session.user); navigate('/dashboard'); }} setView={setView} />} />
+      <Route path="/" element={<Home setView={setView} />} />
+      <Route element={<ProtectedRoute user={user} />}>
+        <Route path="/dashboard" element={<AdminDashboard {...protectedProps} />} />
+        <Route path="/members" element={<ManageMembers {...protectedProps} />} />
+        <Route path="/members/:memberId" element={<MemberProfilePage {...protectedProps} />} />
+        <Route path="/coaches" element={<ManageCoaches {...protectedProps} />} />
+        <Route path="/plans" element={<ManagePlans {...protectedProps} />} />
+        <Route path="/reports" element={<Reports {...protectedProps} />} />
+        <Route path="/inventory" element={<ManageInventory {...protectedProps} />} />
+        <Route path="/profile" element={<AdminProfile {...protectedProps} />} />
+        <Route path="/staff" element={<AdminOnlyRoute user={user}><StaffManagement {...protectedProps} /></AdminOnlyRoute>} />
+      </Route>
+      <Route path="*" element={<Navigate to={user ? '/dashboard' : '/login'} replace />} />
+    </Routes>
+  );
+}
 
-  if (view === 'login')
-    return <Login setView={setView} />;
+function ProtectedRoute({ user }) {
+  return user ? <NavigateOutlet /> : <Navigate to="/login" replace />;
+}
 
-  if (view === 'dashboard')
-    return <AdminDashboard setView={setView} />;
+function NavigateOutlet() {
+  return <Outlet />;
+}
 
-  if (view === 'profile')
-    return <AdminProfile setView={setView} />;
-
-  if (view === 'plans')
-    return <ManagePlans setView={setView} />;
-
-  if (view === 'coaches')
-    return <ManageCoaches setView={setView} />;
-
-  if (view === 'members')
-    return <ManageMembers setView={setView} />;
-
-  if (view === 'reports')
-    return <Reports setView={setView} />;
-
-  return <Home setView={setView} />;
+function AdminOnlyRoute({ user, children }) {
+  return user?.role === 'admin' ? children : <Navigate to="/dashboard" replace />;
 }
 
 export default App;

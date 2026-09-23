@@ -1,25 +1,31 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Lock, Mail, Eye, EyeOff, ArrowRight, ShieldCheck, ArrowLeft } from 'lucide-react';
+import { apiFetch, saveSession } from '../services/api';
 
 // FIXED: Tinanggap ang setView prop para sa layout routing
-export default function Login({ setView }) {
+export default function Login({ setView, onLogin }) {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   // FIXED: Idinagdag ang authentication routing mechanics dito
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login Submitted:', formData, { rememberMe });
-
-    // SAMPLE HARDCODED CHECK (Palitan mo na lang ng totoong database API integration balang araw)
-    if (formData.email === 'admin@iron.com' && formData.password === 'admin123') {
-      setView('dashboard'); // Papasukin sa Admin Dashboard
-    } else {
-      // Kung ordinaryong miyembro, halimbawa ay ibabalik muna sa home dashboard area 
-      alert('Access Granted: Syncing general member profile...');
-      setView('home'); 
+    setError('');
+    setSubmitting(true);
+    try {
+      const response = await apiFetch('/auth/login', { method: 'POST', body: JSON.stringify(formData) });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Login failed');
+      saveSession(data);
+      onLogin(data);
+    } catch (error) {
+      setError(error.message === 'INVALID_LOGIN' ? 'Invalid email or password.' : 'Unable to connect to the secure login service.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -43,7 +49,7 @@ export default function Login({ setView }) {
           className="flex items-center gap-2 text-[10px] font-mono tracking-widest text-zinc-500 hover:text-yellow-400 uppercase transition-colors group px-1"
         >
           <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
-          // Return_to_dashboard
+          Back to home
         </button>
 
         {/* Card Body */}
@@ -56,7 +62,7 @@ export default function Login({ setView }) {
           
           {/* Header/Logo Branding */}
           <div className="text-center">
-            <span className="text-xs font-mono tracking-widest text-zinc-600 block mb-2">// ACCESS_GATEWAY</span>
+            <span className="text-xs font-mono tracking-widest text-zinc-600 block mb-2">Staff sign in</span>
             <h2 className="text-3xl font-black uppercase tracking-tighter text-white">
               THE <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-500">IRON REALM</span>
             </h2>
@@ -115,6 +121,8 @@ export default function Login({ setView }) {
               </div>
             </div>
 
+            {error && <p className="border border-red-900/50 bg-red-950/20 p-3 font-mono text-xs text-red-400">{error}</p>}
+
             {/* Options: Remember Me & Forgot Password */}
             <div className="flex items-center justify-between font-mono text-[11px] select-none">
               <label className="flex items-center gap-2 text-zinc-500 cursor-pointer group">
@@ -139,9 +147,10 @@ export default function Login({ setView }) {
             <div className="space-y-4 pt-2">
               <button
                 type="submit"
+                disabled={submitting}
                 className="w-full bg-yellow-400 text-black font-mono text-xs font-black uppercase tracking-widest py-4 flex items-center justify-center gap-2 transition-all hover:bg-yellow-500 group"
               >
-                Authorize Login
+                {submitting ? 'Authorizing...' : 'Authorize Login'}
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </button>
 

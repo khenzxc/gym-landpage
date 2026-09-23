@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Users, DollarSign, Activity, TrendingUp } from 'lucide-react';
+import { apiFetch } from '../../services/api';
 
 export default function StatsGrid({ refreshTrigger }) {
   const [metrics, setMetrics] = useState({
@@ -11,14 +12,12 @@ export default function StatsGrid({ refreshTrigger }) {
   });
   const [loading, setLoading] = useState(true);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-
   useEffect(() => {
     const fetchMetrics = async () => {
       try {
         setLoading(true);
         
-        const response = await fetch(`${API_URL}/reports/metrics`);
+        const response = await apiFetch('/reports/metrics');
         if (!response.ok) throw new Error('Analytical endpoint sync failure');
         const data = await response.json();
         

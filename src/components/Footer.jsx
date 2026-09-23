@@ -13,16 +13,15 @@ export default function Footer() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            // FIXED: Ginawang true para isang beses lang mag-animate pagbaba ng user
             viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
             className="md:col-span-5 space-y-4"
           >
             <h3 className="text-xl font-black tracking-tighter text-white uppercase">
-              DANBHELS <span className="text-yellow-400">FITNESS GYM</span>
+              LIFTMODE <span className="text-zinc-300">FITNESS GYM</span>
             </h3>
             <p className="text-sm text-zinc-400 max-w-sm leading-relaxed">
-              The home of iron in Pulilan. Break limits, find no excuses. No excuses.
+              The home of iron in Pulilan. Break limits, find focus, and train with intent.
             </p>
           </motion.div>
 
@@ -35,22 +34,22 @@ export default function Footer() {
             transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1], delay: 0.05 }}
             className="md:col-span-3 space-y-4"
           >
-            <span className="text-xs font-mono tracking-widest text-zinc-600 block uppercase">// QUICK LINKS</span>
+            <span className="text-xs tracking-[0.18em] text-zinc-500 block uppercase">Quick links</span>
             <ul className="space-y-2 text-sm font-semibold uppercase tracking-wide">
               <li>
-                <a href="#" className="text-zinc-400 hover:text-yellow-400 transition-colors">Home</a>
+                <a href="#" className="text-zinc-400 hover:text-white transition-colors">Home</a>
               </li>
               <li>
-                <a href="#features" className="text-zinc-400 hover:text-yellow-400 transition-colors">Features</a>
+                <a href="#features" className="text-zinc-400 hover:text-white transition-colors">Features</a>
               </li>
               <li>
-                <a href="#pricing" className="text-zinc-400 hover:text-yellow-400 transition-colors">Rates & Pricing</a>
+                <a href="#pricing" className="text-zinc-400 hover:text-white transition-colors">Rates & Pricing</a>
               </li>
               <li>
-                <a href="#album" className="text-zinc-400 hover:text-yellow-400 transition-colors">Gallery</a>
+                <a href="#album" className="text-zinc-400 hover:text-white transition-colors">Gallery</a>
               </li>
               <li>
-                <a href="#contact" className="text-zinc-400 hover:text-yellow-400 transition-colors">Location & Contact</a>
+                <a href="#contact" className="text-zinc-400 hover:text-white transition-colors">Location & Contact</a>
               </li>
             </ul>
           </motion.div>
@@ -64,11 +63,11 @@ export default function Footer() {
             transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1], delay: 0.1 }}
             className="md:col-span-4 space-y-4"
           >
-            <span className="text-xs font-mono tracking-widest text-zinc-600 block uppercase">// IRON_MANTRA</span>
-            <div className="p-4 bg-black border border-zinc-900 font-mono text-[11px] text-zinc-500 leading-normal space-y-1">
-              <p className="text-yellow-400/80 font-bold">STATUS: NO EXCUSES ZONE</p>
-              <p>&gt; TRAIN HARDER THAN YESTERDAY</p>
-              <p>&gt; CONSISTENCY OVER MOTIVATION</p>
+            <span className="text-xs tracking-[0.18em] text-zinc-500 block uppercase">Our mantra</span>
+            <div className="p-4 bg-black border border-zinc-800 text-[11px] text-zinc-500 leading-normal space-y-1 rounded-sm">
+              <p className="text-zinc-200 font-bold uppercase tracking-[0.12em]">No excuses zone</p>
+              <p>Train harder than yesterday.</p>
+              <p>Consistency over motivation.</p>
             </div>
           </motion.div>
 
@@ -83,8 +82,8 @@ export default function Footer() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-zinc-600 font-mono tracking-widest uppercase"
         >
-          <p>© {new Date().getFullYear()} DANBHELS FITNESS GYM. ALL RIGHTS RESERVED.</p>
-          <p className="text-[10px] text-zinc-700">// DEVELOPED BY KHEN GABRIEL</p>
+          <p>© {new Date().getFullYear()} LIFTMODE FITNESS GYM. ALL RIGHTS RESERVED.</p>
+          <p className="text-[10px] text-zinc-700">Developed by Khen Gabriel</p>
         </motion.div>
 
       </div>
