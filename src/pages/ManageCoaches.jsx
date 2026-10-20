@@ -168,11 +168,11 @@ export default function ManageCoaches({ setView }) {
 
               <div>
                 <span className="text-[10px] sm:text-xs font-mono tracking-widest text-zinc-500 block uppercase">
-                  Coaches
+                  Team
                 </span>
 
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight">
-                  MANAGE COACH ROSTER
+                  Coaches
                 </h2>
               </div>
 
@@ -207,8 +207,8 @@ export default function ManageCoaches({ setView }) {
               )}
 
               {isAdding
-                ? 'Cancel_Provision'
-                : 'Onboard_Coach'}
+                ? 'Cancel'
+                : 'Add coach'}
             </button>}
 
           </div>
@@ -227,11 +227,11 @@ export default function ManageCoaches({ setView }) {
 
             <div>
               <h4 className="text-sm font-bold font-mono text-zinc-400 uppercase tracking-wider">
-                // REGISTERED_COACH_GRID
+                Coaches
               </h4>
 
               <p className="text-xs text-zinc-600 font-mono">
-                Real-time status tracking and structural assignment routing
+                Manage coach profiles, specialties, and shifts.
               </p>
             </div>
 

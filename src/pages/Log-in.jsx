@@ -30,7 +30,7 @@ export default function Login({ setView, onLogin }) {
   };
 
   return (
-    <section className="min-h-screen bg-black flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <section className="admin-login-page min-h-screen bg-black flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       
       {/* Background Subtle Grid Effect */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#09090b_1px,transparent_1px),linear-gradient(to_bottom,#09090b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-60 pointer-events-none" />
@@ -63,10 +63,10 @@ export default function Login({ setView, onLogin }) {
           {/* Header/Logo Branding */}
           <div className="text-center">
             <span className="text-xs font-mono tracking-widest text-zinc-600 block mb-2">Staff sign in</span>
-            <h2 className="text-3xl font-black uppercase tracking-tighter text-white">
-              THE <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-500">IRON REALM</span>
+            <h2 className="text-3xl font-semibold tracking-tight text-white">
+              Liftmode <span className="text-red-400">staff portal</span>
             </h2>
-            <p className="mt-2 text-xs text-zinc-500 font-mono">ENTER YOUR CREDENTIALS TO SYNC</p>
+            <p className="mt-2 text-sm text-zinc-500">Sign in to manage your gym.</p>
           </div>
 
           {/* Form area */}
@@ -135,11 +135,11 @@ export default function Login({ setView, onLogin }) {
                 <div className="w-4 h-4 border border-zinc-900 bg-black rounded-none peer-checked:bg-yellow-400 peer-checked:border-yellow-400 transition-all flex items-center justify-center">
                   <div className="w-1.5 h-1.5 bg-black rounded-none opacity-0 peer-checked:opacity-100" />
                 </div>
-                <span className="group-hover:text-zinc-300 transition-colors">REMEMBER_DEVICE</span>
+                <span className="group-hover:text-zinc-300 transition-colors">Remember me</span>
               </label>
 
               <a href="#forgot" className="text-zinc-500 hover:text-yellow-400 transition-colors">
-                FORGOT_PASSWORD?
+                Forgot password?
               </a>
             </div>
 
@@ -150,7 +150,7 @@ export default function Login({ setView, onLogin }) {
                 disabled={submitting}
                 className="w-full bg-yellow-400 text-black font-mono text-xs font-black uppercase tracking-widest py-4 flex items-center justify-center gap-2 transition-all hover:bg-yellow-500 group"
               >
-                {submitting ? 'Authorizing...' : 'Authorize Login'}
+                {submitting ? 'Signing in...' : 'Sign in'}
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </button>
 

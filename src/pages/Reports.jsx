@@ -132,10 +132,10 @@ export default function Reports({ setView }) {
 
                 <div className="min-w-0">
                   <span className="text-[10px] sm:text-xs font-mono tracking-widest text-zinc-500 block uppercase">
-                    Sales reports
+                    Business overview
                   </span>
                   <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight break-words">
-                    SALES PERFORMANCE REPORT
+                    Reports
                   </h2>
                 </div>
               </div>
@@ -144,7 +144,7 @@ export default function Reports({ setView }) {
                 onClick={() => window.print()}
                 className="bg-zinc-900 border border-zinc-800 hover:border-yellow-400 text-zinc-400 hover:text-white font-mono text-[10px] sm:text-xs px-4 sm:px-5 py-3 transition-all self-start sm:self-center"
               >
-                EXECUTE_PRINT_PROTOCOL //
+                Print report
               </button>
             </div>
           </div>
@@ -156,7 +156,7 @@ export default function Reports({ setView }) {
           </div>
           <div className="flex flex-col gap-3 border border-zinc-900 bg-zinc-950 p-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <span className="block font-mono text-[10px] uppercase tracking-wider text-zinc-500">Transaction window</span>
+              <span className="block font-mono text-[10px] uppercase tracking-wider text-zinc-500">Selected period</span>
               <span className="font-mono text-xs text-zinc-300">{filteredLedger.length} transaction(s) · ₱{filteredRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
             </div>
             <select value={transactionFilter} onChange={(event) => setTransactionFilter(event.target.value)} aria-label="Transaction date filter" className="border border-zinc-800 bg-black p-3 font-mono text-xs text-white outline-none focus:border-yellow-400">
@@ -170,7 +170,7 @@ export default function Reports({ setView }) {
           {/* CONTENT SECTION */}
           {loading ? (
             <div className="p-8 sm:p-12 md:p-16 text-center text-zinc-600 font-mono text-xs animate-pulse">
-              INITIALIZING_DATA_STREAM...
+              Loading report data...
             </div>
           ) : (
             <>
@@ -199,5 +199,5 @@ export default function Reports({ setView }) {
 }
 
 function RevenueChoice({ label, value, active, onClick }) {
-  return <button onClick={onClick} className={`border p-4 text-left transition-colors ${active ? 'border-white bg-zinc-800' : 'border-zinc-900 bg-zinc-950 hover:border-zinc-600'}`}><span className="block text-xs text-zinc-400">{label}</span><strong className="mt-2 block text-xl text-white">₱{Number(value).toLocaleString(undefined, { minimumFractionDigits: 2 })}</strong></button>;
+  return <button onClick={onClick} aria-pressed={active} className={`admin-choice-card border p-4 text-left transition-colors ${active ? 'is-selected' : ''}`}><span className="block text-xs text-zinc-400">{label}</span><strong className="mt-2 block text-xl text-white">₱{Number(value).toLocaleString(undefined, { minimumFractionDigits: 2 })}</strong></button>;
 }

@@ -124,10 +124,10 @@ export default function SalesWaveChart({ ledger = [] }) {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <span className="text-[10px] font-mono tracking-widest text-zinc-500 block uppercase">
-            // REVENUE_TREND_WAVE_ANALYTICS
+            Sales overview
           </span>
           <h3 className="text-base font-black uppercase tracking-tight text-white">
-            FINANCIAL GRAPH MATRIX
+            Revenue over time
           </h3>
         </div>
 
@@ -139,7 +139,7 @@ export default function SalesWaveChart({ ledger = [] }) {
               onClick={() => setTimeframe(t)}
               className={`px-3 py-1.5 uppercase transition-all tracking-wider font-bold ${
                 timeframe === t
-                  ? 'bg-yellow-400 text-black'
+                  ? 'bg-red-600 text-white'
                   : 'text-zinc-500 hover:text-white'
               }`}
             >
@@ -158,26 +158,26 @@ export default function SalesWaveChart({ ledger = [] }) {
           >
             <defs>
               <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#facc15" stopOpacity={0.15}/>
-                <stop offset="95%" stopColor="#facc15" stopOpacity={0}/>
+                <stop offset="5%" stopColor="#dc2626" stopOpacity={0.22}/>
+                <stop offset="95%" stopColor="#dc2626" stopOpacity={0}/>
               </linearGradient>
             </defs>
             
             <CartesianGrid 
-              strokeDasharray="3 3" 
-              stroke="#18181b" 
+              strokeDasharray="3 3"
+              stroke="#292929"
             />
             
             <XAxis 
               dataKey="name" 
-              stroke="#52525b" 
+              stroke="#737373"
               fontSize={10}
               fontFamily="monospace"
               tickLine={false}
             />
             
             <YAxis 
-              stroke="#52525b" 
+              stroke="#737373"
               fontSize={10}
               fontFamily="monospace"
               tickLine={false}
@@ -187,10 +187,10 @@ export default function SalesWaveChart({ ledger = [] }) {
             
             <Tooltip
               contentStyle={{
-                backgroundColor: '#09090b', 
-                borderColor: '#27272a', 
+                backgroundColor: '#171717',
+                borderColor: '#333333',
                 color: '#fff',
-                fontFamily: 'monospace',
+                fontFamily: 'Arial, sans-serif',
                 fontSize: '11px'
               }}
               cursor={{ stroke: '#27272a' }}
@@ -200,7 +200,7 @@ export default function SalesWaveChart({ ledger = [] }) {
             <Area
               type="monotone" 
               dataKey="sales"
-              stroke="#facc15" 
+              stroke="#ef4444"
               strokeWidth={2}
               fillOpacity={1}
               fill="url(#colorSales)"

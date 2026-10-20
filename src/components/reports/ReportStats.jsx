@@ -1,4 +1,4 @@
-import { DollarSign, Activity, Skull, TrendingUp } from 'lucide-react'; // Pinalitan ang icons para mas swak sa lagay ng account
+import { Activity, DollarSign, TrendingUp, Users } from 'lucide-react';
 
 export default function ReportStats({
   revenue = 0,
@@ -7,76 +7,46 @@ export default function ReportStats({
   dailyRevenue = 0,
   dailyTransactions = 0
 }) {
+  const stats = [
+    {
+      label: 'Total sales',
+      value: `₱${Number(revenue).toLocaleString(undefined, { minimumFractionDigits: 2 })}`,
+      detail: 'Selected period',
+      icon: DollarSign
+    },
+    {
+      label: 'Transactions',
+      value: dailyTransactions,
+      detail: `₱${Number(dailyRevenue).toLocaleString(undefined, { minimumFractionDigits: 2 })} filtered sales`,
+      icon: TrendingUp,
+      accent: true
+    },
+    {
+      label: 'Active members',
+      value: active,
+      detail: 'Current memberships',
+      icon: Activity
+    },
+    {
+      label: 'Expired memberships',
+      value: expired,
+      detail: 'Members to follow up',
+      icon: Users
+    }
+  ];
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 font-mono">
-
-      {/* TOTAL REVENUE */}
-      <div className="bg-zinc-950 border border-zinc-900 p-5 space-y-3">
-        <div className="flex items-center justify-between text-zinc-500 text-[10px] uppercase tracking-wider">
-          <span>// TOTAL_SALES_REVENUE</span>
-          <DollarSign className="w-4 h-4 text-emerald-400" />
-        </div>
-
-        <div>
-          <span className="text-2xl font-normal text-white font-sans">
-            ₱{Number(revenue).toLocaleString(undefined, { minimumFractionDigits: 2 })}
-          </span>
-
-          <span className="text-[10px] text-emerald-400 block mt-1 flex items-center gap-1">
-            <TrendingUp className="w-3 h-3" />
-            Revenue Generated
-          </span>
-        </div>
-      </div>
-
-      {/* DAILY TRANSACTIONS */}
-      <div className="bg-zinc-950 border border-yellow-400/30 p-5 space-y-3">
-        <div className="flex items-center justify-between text-zinc-500 text-[10px] uppercase tracking-wider">
-          <span>// DAILY_TRANSACTIONS</span>
-          <DollarSign className="w-4 h-4 text-yellow-400" />
-        </div>
-        <div>
-          <span className="text-2xl font-normal text-yellow-400 font-sans">{dailyTransactions}</span>
-          <span className="text-[10px] text-zinc-500 block mt-1">₱{Number(dailyRevenue).toLocaleString(undefined, { minimumFractionDigits: 2 })} filtered revenue</span>
-        </div>
-      </div>
-
-      {/* ACTIVE MEMBERS */}
-      <div className="bg-zinc-950 border border-zinc-900 p-5 space-y-3">
-        <div className="flex items-center justify-between text-zinc-500 text-[10px] uppercase tracking-wider">
-          <span>// ACTIVE_SUBSCRIPTIONS</span>
-          <Activity className="w-4 h-4 text-yellow-400" />
-        </div>
-
-        <div>
-          <span className="text-2xl font-normal text-white font-sans">
-            {active}
-          </span>
-
-          <span className="text-[10px] text-zinc-500 block mt-1">
-            Active Nodes / Members
-          </span>
-        </div>
-      </div>
-
-      {/* EXPIRED MEMBERS (TINAMAAN ANG LABELS DITO) */}
-      <div className="bg-zinc-950 border border-zinc-900 p-5 space-y-3">
-        <div className="flex items-center justify-between text-zinc-500 text-[10px] uppercase tracking-wider">
-          <span>// EXPIRED_SYSTEM_LOCKS</span> {/* Tinama base sa query mo */}
-          <Skull className="w-4 h-4 text-red-500/80" />
-        </div>
-
-        <div>
-          <span className="text-2xl font-normal text-red-500 font-sans">
-            {expired}
-          </span>
-
-          <span className="text-[10px] text-zinc-600 block mt-1+">
-            Terminated / Expired Accounts
-          </span>
-        </div>
-      </div>
-
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      {stats.map(({ label, value, detail, icon: Icon, accent }) => (
+        <article className="admin-stat-card" key={label}>
+          <div className="flex items-center justify-between gap-3">
+            <span>{label}</span>
+            <Icon className={`h-4 w-4 ${accent ? 'text-red-400' : 'text-zinc-400'}`} />
+          </div>
+          <p>{value}</p>
+          <small>{detail}</small>
+        </article>
+      ))}
     </div>
   );
 }

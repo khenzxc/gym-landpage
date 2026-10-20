@@ -4,7 +4,7 @@ export default function InvoiceLog({ members = [], onVoidTransaction }) {
   if (!members || members.length === 0) {
     return (
       <div className="bg-zinc-950 border border-zinc-900 p-8 text-center text-zinc-600 font-mono text-xs">
-        // SYSTEM_AUDIT_LEDGER_EMPTY //
+        No transactions found for this period.
       </div>
     );
   }
@@ -13,15 +13,15 @@ export default function InvoiceLog({ members = [], onVoidTransaction }) {
     <div className="bg-zinc-950 border border-zinc-900 p-6 md:p-8 space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-dashed border-zinc-800 pb-4">
         <div>
-          <h4 className="text-lg font-black uppercase tracking-tight text-white font-sans">
-            RECEIPT AUDIT LEDGER
+          <h4 className="text-lg font-semibold tracking-tight text-white font-sans">
+            Transactions
           </h4>
-          <p className="text-xs text-zinc-500 font-mono">
-            Real-time transaction slip compilation & financial data streams
+          <p className="text-sm text-zinc-500">
+            Membership and product payment history
           </p>
         </div>
         <div className="text-left sm:text-right font-mono text-[10px] text-zinc-600 mt-2 sm:mt-0">
-          LOG_COUNT: {members.length} UNIT(S)
+          {members.length} {members.length === 1 ? 'transaction' : 'transactions'}
         </div>
       </div>
 
@@ -29,16 +29,16 @@ export default function InvoiceLog({ members = [], onVoidTransaction }) {
       <div className="overflow-x-auto overflow-y-auto max-h-[380px] custom-scrollbar border border-zinc-900 bg-black/20">
         <table className="w-full text-left border-collapse font-mono text-xs min-w-[600px]">
           <thead>
-            <tr className="bg-zinc-900/40 border-b border-dashed border-zinc-800 text-zinc-500 tracking-wider uppercase text-[10px]">
-              <th className="p-4 font-mono">// SLIP_NO</th>
-              <th className="p-4 font-sans">CLIENT_NAME</th>
-              <th className="p-4">ISSUED_PACKAGE</th>
-              <th className="p-4">TIMESTAMP</th>
-              <th className="p-4 text-right">TOTAL_GROSS</th>
+            <tr className="bg-zinc-900/40 border-b border-zinc-800 text-zinc-500 tracking-wider uppercase text-[10px]">
+              <th className="p-4 font-sans">Receipt</th>
+              <th className="p-4 font-sans">Member</th>
+              <th className="p-4 font-sans">Plan</th>
+              <th className="p-4 font-sans">Date</th>
+              <th className="p-4 text-right font-sans">Amount</th>
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-dashed divide-zinc-900 bg-black/40">
+          <tbody className="divide-y divide-zinc-900 bg-black/40">
             {members.map((member) => {
               const plan = member?.plan || 'Standard Membership';
               const payment = member?.payment || 'Pending';
@@ -87,11 +87,11 @@ export default function InvoiceLog({ members = [], onVoidTransaction }) {
                     <span className="font-black text-white block text-sm">
                       ₱{basePrice}
                     </span>
-                    <span className={`text-[9px] font-bold tracking-widest ${payment.toLowerCase() === 'paid'
-                        ? 'text-emerald-400'
-                        : 'text-amber-500'
+                    <span className={`text-[10px] font-medium ${payment.toLowerCase() === 'paid'
+                        ? 'text-zinc-400'
+                        : 'text-red-400'
                       }`}>
-                      [{payment.toUpperCase()}]
+                      {payment}
                     </span>
                     {member?.voidedAt ? <span className="mt-1 block text-[9px] font-bold tracking-wider text-red-400">VOIDED</span> : <>
                     <button onClick={() => onVoidTransaction?.(member)} className="mt-2 border border-red-950 px-2 py-1 font-mono text-[9px] uppercase tracking-wider text-red-400 hover:border-red-500 hover:text-red-300">
@@ -106,10 +106,6 @@ export default function InvoiceLog({ members = [], onVoidTransaction }) {
         </table>
       </div>
 
-      {/* FOOTER DECORATOR PARA SA RECEIPTS */}
-      <div className="border-t border-dashed border-zinc-900 pt-2 text-[10px] text-center font-mono text-zinc-600 tracking-widest">
-        --- END OF ACTIVE TRANSACTIONS RECORD PROTOCOL ---
-      </div>
     </div>
   );
 }

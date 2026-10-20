@@ -39,9 +39,9 @@ export default function MemberProfileModal({ member, onClose }) {
           <X className="h-5 w-5" />
         </button>
         <div className="mb-6 border-b border-zinc-900 pb-5">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-600">// MEMBER_PROFILE_RECORD</span>
+          <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-600">Member details</span>
           <div className="mt-3 flex items-center gap-3">
-            <h3 className="pr-8 text-2xl font-black uppercase tracking-tight text-white">{member.name}</h3>
+            <h3 className="pr-8 text-2xl font-semibold tracking-tight text-white">{member.name}</h3>
           </div>
           <p className="mt-1 font-mono text-xs text-yellow-400">{member.plan || 'No plan assigned'}</p>
         </div>

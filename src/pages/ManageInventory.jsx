@@ -174,10 +174,10 @@ export default function ManageInventory({ setView }) {
               </button>
               <div>
                 <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">
-                  Inventory
+                  Products and supplies
                 </span>
                 <h2 className="text-2xl font-black uppercase tracking-tight sm:text-3xl lg:text-4xl">
-                  Manage inventory
+                  Inventory
                 </h2>
               </div>
             </div>
@@ -192,7 +192,7 @@ export default function ManageInventory({ setView }) {
                   {editingId ? "Edit stock item" : "Add stock item"}
                 </h3>
                 <p className="mt-1 font-mono text-xs text-zinc-600">
-                  Track equipment and consumables.
+                  Add products and keep stock levels up to date.
                 </p>
               </div>
               <input

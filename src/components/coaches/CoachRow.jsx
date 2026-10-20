@@ -20,8 +20,8 @@ export default function CoachRow({
           <Award className="w-4 h-4 text-yellow-400" />
         </div>
         <div className="space-y-1">
-          <span className="text-[9px] text-zinc-600 block uppercase">[{coach.id}] SYSTEM_VERIFIED</span>
-          <span className="text-sm font-black text-white font-sans block">{coach.name}</span>
+          <span className="mb-1 block text-xs text-zinc-500">Coach #{coach.id}</span>
+          <span className="block text-sm font-semibold text-white">{coach.name}</span>
           
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-zinc-400 pt-0.5">
             <span className="flex items-center gap-1"><ShieldCheck className="w-3 h-3 text-zinc-600" /> {coach.specialty}</span>
@@ -81,7 +81,7 @@ export default function CoachRow({
         ) : (
           <div className="flex items-center gap-6 justify-between w-full md:w-auto">
             <div className="text-right hidden sm:block">
-              <span className="text-[9px] text-zinc-600 block uppercase">NODE_STATUS</span>
+              <span className="text-xs text-zinc-500 block">Status</span>
               <span className={`text-xs font-bold uppercase tracking-wider ${coach.status === 'Active' ? 'text-emerald-400' : 'text-amber-500'}`}>
                 ● {coach.status}
               </span>

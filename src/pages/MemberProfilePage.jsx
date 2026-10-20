@@ -61,14 +61,14 @@ export default function MemberProfilePage({ setView, onLogout }) {
             <div className="flex items-start gap-3">
               <button onClick={() => setSidebarOpen(true)} className="admin-menu-button md:hidden" aria-label="Open navigation"><Menu className="h-5 w-5" /></button>
               <button onClick={() => navigate('/members')} className="admin-icon-button" aria-label="Back to athlete roster"><ArrowLeft className="h-5 w-5" /></button>
-              <div><span className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">Athlete roster / profile</span><h2 className="text-2xl font-black uppercase tracking-tight sm:text-3xl">Athlete profile</h2></div>
+              <div><span className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">Members / profile</span><h2 className="text-2xl font-black uppercase tracking-tight sm:text-3xl">Member profile</h2></div>
             </div>
           </header>
           {loading ? <div className="border border-zinc-900 bg-zinc-950 p-12 text-center font-mono text-xs text-zinc-600">Loading member profile...</div> : !member ? <div className="border border-red-900/50 bg-red-950/20 p-8 font-mono text-xs text-red-400">Member not found.</div> : (
             <>
               <section className="border border-zinc-900 bg-zinc-950 p-6 md:p-8">
                 <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-                  <div className="min-w-0 flex-1"><span className="font-mono text-xs text-yellow-400">{member.id}</span><h3 className="mt-1 break-words text-3xl font-black uppercase">{member.name}</h3><p className="font-mono text-xs text-zinc-500">{member.plan || 'No plan assigned'}</p></div>
+                  <div className="min-w-0 flex-1"><span className="font-mono text-xs text-yellow-400">Member #{member.id}</span><h3 className="mt-1 break-words text-3xl font-black">{member.name}</h3><p className="font-mono text-xs text-zinc-500">{member.plan || 'No plan assigned'}</p></div>
                   {canDeleteMember && <button onClick={handleDeleteMember} disabled={deleting} className="inline-flex shrink-0 items-center gap-2 border border-red-950 px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-widest text-red-400 transition-colors hover:border-red-500 hover:bg-red-950/30 hover:text-red-300 disabled:cursor-not-allowed disabled:opacity-50"><Trash2 className="h-3.5 w-3.5" />{deleting ? 'Deleting' : 'Delete member'}</button>}
                 </div>
                 <div className="mt-6 grid grid-cols-1 gap-3 font-mono text-xs sm:grid-cols-2 lg:grid-cols-4">

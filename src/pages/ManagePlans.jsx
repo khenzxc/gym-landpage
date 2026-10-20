@@ -157,7 +157,7 @@ export default function ManagePlans({ setView }) {
 
                 <div className="min-w-0">
                   <span className="text-[10px] sm:text-xs font-mono tracking-widest text-zinc-500 block uppercase">
-                    Plans and pricing
+                    Membership setup
                   </span>
 
                   <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight break-words">
@@ -199,7 +199,7 @@ export default function ManagePlans({ setView }) {
                 )}
 
                 <span>
-                  {isAdding ? 'Cancel Deploy' : 'Add New Plan'}
+                  {isAdding ? 'Cancel' : 'Add plan'}
                 </span>
               </button>
 
@@ -226,7 +226,7 @@ export default function ManagePlans({ setView }) {
               >
                 <div className="space-y-2">
                   <label className="text-zinc-500 uppercase text-[10px]">
-                    Tier Classification
+                    Category
                   </label>
 
                   <select
@@ -243,7 +243,7 @@ export default function ManagePlans({ setView }) {
 
                 <div className="space-y-2">
                   <label className="text-zinc-500 uppercase text-[10px]">
-                    Duration Type
+                    Billing period
                   </label>
 
                   <select
@@ -264,7 +264,7 @@ export default function ManagePlans({ setView }) {
 
                 <div className="space-y-2 md:col-span-2">
                   <label className="text-zinc-500 uppercase text-[10px]">
-                    Promo / Plan Label Name
+                    Plan name
                   </label>
 
                   <div className="relative">
@@ -328,7 +328,7 @@ export default function ManagePlans({ setView }) {
                     <th className="p-4">Plan</th>
                     <th className="p-4">Category</th>
                     <th className="p-4">Price</th>
-                    <th className="p-4 text-right">ACTIONS</th>
+                    <th className="p-4 text-right">Actions</th>
                   </tr>
                 </thead>
 
@@ -424,7 +424,7 @@ export default function ManagePlans({ setView }) {
                         colSpan="5"
                         className="p-8 text-center text-zinc-600 font-mono text-xs"
                       >
-                        [!] NO_PLAN_RECORD_FOUND
+                        No plans found.
                       </td>
                     </tr>
                   )}

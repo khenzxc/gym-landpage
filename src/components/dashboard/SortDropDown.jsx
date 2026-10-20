@@ -6,10 +6,10 @@ export default function SortDropdown({ currentSort, onSortChange }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const options = [
-    { value: 'newest', label: 'NEWEST_ATHLETES' },
-    { value: 'name-az', label: 'NAME_SORT_A_Z' },
-    { value: 'name-za', label: 'NAME_SORT_Z_A' },
-    { value: 'active-only', label: 'STATUS_ACTIVE_ONLY' },
+    { value: 'newest', label: 'Newest members' },
+    { value: 'name-az', label: 'Name: A to Z' },
+    { value: 'name-za', label: 'Name: Z to A' },
+    { value: 'active-only', label: 'Active members' },
   ];
 
   const handleSelect = (value) => {

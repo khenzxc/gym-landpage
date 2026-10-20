@@ -121,10 +121,10 @@ export default function AdminDashboard({ setView }) {
 
               <div>
                 <span className="text-[10px] sm:text-xs font-mono tracking-widest text-zinc-500 block uppercase">
-                  Active session
+                  Overview
                 </span>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight">
-                  ADMIN DASHBOARD
+                  Dashboard
                 </h2>
               </div>
             </div>

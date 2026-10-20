@@ -41,34 +41,33 @@ export default function StatsGrid({ refreshTrigger }) {
     };
 
     fetchMetrics();
-  }, [refreshTrigger, API_URL]);
+  }, [refreshTrigger]);
 
   const stats = [
-    { 
-      title: "TOTAL_MEMBERS", 
-      value: loading ? "..." : Number(metrics.total_members).toLocaleString(), 
-      change: "+12% nitong buwan", 
-      icon: Users, 
-      color: "text-yellow-400" 
+    {
+      title: "Total members",
+      value: loading ? "..." : Number(metrics.total_members).toLocaleString(),
+      change: "All registered members",
+      icon: Users,
+      color: "text-yellow-400"
     },
-    { 
-      title: "MONTHLY_REVENUE", 
-      value: loading ? "..." : `₱${Number(metrics.gross_revenue).toLocaleString(undefined, { minimumFractionDigits: 0 })}`, 
-      // FIXED: Mas tumpak na deskripsyon para sa monthly layout
-      change: "Kita ngayong buwan", 
-      icon: DollarSign, 
-      color: "text-emerald-400" 
+    {
+      title: "Monthly revenue",
+      value: loading ? "..." : `₱${Number(metrics.gross_revenue).toLocaleString(undefined, { minimumFractionDigits: 0 })}`,
+      change: "Revenue this month",
+      icon: DollarSign,
+      color: "text-emerald-400"
     },
-    { 
-      title: "ACTIVE_TRAINEES", 
-      value: loading ? "..." : Number(metrics.live_active_nodes).toLocaleString(), 
-      change: "Kasalukuyang nagbubuhat", 
-      icon: Activity, 
-      color: "text-amber-500" 
+    {
+      title: "Active members",
+      value: loading ? "..." : Number(metrics.live_active_nodes).toLocaleString(),
+      change: "Current memberships",
+      icon: Activity,
+      color: "text-amber-500"
     },
-    { 
-      title: "RETENTION_RATE", 
-      value: loading ? "..." : `${metrics.retention_rate}%`, 
+    {
+      title: "Retention rate",
+      value: loading ? "..." : `${metrics.retention_rate}%`,
       change: "Active membership ratio", 
       icon: TrendingUp, 
       color: "text-blue-400" 
@@ -83,15 +82,15 @@ export default function StatsGrid({ refreshTrigger }) {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: idx * 0.1 }}
-          className="bg-zinc-950 border border-zinc-900 p-6 space-y-4 relative overflow-hidden"
+          className="admin-stat-card space-y-4 relative overflow-hidden"
         >
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono tracking-widest text-zinc-500 uppercase">{stat.title}</span>
+            <span>{stat.title}</span>
             <stat.icon className={`w-5 h-5 ${stat.color}`} />
           </div>
           <div>
-            <h3 className="text-2xl font-black font-mono tracking-tight">{stat.value}</h3>
-            <p className="text-[10px] font-mono text-zinc-600 mt-1">{stat.change}</p>
+            <p>{stat.value}</p>
+            <small>{stat.change}</small>
           </div>
           <div className="absolute bottom-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-zinc-800 to-transparent" />
         </motion.div>

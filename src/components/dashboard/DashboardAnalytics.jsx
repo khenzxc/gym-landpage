@@ -48,50 +48,117 @@ export default function DashboardAnalytics({ refreshTrigger, expiringSoonMembers
     })(),
     sales: Number(entry.sales || 0)
   }));
-  const membershipSplit = [{ name: 'Active', value: Number(metrics.live_active_nodes), color: '#34d399' }, { name: 'Expired', value: Number(metrics.expired_system_locks), color: '#f87171' }];
+  const membershipSplit = [
+    { name: 'Active', value: Number(metrics.live_active_nodes), color: '#dc2626' },
+    { name: 'Expired', value: Number(metrics.expired_system_locks), color: '#555555' }
+  ];
 
-  return <section className="space-y-5">
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-      {cards.map(({ label, value, icon: Icon, color }) => <div key={label} className="border border-zinc-900 bg-zinc-950 p-5"><div className="flex items-center justify-between"><span className="font-semibold text-sm tracking-tight text-zinc-300">{label}</span><Icon className={`h-4 w-4 ${color}`} /></div><p className="mt-4 text-2xl font-normal tracking-tight text-white">{loading ? '...' : value}</p></div>)}
-      <div className="border border-zinc-900 bg-zinc-950 p-5 xl:col-span-3">
-        <div className="mb-4 flex items-center justify-between gap-3">
-          <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">Member alerts</p>
-            <h3 className="text-xl font-black uppercase tracking-tight">Expiring soon</h3>
+  return (
+    <section className="space-y-5">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {cards.map(({ label, value, icon: Icon, color }) => (
+          <article key={label} className="admin-stat-card">
+            <div className="flex items-center justify-between gap-3">
+              <span>{label}</span>
+              <Icon className={`h-4 w-4 ${color}`} />
+            </div>
+            <p>{loading ? '—' : value}</p>
+          </article>
+        ))}
+
+        <article className="admin-content-card xl:col-span-3">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <div>
+              <p className="admin-card-eyebrow">Member alerts</p>
+              <h3 className="text-lg font-semibold">Memberships ending soon</h3>
+            </div>
+            <span className="admin-count-pill">{expiringSoonMembers.length} members</span>
           </div>
-          <span className="rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-amber-300">
-            {expiringSoonMembers.length} members
-          </span>
-        </div>
-        {expiringSoonMembers.length > 0 ? (
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {expiringSoonMembers.map((member) => {
-              const expiryDate = new Date(member.expiryDate);
-              const today = new Date();
-              today.setHours(0, 0, 0, 0);
-              expiryDate.setHours(0, 0, 0, 0);
-              const daysLeft = Math.ceil((expiryDate - today) / (1000 * 60 * 60 * 24));
-              return (
-                <div key={member.id} className="flex items-center justify-between gap-3 border border-zinc-900 bg-black/40 px-3 py-2">
-                  <div>
-                    <p className="font-semibold text-white">{member.name}</p>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-zinc-500">{member.id}</p>
+          {expiringSoonMembers.length > 0 ? (
+            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              {expiringSoonMembers.map((member) => {
+                const expiryDate = new Date(member.expiryDate);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                expiryDate.setHours(0, 0, 0, 0);
+                const daysLeft = Math.ceil((expiryDate - today) / (1000 * 60 * 60 * 24));
+                return (
+                  <div key={member.id} className="admin-alert-row">
+                    <div>
+                      <p className="font-medium text-white">{member.name}</p>
+                      <p className="mt-1 text-xs text-zinc-500">{member.id}</p>
+                    </div>
+                    <span className="text-xs font-medium text-red-400">
+                      {daysLeft === 0 ? 'Expires today' : `${daysLeft} days left`}
+                    </span>
                   </div>
-                  <span className={`font-mono text-[10px] font-bold uppercase tracking-[0.12em] ${daysLeft === 0 ? 'text-red-400' : 'text-amber-300'}`}>
-                    {daysLeft === 0 ? 'Expires today' : `${daysLeft} days left`}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          <p className="font-mono text-xs text-zinc-500">No members are expiring within the next 7 days.</p>
-        )}
+                );
+              })}
+            </div>
+          ) : (
+            <p className="text-sm text-zinc-500">No memberships are ending in the next 7 days.</p>
+          )}
+        </article>
       </div>
-    </div>
-    <div className="grid gap-5 xl:grid-cols-[1.6fr_1fr]">
-      <div className="border border-zinc-900 bg-zinc-950 p-5"><div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"><div><span className="font-mono text-[10px] tracking-widest text-zinc-500">Business sales</span><h3 className="font-black uppercase">Sales trend</h3></div><div className="flex flex-col gap-2 sm:flex-row"><select value={trendType} onChange={(event) => setTrendType(event.target.value)} aria-label="Sales trend type" className="border border-zinc-800 bg-black px-3 py-2 font-mono text-[10px] uppercase tracking-wider text-zinc-300 outline-none focus:border-zinc-500"><option value="combined">All sales</option><option value="membership">Membership sales</option><option value="products">Product sales</option></select><select value={trendDays} onChange={(event) => setTrendDays(Number(event.target.value))} aria-label="Sales trend date range" className="border border-zinc-800 bg-black px-3 py-2 font-mono text-[10px] uppercase tracking-wider text-zinc-300 outline-none focus:border-zinc-500"><option value={7}>Last 7 days</option><option value={30}>Last 30 days</option><option value={90}>Last 90 days</option></select></div></div><div className="h-64"><ResponsiveContainer width="100%" height="100%"><LineChart data={trend}><CartesianGrid stroke="#27272a" strokeDasharray="3 3" /><XAxis dataKey="name" stroke="#71717a" fontSize={10} minTickGap={24} /><YAxis stroke="#71717a" fontSize={10} tickFormatter={(value) => `₱${Number(value).toLocaleString()}`} /><Tooltip formatter={(value) => [`₱${Number(value).toLocaleString()}`, 'Sales']} labelStyle={{ color: '#a1a1aa' }} contentStyle={{ background: '#09090b', border: '1px solid #27272a', fontSize: 12 }} /><Line type="monotone" dataKey="sales" stroke="#f4f4f5" strokeWidth={2.5} dot={{ r: 3, fill: '#f4f4f5', strokeWidth: 0 }} activeDot={{ r: 5, fill: '#f4f4f5' }} name="Sales" /></LineChart></ResponsiveContainer></div></div>
-      <div className="border border-zinc-900 bg-zinc-950 p-5"><div className="mb-4"><span className="font-mono text-[10px] tracking-widest text-zinc-500">Membership health</span><h3 className="font-black uppercase">Member status</h3></div><div className="h-64"><ResponsiveContainer width="100%" height="100%"><PieChart><Pie data={membershipSplit} dataKey="value" nameKey="name" innerRadius={58} outerRadius={88} paddingAngle={4}>{membershipSplit.map((entry) => <Cell key={entry.name} fill={entry.color} />)}</Pie><Tooltip contentStyle={{ background: '#09090b', border: '1px solid #27272a', fontSize: 12 }} /></PieChart></ResponsiveContainer></div><div className="flex justify-center gap-5 font-mono text-[10px] text-zinc-500">{membershipSplit.map((entry) => <span key={entry.name} className="flex items-center gap-2"><i className="h-2 w-2" style={{ backgroundColor: entry.color }} />{entry.name}: {entry.value}</span>)}</div></div>
-    </div>
-  </section>;
+
+      <div className="grid gap-5 xl:grid-cols-[1.6fr_1fr]">
+        <article className="admin-content-card">
+          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="admin-card-eyebrow">Business overview</p>
+              <h3 className="text-lg font-semibold">Sales over time</h3>
+            </div>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <select value={trendType} onChange={(event) => setTrendType(event.target.value)} aria-label="Sales trend type">
+                <option value="combined">All sales</option>
+                <option value="membership">Membership sales</option>
+                <option value="products">Product sales</option>
+              </select>
+              <select value={trendDays} onChange={(event) => setTrendDays(Number(event.target.value))} aria-label="Sales trend date range">
+                <option value={7}>Last 7 days</option>
+                <option value={30}>Last 30 days</option>
+                <option value={90}>Last 90 days</option>
+              </select>
+            </div>
+          </div>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={trend}>
+                <CartesianGrid stroke="#292929" strokeDasharray="3 3" />
+                <XAxis dataKey="name" stroke="#777" fontSize={10} minTickGap={24} />
+                <YAxis stroke="#777" fontSize={10} tickFormatter={(value) => `₱${Number(value).toLocaleString()}`} />
+                <Tooltip formatter={(value) => [`₱${Number(value).toLocaleString()}`, 'Sales']} labelStyle={{ color: '#e4e4e7' }} contentStyle={{ background: '#171717', border: '1px solid #333', borderRadius: 8, fontSize: 12 }} />
+                <Line type="monotone" dataKey="sales" stroke="#ef4444" strokeWidth={2.5} dot={{ r: 3, fill: '#ef4444', strokeWidth: 0 }} activeDot={{ r: 5, fill: '#fff' }} name="Sales" />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </article>
+
+        <article className="admin-content-card">
+          <div className="mb-4">
+            <p className="admin-card-eyebrow">Membership overview</p>
+            <h3 className="text-lg font-semibold">Member status</h3>
+          </div>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie data={membershipSplit} dataKey="value" nameKey="name" innerRadius={58} outerRadius={88} paddingAngle={4}>
+                  {membershipSplit.map((entry) => <Cell key={entry.name} fill={entry.color} />)}
+                </Pie>
+                <Tooltip contentStyle={{ background: '#171717', border: '1px solid #333', borderRadius: 8, fontSize: 12 }} />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="flex justify-center gap-5 text-xs text-zinc-400">
+            {membershipSplit.map((entry) => (
+              <span key={entry.name} className="flex items-center gap-2">
+                <i className="h-2 w-2 rounded-full" style={{ backgroundColor: entry.color }} />
+                {entry.name}: {entry.value}
+              </span>
+            ))}
+          </div>
+        </article>
+      </div>
+    </section>
+  );
 }

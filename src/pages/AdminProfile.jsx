@@ -66,7 +66,7 @@ export default function AdminProfile({ setView, onLogout, user }) {
 
               <div className="min-w-0">
                 <span className="text-[10px] sm:text-xs font-mono tracking-widest text-zinc-500 block uppercase">
-                  Account settings
+                  Your account
                 </span>
                   <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight break-words">
                   Admin profile
@@ -128,7 +128,7 @@ export default function AdminProfile({ setView, onLogout, user }) {
 
                 <form onSubmit={handleUpdateProfile} className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs">
                   <div className="space-y-2">
-                    <label className="text-zinc-500 uppercase block text-[10px]">Master Full Name</label>
+                    <label className="text-zinc-500 uppercase block text-[10px]">                    Full name</label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-700" />
                       <input
@@ -141,7 +141,7 @@ export default function AdminProfile({ setView, onLogout, user }) {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-zinc-500 uppercase block text-[10px]">Secure Routing Email</label>
+                    <label className="text-zinc-500 uppercase block text-[10px]">                    Email address</label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-700" />
                       <input
@@ -159,7 +159,7 @@ export default function AdminProfile({ setView, onLogout, user }) {
                       className="w-full sm:w-auto bg-zinc-900 border border-zinc-800 hover:border-yellow-400 text-zinc-400 hover:text-white font-mono text-xs px-5 py-3 flex items-center justify-center gap-2 transition-all"
                     >
                       <Save className="w-4 h-4" />
-                      Save_Metadata
+                      Save changes
                     </button>
                   </div>
                 </form>
@@ -178,7 +178,7 @@ export default function AdminProfile({ setView, onLogout, user }) {
 
                 <form onSubmit={handleUpdatePassword} className="space-y-4 font-mono text-xs">
                   <div className="space-y-2">
-                    <label className="text-zinc-500 uppercase block text-[10px]">Current Gateway Pin</label>
+                    <label className="text-zinc-500 uppercase block text-[10px]">Current password</label>
                     <div className="relative">
                       <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-700" />
                       <input
@@ -193,7 +193,7 @@ export default function AdminProfile({ setView, onLogout, user }) {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label className="text-zinc-500 uppercase block text-[10px]">New Access Sequence</label>
+                      <label className="text-zinc-500 uppercase block text-[10px]">New password</label>
                       <input
                         type="password"
                         required
@@ -203,7 +203,7 @@ export default function AdminProfile({ setView, onLogout, user }) {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-zinc-500 uppercase block text-[10px]">Confirm New Sequence</label>
+                      <label className="text-zinc-500 uppercase block text-[10px]">Confirm new password</label>
                       <input
                         type="password"
                         required
@@ -220,7 +220,7 @@ export default function AdminProfile({ setView, onLogout, user }) {
                       className="w-full sm:w-auto bg-yellow-400 text-black font-black uppercase tracking-widest px-5 py-3 flex items-center justify-center gap-2 transition-all hover:bg-yellow-500"
                     >
                       <RefreshCw className="w-4 h-4" />
-                      Rotate_Access_Codes
+                      Update password
                     </button>
                   </div>
                 </form>

@@ -202,10 +202,10 @@ export default function ManageMembers({ setView }) {
 
               <div className="min-w-0">
                 <span className="text-[10px] sm:text-xs font-mono tracking-widest text-zinc-500 block uppercase">
-                  // REGISTRY_ACQUISITION_LAYER
+                  Members
                 </span>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight break-words">
-                  MANAGE GYM MEMBERS
+                  Member directory
                 </h2>
               </div>
             </div>

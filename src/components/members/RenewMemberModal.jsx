@@ -126,11 +126,11 @@ export default function RenewMemberModal({
                 >
                   <div>
                     <span className="text-[10px] font-mono tracking-widest text-zinc-600 block mb-1">
-                      // RENEWAL_PIPELINE
+                      Membership
                     </span>
-                    <h3 className="text-xl font-black uppercase text-white tracking-tight">
-                      Renew:{" "}
-                      <span className="text-yellow-400 font-sans font-medium">
+                    <h3 className="text-xl font-semibold text-white tracking-tight">
+                      Renew membership for{" "}
+                      <span className="text-red-400 font-sans font-medium">
                         {member?.name}
                       </span>
                     </h3>
@@ -148,7 +148,7 @@ export default function RenewMemberModal({
                         disabled={submitting}
                         className="w-full bg-black border border-zinc-900 text-white p-3.5 cursor-pointer outline-none focus:border-yellow-400 transition-colors"
                       >
-                        <option value="">[ SELECT PLAN ]</option>
+                        <option value="">Select a plan</option>
                         {plans.map(plan => (
                           <option key={plan.plan_id} value={plan.plan_id}>
                             {plan.plan_name}
@@ -160,7 +160,7 @@ export default function RenewMemberModal({
                     {/* PRICE DISPLAY */}
                     <div className="p-3.5 bg-zinc-900/30 border border-zinc-900/80 flex justify-between items-center">
                       <span className="text-zinc-500 text-[10px] uppercase">
-                        // TOTAL_DUE:
+                        Total due
                       </span>
                       <span className="text-yellow-400 font-black text-sm font-sans">
                         {currentPrice}
@@ -200,7 +200,7 @@ export default function RenewMemberModal({
                         className="flex-1 bg-yellow-400 text-black font-black uppercase py-3 flex justify-center items-center gap-2 hover:bg-yellow-500 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                       >
                         <RefreshCw className={submitting ? "animate-spin w-4 h-4" : "w-4 h-4"} />
-                        {submitting ? "Syncing" : "Renew"}
+                        {submitting ? "Saving..." : "Confirm renewal"}
                       </button>
                     </div>
                   </form>

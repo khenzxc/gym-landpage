@@ -32,5 +32,108 @@ export default function StaffManagement({ setView, onLogout }) {
     loadStaff();
   };
 
-  return <div className="flex min-h-screen bg-black text-white"><Sidebar setView={setView} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} onLogout={onLogout} /><main className="min-h-screen w-full flex-1 md:pl-72"><div className="mx-auto w-full max-w-6xl space-y-8 px-4 pb-8 sm:px-6 md:px-8 lg:px-10"><header className="sticky top-0 z-40 border-b border-zinc-900 bg-black/90 pb-6 pt-6 backdrop-blur-md"><div className="flex items-start gap-3"><button onClick={() => setSidebarOpen(true)} className="border border-zinc-800 bg-zinc-950 p-2.5 text-zinc-400 md:hidden" aria-label="Open navigation"><Menu className="h-5 w-5" /></button><div><span className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">// ACCESS_CONTROL_LAYER</span><h2 className="text-2xl font-black uppercase tracking-tight sm:text-3xl">Staff Accounts</h2></div></div></header><div className="grid gap-6 xl:grid-cols-[360px_1fr]"><form onSubmit={createStaff} className="space-y-4 border border-zinc-900 bg-zinc-950 p-6"><div><h3 className="flex items-center gap-2 font-mono text-sm font-bold uppercase"><UserPlus className="h-4 w-4 text-yellow-400" />Create account</h3><p className="mt-2 font-mono text-xs text-zinc-600">Passwords are hashed before storage.</p></div>{['fullName','email','password'].map((field) => <input key={field} type={field === 'password' ? 'password' : field === 'email' ? 'email' : 'text'} required minLength={field === 'password' ? 8 : undefined} value={form[field]} onChange={(event) => setForm({ ...form, [field]: event.target.value })} placeholder={field === 'fullName' ? 'Full name' : field === 'email' ? 'Email address' : 'Temporary password (8+ chars)'} className="w-full border border-zinc-900 bg-black p-3 font-mono text-xs text-white outline-none focus:border-yellow-400" />)}<select value={form.role} onChange={(event) => setForm({ ...form, role: event.target.value })} className="w-full border border-zinc-900 bg-black p-3 font-mono text-xs text-white"><option value="staff">Staff</option><option value="admin">Administrator</option></select>{error && <p className="border border-red-900/50 bg-red-950/20 p-3 font-mono text-xs text-red-400">{error}</p>}<button className="flex w-full items-center justify-center gap-2 bg-yellow-400 px-4 py-3 font-mono text-xs font-black uppercase text-black hover:bg-yellow-500"><UserPlus className="h-4 w-4" />Create account</button></form><section className="border border-zinc-900 bg-zinc-950 p-6"><h3 className="mb-5 flex items-center gap-2 border-b border-zinc-900 pb-4 font-mono text-sm font-bold uppercase"><ShieldCheck className="h-4 w-4 text-yellow-400" />Registered staff</h3><div className="space-y-2">{staff.map((user) => <div key={user.id} className="flex flex-col gap-3 border border-zinc-900 bg-black/40 p-4 sm:flex-row sm:items-center sm:justify-between"><div><p className="font-semibold">{user.fullName}</p><p className="font-mono text-xs text-zinc-500">{user.email} / {user.role}</p></div><button onClick={() => toggleStatus(user)} className={`font-mono text-xs ${user.status === 'Active' ? 'text-emerald-400' : 'text-red-400'}`}>{user.status}</button></div>)}{!staff.length && <p className="py-8 text-center font-mono text-xs text-zinc-600">NO_STAFF_RECORDS</p>}</div></section></div></div></main></div>;
+  return (
+    <div className="admin-page flex min-h-screen bg-black text-white">
+      <Sidebar setView={setView} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} onLogout={onLogout} />
+      <main className="min-h-screen w-full flex-1 md:pl-72">
+        <div className="mx-auto w-full max-w-6xl space-y-6 px-4 pb-8 sm:px-6 md:px-8 lg:px-10">
+          <header className="admin-page-header sticky top-0 z-40 border-b border-zinc-900 bg-black/90 pb-6 pt-6 backdrop-blur-md">
+            <div className="flex items-start gap-3">
+              <button onClick={() => setSidebarOpen(true)} className="admin-menu-button md:hidden" aria-label="Open navigation">
+                <Menu className="h-5 w-5" />
+              </button>
+              <div>
+                <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">Account access</span>
+                <h2 className="text-2xl font-black tracking-tight sm:text-3xl">Staff accounts</h2>
+              </div>
+            </div>
+          </header>
+
+          <div className="grid gap-5 xl:grid-cols-[360px_1fr]">
+            <form onSubmit={createStaff} className="admin-content-card space-y-4">
+              <div>
+                <h3 className="flex items-center gap-2 text-base font-semibold">
+                  <UserPlus className="h-4 w-4 text-red-400" />
+                  Add a staff account
+                </h3>
+                <p className="mt-2 text-sm text-zinc-500">Passwords are encrypted before they are stored.</p>
+              </div>
+
+              <label className="block space-y-1.5 text-xs text-zinc-400">
+                Full name
+                <input
+                  type="text"
+                  required
+                  value={form.fullName}
+                  onChange={(event) => setForm({ ...form, fullName: event.target.value })}
+                  placeholder="Enter full name"
+                  className="w-full border border-zinc-900 bg-black p-3 text-sm text-white outline-none focus:border-red-500"
+                />
+              </label>
+              <label className="block space-y-1.5 text-xs text-zinc-400">
+                Email address
+                <input
+                  type="email"
+                  required
+                  value={form.email}
+                  onChange={(event) => setForm({ ...form, email: event.target.value })}
+                  placeholder="name@example.com"
+                  className="w-full border border-zinc-900 bg-black p-3 text-sm text-white outline-none focus:border-red-500"
+                />
+              </label>
+              <label className="block space-y-1.5 text-xs text-zinc-400">
+                Temporary password
+                <input
+                  type="password"
+                  required
+                  minLength={8}
+                  value={form.password}
+                  onChange={(event) => setForm({ ...form, password: event.target.value })}
+                  placeholder="At least 8 characters"
+                  className="w-full border border-zinc-900 bg-black p-3 text-sm text-white outline-none focus:border-red-500"
+                />
+              </label>
+              <label className="block space-y-1.5 text-xs text-zinc-400">
+                Role
+                <select value={form.role} onChange={(event) => setForm({ ...form, role: event.target.value })} className="w-full border border-zinc-900 bg-black p-3 text-sm text-white">
+                  <option value="staff">Staff</option>
+                  <option value="admin">Administrator</option>
+                </select>
+              </label>
+
+              {error && <p role="alert" className="border border-red-900/50 bg-red-950/20 p-3 text-sm text-red-400">{error}</p>}
+              <button className="flex min-h-10 w-full items-center justify-center gap-2 bg-red-600 px-4 py-3 text-sm font-semibold text-white hover:bg-red-700">
+                <UserPlus className="h-4 w-4" />
+                Create account
+              </button>
+            </form>
+
+            <section className="admin-content-card">
+              <div className="mb-5 flex items-center gap-2 border-b border-zinc-900 pb-4">
+                <ShieldCheck className="h-4 w-4 text-red-400" />
+                <div>
+                  <h3 className="text-base font-semibold">Team members</h3>
+                  <p className="mt-1 text-xs text-zinc-500">Manage access for your staff.</p>
+                </div>
+              </div>
+              <div className="space-y-2">
+                {staff.map((user) => (
+                  <div key={user.id} className="flex flex-col gap-3 rounded-lg border border-zinc-900 bg-black/40 p-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <p className="font-semibold">{user.fullName}</p>
+                      <p className="mt-1 text-sm text-zinc-500">{user.email} · {user.role}</p>
+                    </div>
+                    <button type="button" onClick={() => toggleStatus(user)} className={`text-sm font-medium ${user.status === 'Active' ? 'text-zinc-300' : 'text-red-400'}`}>
+                      {user.status}
+                    </button>
+                  </div>
+                ))}
+                {!staff.length && <p className="py-8 text-center text-sm text-zinc-500">No staff accounts found.</p>}
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
 }

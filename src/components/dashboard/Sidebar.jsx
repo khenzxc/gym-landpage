@@ -10,6 +10,7 @@ import {
   Package
 } from 'lucide-react';
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 const gymLogo = '/logo.png';
 
 export default function Sidebar({
@@ -17,6 +18,7 @@ export default function Sidebar({
   sidebarOpen,
   setSidebarOpen
 }) {
+  const location = useLocation();
   let currentUser = null;
   try {
     currentUser = JSON.parse(localStorage.getItem('auth_user') || 'null');
@@ -37,6 +39,9 @@ export default function Sidebar({
       setSidebarOpen(false);
     }
   };
+  const isActive = (view) => location.pathname === `/${view}` || (
+    view === 'members' && location.pathname.startsWith('/members/')
+  );
 
   return (
     <>
@@ -53,7 +58,7 @@ export default function Sidebar({
         className={`
           fixed top-0 left-0 z-50
           h-screen w-72
-          border-r border-zinc-900
+          admin-sidebar border-r border-zinc-900
           bg-zinc-950
           p-6
           flex flex-col justify-between
@@ -88,7 +93,7 @@ export default function Sidebar({
           <nav className="space-y-2 text-sm tracking-tight">
             <button
               onClick={() => handleNavigate('dashboard')}
-              className="w-full flex items-center gap-3 text-zinc-500 hover:text-white hover:bg-zinc-900/50 px-4 py-3 uppercase transition-all text-left rounded"
+              className={`w-full flex items-center gap-3 text-zinc-500 hover:text-white hover:bg-zinc-900/50 px-4 py-3 uppercase transition-all text-left rounded ${isActive('dashboard') ? 'is-active' : ''}`}
             >
               <Activity className="w-4 h-4" />
               Dashboard
@@ -96,7 +101,7 @@ export default function Sidebar({
 
             <button
               onClick={() => handleNavigate('members')}
-              className="w-full flex items-center gap-3 text-zinc-500 hover:text-white hover:bg-zinc-900/50 px-4 py-3 uppercase transition-all text-left rounded"
+              className={`w-full flex items-center gap-3 text-zinc-500 hover:text-white hover:bg-zinc-900/50 px-4 py-3 uppercase transition-all text-left rounded ${isActive('members') ? 'is-active' : ''}`}
             >
               <Users className="w-4 h-4" />
               Members
@@ -104,7 +109,7 @@ export default function Sidebar({
 
             <button
               onClick={() => handleNavigate('coaches')}
-              className="w-full flex items-center gap-3 text-zinc-500 hover:text-white hover:bg-zinc-900/50 px-4 py-3 uppercase transition-all text-left rounded"
+              className={`w-full flex items-center gap-3 text-zinc-500 hover:text-white hover:bg-zinc-900/50 px-4 py-3 uppercase transition-all text-left rounded ${isActive('coaches') ? 'is-active' : ''}`}
             >
               <Users className="w-4 h-4" />
               Coaches
@@ -112,7 +117,7 @@ export default function Sidebar({
 
             <button
               onClick={() => handleNavigate('plans')}
-              className="w-full flex items-center gap-3 text-zinc-500 hover:text-white hover:bg-zinc-900/50 px-4 py-3 uppercase transition-all text-left rounded"
+              className={`w-full flex items-center gap-3 text-zinc-500 hover:text-white hover:bg-zinc-900/50 px-4 py-3 uppercase transition-all text-left rounded ${isActive('plans') ? 'is-active' : ''}`}
             >
               <Tag className="w-4 h-4" />
               Plans
@@ -120,7 +125,7 @@ export default function Sidebar({
 
             <button
               onClick={() => handleNavigate('inventory')}
-              className="w-full flex items-center gap-3 text-zinc-500 hover:text-white hover:bg-zinc-900/50 px-4 py-3 uppercase transition-all text-left rounded"
+              className={`w-full flex items-center gap-3 text-zinc-500 hover:text-white hover:bg-zinc-900/50 px-4 py-3 uppercase transition-all text-left rounded ${isActive('inventory') ? 'is-active' : ''}`}
             >
               <Package className="w-4 h-4" />
               Inventory
@@ -129,7 +134,7 @@ export default function Sidebar({
             {currentUser?.role === 'admin' && (
               <button
                 onClick={() => handleNavigate('staff')}
-                className="w-full flex items-center gap-3 text-zinc-500 hover:text-white hover:bg-zinc-900/50 px-4 py-3 uppercase transition-all text-left rounded"
+                className={`w-full flex items-center gap-3 text-zinc-500 hover:text-white hover:bg-zinc-900/50 px-4 py-3 uppercase transition-all text-left rounded ${isActive('staff') ? 'is-active' : ''}`}
               >
                 <Shield className="w-4 h-4" />
                 Staff
@@ -138,7 +143,7 @@ export default function Sidebar({
 
             <button
               onClick={() => handleNavigate('profile')}
-              className="w-full flex items-center gap-3 text-zinc-500 hover:text-white hover:bg-zinc-900/50 px-4 py-3 uppercase transition-all text-left rounded"
+              className={`w-full flex items-center gap-3 text-zinc-500 hover:text-white hover:bg-zinc-900/50 px-4 py-3 uppercase transition-all text-left rounded ${isActive('profile') ? 'is-active' : ''}`}
             >
               <Shield className="w-4 h-4" />
               Profile
@@ -146,7 +151,7 @@ export default function Sidebar({
 
             <button
               onClick={() => handleNavigate('reports')}
-              className="w-full flex items-center gap-3 text-zinc-500 hover:text-white hover:bg-zinc-900/50 px-4 py-3 uppercase transition-all text-left rounded"
+              className={`w-full flex items-center gap-3 text-zinc-500 hover:text-white hover:bg-zinc-900/50 px-4 py-3 uppercase transition-all text-left rounded ${isActive('reports') ? 'is-active' : ''}`}
             >
               <BarChart3 className="w-4 h-4" />
               System reports

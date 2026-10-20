@@ -160,14 +160,14 @@ export default function AddMemberModal({
                   className="space-y-5"
                 >
                   <div>
-                    <span className="text-[10px] font-mono tracking-widest text-zinc-600 block mb-1">// DB_PROVISIONING</span>
-                    <h3 className="text-xl font-black uppercase tracking-tight text-white">Register New Athlete</h3>
+                    <span className="text-xs font-medium text-zinc-500 block mb-1">Member directory</span>
+                    <h3 className="text-xl font-semibold tracking-tight text-white">Add a member</h3>
                   </div>
 
                   <form onSubmit={handleSubmit} className="space-y-4 font-mono text-xs">
                     {/* Name */}
                     <div className="space-y-2">
-                      <label className="text-zinc-500 uppercase tracking-wider block text-[10px]">Full Name</label>
+                      <label className="text-zinc-400 tracking-wider block text-xs">Full name</label>
                       <div className="relative">
                         <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600" />
                         <input

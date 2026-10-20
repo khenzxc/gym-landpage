@@ -3,17 +3,17 @@ import { User } from 'lucide-react';
 
 export default function AddCoachForm({ newCoach, setNewCoach, onSubmit }) {
   return (
-    <div className="bg-zinc-950 border border-yellow-400/30 p-6 space-y-4">
-      <div className="font-mono">
-        <h4 className="text-sm font-bold text-yellow-400 uppercase tracking-wider">Add a coach</h4>
-        <p className="text-xs text-zinc-600">Onboard a specialized structural trainer into system node</p>
+    <div className="admin-content-card space-y-5">
+      <div>
+        <h4 className="text-base font-semibold text-white">Add a coach</h4>
+        <p className="mt-1 text-sm text-zinc-500">Add a coach and set their area of expertise and shift.</p>
       </div>
 
-      <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs items-end">
+      <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
         
         {/* Full Identity Name */}
         <div className="space-y-2">
-          <label className="text-zinc-500 uppercase text-[10px]">Full Identity Name</label>
+          <label className="text-zinc-400 text-xs">Full name</label>
           <div className="relative">
             <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-700" />
             <input 
@@ -28,7 +28,7 @@ export default function AddCoachForm({ newCoach, setNewCoach, onSubmit }) {
 
         {/* Core Specialty Focus */}
         <div className="space-y-2">
-          <label className="text-zinc-500 uppercase text-[10px]">Core Specialty Focus</label>
+          <label className="text-zinc-400 text-xs">Specialty</label>
           <select 
             value={newCoach.specialty || "Powerlifting / Strength"}
             onChange={(e) => setNewCoach({ ...newCoach, specialty: e.target.value })}
@@ -43,7 +43,7 @@ export default function AddCoachForm({ newCoach, setNewCoach, onSubmit }) {
 
         {/* Assigned Roster Shift */}
         <div className="space-y-2">
-          <label className="text-zinc-500 uppercase text-[10px]">Assigned Roster Shift</label>
+          <label className="text-zinc-400 text-xs">Shift</label>
           <select 
             value={newCoach.shift || "Morning (6AM - 2PM)"}
             onChange={(e) => setNewCoach({ ...newCoach, shift: e.target.value })}
@@ -59,7 +59,7 @@ export default function AddCoachForm({ newCoach, setNewCoach, onSubmit }) {
         <div className="md:col-span-3 flex justify-end pt-2">
           <button 
             type="submit"
-            className="bg-zinc-900 border border-zinc-800 hover:border-yellow-400 text-zinc-400 hover:text-white px-6 py-3 uppercase text-xs font-bold"
+            className="bg-red-600 border border-red-600 text-white px-5 py-2.5 text-sm font-semibold hover:bg-red-700"
           >
             Add coach
           </button>
